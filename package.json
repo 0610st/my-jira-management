@@ -1,0 +1,33 @@
+{
+  "name": "mahjongsoul",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "prisma": {
+    "schema": "packages/database/prisma/schema.prisma",
+    "seed": "npm run db:seed"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "db:push": "dotenv -- turbo run db:push",
+    "db:generate": "dotenv -- turbo run db:generate",
+    "db:seed": "dotenv -- turbo run db:seed",
+    "dev": "dotenv -- turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.2.1",
+    "eslint-config-custom": "*",
+    "husky": "^8.0.3",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.19.2"
+}

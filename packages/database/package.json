@@ -1,0 +1,31 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "tsx src/seed/index.ts",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "predev": "prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.12.0"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.0.2",
+    "prisma": "^4.12.0",
+    "prisma-erd-generator": "^1.5.4",
+    "tsconfig": "*",
+    "tsup": "^6.7.0",
+    "tsx": "^3.12.6"
+  }
+}

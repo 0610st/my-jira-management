@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../../../docs/erd.md"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+}
+
+model Sprint {
+  id        Int      @id
+  name      String
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  tasks     Task[]
+
+  @@map("sprints")
+}
+
+model Task {
+  key           String  @id
+  sprintId      Int?     @map("sprint_id")
+  sprint        Sprint? @relation(fields: [sprintId], references: [id])
+  summary       String
+  assignee      String?
+  estimatedTime Int?    @map("estimated_time")
+  spentTime     Int?    @map("spent_time")
+
+  @@map("tasks")
+}
