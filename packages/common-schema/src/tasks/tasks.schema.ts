@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { JiraResponseSchema } from "../jira";
-import { Prisma } from "database";
+import { Prisma, Task } from "database";
 
 export const TaskIssueSchema = z.object({
   assignee: z
@@ -35,4 +35,17 @@ export const CreateTaskSchema = z.object({
 
 export const CreateTasksFromJiraSchema = z.object({
   sprintIds: z.array(z.number()),
+});
+
+export const TaskSchema = z.object({
+  key: z.string(),
+  sprintId: z.number().nullable(),
+  summary: z.string(),
+  assignee: z.string().nullable(),
+  estimatedTime: z.number().nullable(),
+  spentTime: z.number().nullable(),
+}) satisfies z.ZodType<Task>;
+
+export const TasksQuerySchema = z.object({
+  sprintId: z.union([z.string(), z.number()]).optional(),
 });

@@ -3,4 +3,5 @@ export {
   CreateSprintSchema,
   SprintsJiraResponseSchema,
   CreateSprintsFromJiraSchema,
+  SprintSchema,
 } from "./sprints.schema";

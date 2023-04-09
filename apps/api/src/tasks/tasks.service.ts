@@ -3,6 +3,7 @@ import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task-dto';
 import { CreataTasksFromJiraDto } from './dto/create-tasks-from-jira-dto';
+import { TasksQueryDto } from './dto/tasks-query-dto';
 
 @Injectable()
 export class TasksService {
@@ -11,8 +12,12 @@ export class TasksService {
     private readonly jiraService: JiraService,
   ) {}
 
-  async getTasks() {
-    return this.prismaService.task.findMany();
+  async getTasks(query: TasksQueryDto) {
+    return this.prismaService.task.findMany({
+      where: {
+        ...query,
+      },
+    });
   }
 
   async createTasksFromJira(dto: CreataTasksFromJiraDto) {
@@ -53,6 +58,22 @@ export class TasksService {
         spentTime: dto.spentTime,
         sprintId: dto.sprintId,
         estimatedTime: dto.estimatedTime,
+      },
+    });
+  }
+
+  getTaskSummaries(query: TasksQueryDto) {
+    return this.prismaService.task.groupBy({
+      by: ['assignee', 'sprintId'],
+      where: {
+        ...query,
+      },
+      _sum: {
+        spentTime: true,
+        estimatedTime: true,
+      },
+      _count: {
+        key: true,
       },
     });
   }

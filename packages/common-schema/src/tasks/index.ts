@@ -3,4 +3,6 @@ export {
   TasksJiraResponseSchema,
   CreateTaskSchema,
   CreateTasksFromJiraSchema,
+  TaskSchema,
+  TasksQuerySchema,
 } from "./tasks.schema";

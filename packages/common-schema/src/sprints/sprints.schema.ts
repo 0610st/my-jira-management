@@ -1,6 +1,5 @@
-import { Prisma } from "database";
+import { Prisma, Sprint } from "database";
 import { z } from "zod";
-import { JiraResponseSchema } from "../jira";
 
 export const SprintValueSchema = z.object({
   id: z.number(),
@@ -27,3 +26,10 @@ export const CreateSprintsFromJiraSchema = z.object({
   startAt: z.number().optional(),
   state: z.enum(["active", "closed"]).optional(),
 });
+
+export const SprintSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+}) satisfies z.ZodType<Sprint>;
