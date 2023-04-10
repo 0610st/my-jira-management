@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const JiraResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
+export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
   issueSchema: IssueFieldType
 ) =>
   z.object({

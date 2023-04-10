@@ -1,5 +1,5 @@
 {
-  "name": "mahjongsoul",
+  "name": "turborepo-sample",
   "version": "0.0.0",
   "private": true,
   "workspaces": [

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTaskDto } from './dto/create-task-dto';
-import { CreataTasksFromJiraDto } from './dto/create-tasks-from-jira-dto';
-import { TasksQueryDto } from './dto/tasks-query-dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { CreataTasksFromJiraDto } from './dto/create-tasks-from-jira.dto';
+import { TaskSummaryDto } from './dto/task-summay.dto';
+import { TasksQueryDto } from './dto/tasks-query.dto';
 
 @Injectable()
 export class TasksService {
@@ -62,8 +63,8 @@ export class TasksService {
     });
   }
 
-  getTaskSummaries(query: TasksQueryDto) {
-    return this.prismaService.task.groupBy({
+  async getTaskSummaries(query: TasksQueryDto) {
+    const result = await this.prismaService.task.groupBy({
       by: ['assignee', 'sprintId'],
       where: {
         ...query,
@@ -75,6 +76,15 @@ export class TasksService {
       _count: {
         key: true,
       },
+    });
+
+    return result.map((item) => {
+      const dto = new TaskSummaryDto();
+      dto.assignee = item.assignee;
+      dto.sprintId = item.sprintId;
+      dto.sum = item._sum;
+      dto.count = item._count.key;
+      return dto;
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira-dto';
+import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintsService } from './sprints.service';
 
 @Controller('sprints')

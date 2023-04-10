@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Sprint } from "../types/sprint";
-import { Task } from "../types/task";
+import { Task, TaskSummary } from "../types/task";
 
 export const getSprints = async () => {
   const res = await axios.get<Sprint[]>(
@@ -21,7 +21,7 @@ export const getTasks = async (sprintId?: number) => {
 };
 
 export const getTaskSummaries = async (sprintId?: number) => {
-  const res = await axios.get<any[]>(
+  const res = await axios.get<TaskSummary[]>(
     `${import.meta.env.VITE_API_URL}/tasks/summaries`,
     {
       params: {

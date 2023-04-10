@@ -1,67 +1,45 @@
 import "./App.css";
-import { useSprints, useTasks, useTaskSummaries } from "../api/hooks";
-import { Select } from "@mantine/core";
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from "@mantine/core";
 import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider } from "react-router-dom";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Route } from "./routes";
 
-function App() {
-  const [selectedSprint, setSelectedSprint] = useState<string | null>(null);
-  const {
-    data: sprints,
-    isLoading: sprintLoading,
-    error: sprintError,
-  } = useSprints();
-  const {
-    data: tasks,
-    isLoading: taskLoading,
-    error: taskError,
-  } = useTasks(selectedSprint !== null ? Number(selectedSprint) : undefined);
-  const {
-    data: taskSummaries,
-    isLoading: taskSummaryLoading,
-    error: taskSummaryError,
-  } = useTaskSummaries(
-    selectedSprint !== null ? Number(selectedSprint) : undefined
-  );
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
-  if (sprintLoading || taskLoading || taskSummaryLoading)
-    return <div>Loading...</div>;
-  if (sprintError || taskError || taskSummaryError)
-    return (
-      <div>
-        {`Error: ${
-          sprintError?.message || taskError?.message || taskSummaryError || ""
-        }`}
-      </div>
-    );
+const App = () => {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   return (
-    <div className="App">
-      <Select
-        label="Sprints"
-        placeholder="Select sprint"
-        clearable
-        searchable
-        nothingFound="No options"
-        maxDropdownHeight={280}
-        value={selectedSprint}
-        onChange={setSelectedSprint}
-        data={sprints.map((sprint) => ({
-          value: sprint.id + "",
-          label: sprint.name,
-        }))}
-      />
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.key}>{JSON.stringify(task)}</li>
-        ))}
-      </ul>
-      <ul>
-        {taskSummaries.map((taskSummary) => (
-          <li key={taskSummary.assignee}>{JSON.stringify(taskSummary)}</li>
-        ))}
-      </ul>
-    </div>
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
+      <MantineProvider
+        theme={{ colorScheme }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={Route} />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
-}
+};
 
 export default App;

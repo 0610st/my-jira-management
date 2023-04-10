@@ -1,1 +1,1 @@
-export { JiraResponseSchema } from "./jira.schema";
+export { JiraIssueResponseSchema } from "./jira.schema";

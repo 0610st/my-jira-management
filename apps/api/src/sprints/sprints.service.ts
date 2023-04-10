@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateSprintDto } from './dto/create-sprint-dto';
-import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira-dto';
+import { CreateSprintDto } from './dto/create-sprint.dto';
+import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 
 @Injectable()
 export class SprintsService {

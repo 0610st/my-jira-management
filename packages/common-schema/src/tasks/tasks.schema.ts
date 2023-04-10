@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { JiraResponseSchema } from "../jira";
+import { JiraIssueResponseSchema } from "../jira";
 import { Prisma, Task } from "database";
 
 export const TaskIssueSchema = z.object({
@@ -22,7 +22,7 @@ export const TaskIssueSchema = z.object({
   timespent: z.number().nullable(),
 });
 
-export const TasksJiraResponseSchema = JiraResponseSchema(TaskIssueSchema);
+export const TasksJiraResponseSchema = JiraIssueResponseSchema(TaskIssueSchema);
 
 export const CreateTaskSchema = z.object({
   key: z.string(),
@@ -47,5 +47,5 @@ export const TaskSchema = z.object({
 }) satisfies z.ZodType<Task>;
 
 export const TasksQuerySchema = z.object({
-  sprintId: z.union([z.string(), z.number()]).optional(),
+  sprintId: z.number().optional(),
 });

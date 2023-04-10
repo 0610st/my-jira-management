@@ -6,3 +6,5 @@ export {
   TaskSchema,
   TasksQuerySchema,
 } from "./tasks.schema";
+
+export { TaskSummarySchema } from "./task-summary.schema";

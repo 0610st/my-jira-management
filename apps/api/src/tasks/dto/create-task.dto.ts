@@ -1,6 +1,6 @@
 import { createZodDto } from 'nestjs-zod';
 import { CreateTaskSchema } from 'common-schema';
-import { TasksJiraResponseDto } from 'src/jira/dto/search-task-response.dto';
+import { TasksJiraResponseDto } from 'src/jira/dto/tasks-jira-response.dto';
 
 export class CreateTaskDto extends createZodDto(CreateTaskSchema) {
   static fromResponseDto(responseDto: TasksJiraResponseDto): CreateTaskDto[] {

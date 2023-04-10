@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom } from 'rxjs';
-import { GetSprintsDto } from './dto/get-sprints-dto';
-import { TasksJiraResponseDto } from './dto/search-task-response.dto';
+import { GetSprintsDto } from './dto/get-sprints.dto';
+import { TasksJiraResponseDto } from './dto/tasks-jira-response.dto';
 
 @Injectable()
 export class JiraService {
