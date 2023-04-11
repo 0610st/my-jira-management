@@ -4,7 +4,7 @@ import { CountGraph } from "./CountGraph";
 import { EstimatedTimeGraph } from "./EstimatedTimeGraph";
 
 interface Props {
-  sprintId: string | null;
+  sprintId: number | null;
 }
 
 export const MemberGraphs: FC<Props> = ({ sprintId }) => {

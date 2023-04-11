@@ -28,13 +28,24 @@ model Sprint {
   startDate DateTime @map("start_date")
   endDate   DateTime @map("end_date")
   tasks     Task[]
+  stories   Story[]
 
   @@map("sprints")
 }
 
+model Story {
+  key        String  @id
+  sprintId   Int?    @map("sprint_id")
+  sprint     Sprint? @relation(fields: [sprintId], references: [id])
+  summary    String
+  storyPoint Int?    @map("story_point")
+
+  @@map("stories")
+}
+
 model Task {
   key           String  @id
-  sprintId      Int?     @map("sprint_id")
+  sprintId      Int?    @map("sprint_id")
   sprint        Sprint? @relation(fields: [sprintId], references: [id])
   summary       String
   assignee      String?

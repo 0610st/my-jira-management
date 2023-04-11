@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom } from 'rxjs';
 import { GetSprintsDto } from './dto/get-sprints.dto';
+import { StoriesJiraResponseDto } from './dto/stories-jira-response.dto';
 import { TasksJiraResponseDto } from './dto/tasks-jira-response.dto';
 
 @Injectable()
@@ -39,10 +40,26 @@ export class JiraService {
     return this.searchTasks();
   }
 
+  async getSprintStories(sprintId?: number) {
+    if (sprintId)
+      return this.getSprintIssues<StoriesJiraResponseDto>(
+        sprintId,
+        `issuetype = Story`,
+      );
+    return this.searchStories();
+  }
+
   async searchTasks() {
     return this.search<TasksJiraResponseDto>(
       `project = ${this.project} AND issuetype = Task`,
       ['key', 'summary', 'parent', 'assignee', 'status', 'timespent'],
+    );
+  }
+
+  async searchStories() {
+    return this.search<StoriesJiraResponseDto>(
+      `project = ${this.project} AND issuetype = Story`,
+      ['key', 'summary', 'parent', 'customfield_10016', 'status'],
     );
   }
 

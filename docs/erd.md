@@ -17,6 +17,14 @@ erDiagram
     }
   
 
+  "stories" {
+    String key "🗝️"
+    Int sprint_id "❓"
+    String summary 
+    Int story_point "❓"
+    }
+  
+
   "tasks" {
     String key "🗝️"
     Int sprint_id "❓"
@@ -27,5 +35,7 @@ erDiagram
     }
   
     "sprints" o{--}o "tasks" : "tasks"
+    "sprints" o{--}o "stories" : "stories"
+    "stories" o|--|o "sprints" : "sprint"
     "tasks" o|--|o "sprints" : "sprint"
 ```

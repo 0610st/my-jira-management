@@ -13,7 +13,7 @@ import {
 import { SprintSummary } from "../../../../types/sprint";
 
 interface Props {
-  sprintId: string | null;
+  sprintId: number | null;
   width: number;
   height: number;
 }

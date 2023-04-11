@@ -50,7 +50,7 @@ export class TasksService {
     return this.jiraService.getSprintTasks(sprintId);
   }
 
-  async createTask(dto: CreateTaskDto) {
+  createTask(dto: CreateTaskDto) {
     return this.prismaService.task.create({
       data: {
         key: dto.key,
@@ -76,6 +76,14 @@ export class TasksService {
       _count: {
         key: true,
       },
+      orderBy: [
+        {
+          sprintId: 'asc',
+        },
+        {
+          assignee: 'asc',
+        },
+      ],
     });
 
     return result.map((item) => {

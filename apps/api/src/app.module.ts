@@ -9,6 +9,7 @@ import { EpicsModule } from './epics/epics.module';
 import { TasksModule } from './tasks/tasks.module';
 import { HttpModule } from '@nestjs/axios';
 import { SprintsModule } from './sprints/sprints.module';
+import { StoriesModule } from './stories/stories.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SprintsModule } from './sprints/sprints.module';
     TasksModule,
     HttpModule,
     SprintsModule,
+    StoriesModule,
   ],
   providers: [
     {

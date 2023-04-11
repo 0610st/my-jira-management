@@ -9,8 +9,9 @@ import { SprintSummary } from "./SprintSummary";
 export const Sprint = () => {
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
-  const sprintId = searchParam.get("sprintId");
-  useSprintSummary(Number(sprintId), !isNaN(Number(sprintId)));
+  const strSprintId = searchParam.get("sprintId");
+  const sprintId = Number.isNaN(strSprintId) ? null : Number(strSprintId);
+  useSprintSummary(Number(sprintId), sprintId !== null);
 
   const handleChanget = useCallback((value: string | null) => {
     if (value === null) {
@@ -25,11 +26,11 @@ export const Sprint = () => {
       <Flex direction="column" gap={16}>
         <Flex justify="flex-end">
           <Box sx={{ width: 300 }}>
-            <SprintSelect value={sprintId} onChange={handleChanget} />
+            <SprintSelect value={strSprintId} onChange={handleChanget} />
           </Box>
         </Flex>
         <Flex>
-          <SprintSummary />
+          <SprintSummary sprintId={sprintId} />
         </Flex>
         <Flex>
           <MemberGraphs sprintId={sprintId} />

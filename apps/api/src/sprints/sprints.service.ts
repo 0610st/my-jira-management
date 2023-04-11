@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { StoriesQueryDto } from 'src/stories/dto/stories-query.dto';
+import { StoriesService } from 'src/stories/stories.service';
 import { TasksQueryDto } from 'src/tasks/dto/tasks-query.dto';
 import { TasksService } from 'src/tasks/tasks.service';
 import { CreateSprintDto } from './dto/create-sprint.dto';
@@ -13,6 +15,7 @@ export class SprintsService {
     private readonly prismaService: PrismaService,
     private readonly jiraService: JiraService,
     private readonly tasksService: TasksService,
+    private readonly storiesService: StoriesService,
   ) {}
 
   getSprints() {
@@ -37,9 +40,14 @@ export class SprintsService {
   }
 
   async getSprintSummary(id: number): Promise<SprintSummaryDto> {
-    const dto = new TasksQueryDto();
-    dto.sprintId = id;
-    const taskSummaries = await this.tasksService.getTaskSummaries(dto);
-    return { taskSummaries };
+    const taskDto = new TasksQueryDto();
+    taskDto.sprintId = id;
+    const taskSummaries = await this.tasksService.getTaskSummaries(taskDto);
+    const storyDto = new StoriesQueryDto();
+    storyDto.sprintId = id;
+    const storySummaries = await this.storiesService.getStorySummaries(
+      storyDto,
+    );
+    return { taskSummaries, storySummaries };
   }
 }

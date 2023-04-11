@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Sprint, SprintSummary } from "../types/sprint";
 import { Task, TaskSummary } from "../types/task";
+import { StorySummary } from "../types/story";
 
 export const getSprints = async () => {
   const res = await axios.get<Sprint[]>(
@@ -31,6 +32,19 @@ export const getTasks = async (sprintId?: number) => {
 export const getTaskSummaries = async (sprintId?: number) => {
   const res = await axios.get<TaskSummary[]>(
     `${import.meta.env.VITE_API_URL}/tasks/summaries`,
+    {
+      params: {
+        sprintId,
+      },
+    }
+  );
+
+  return res.data;
+};
+
+export const getStorySummaries = async (sprintId?: number) => {
+  const res = await axios.get<StorySummary[]>(
+    `${import.meta.env.VITE_API_URL}/stories/summaries`,
     {
       params: {
         sprintId,

@@ -1,29 +1,75 @@
-import { Box, Flex, Text } from "@mantine/core";
-import { FC } from "react";
-import { BsArrowUpRight, BsArrowDownRight } from "react-icons/bs";
+import { Box, Flex, Skeleton, Text } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
+import { FC, useMemo } from "react";
+import { StorySummary } from "../../../../types/story";
+import { StoryPointResultCompare } from "./StoryPointResultCompare";
 
 interface Props {
-  sprintId: string | null;
+  sprintId: number | null;
   width: number;
   height: number;
 }
+
 export const StoryPointResult: FC<Props> = ({ sprintId, width, height }) => {
+  const queryClient = useQueryClient();
+  const storySummaries = queryClient.getQueryData<StorySummary[]>([
+    `${import.meta.env.VITE_API_URL}/stories/summaries`,
+    undefined,
+  ]);
+
+  const currentSprintIndex = useMemo(() => {
+    if (!storySummaries) return -1;
+    return storySummaries.findIndex(
+      (storySummary) => storySummary.sprintId === sprintId
+    );
+  }, [storySummaries, sprintId]);
+
+  const targetSprintPoint = useMemo(() => {
+    if (!storySummaries || currentSprintIndex < 0) {
+      return null;
+    }
+    return storySummaries[currentSprintIndex].sum.storyPoint;
+  }, [storySummaries, currentSprintIndex]);
+
+  const preSprintPoint = useMemo(() => {
+    if (!storySummaries || currentSprintIndex < 1) {
+      return null;
+    }
+    return storySummaries[currentSprintIndex - 1].sum.storyPoint;
+  }, [storySummaries, currentSprintIndex]);
+
+  const prepreSprintPoint = useMemo(() => {
+    if (!storySummaries || currentSprintIndex < 2) {
+      return null;
+    }
+    return storySummaries[currentSprintIndex - 2].sum.storyPoint;
+  }, [storySummaries, currentSprintIndex]);
+
+  if (!storySummaries) {
+    return <Skeleton width={width} height={height} />;
+  }
+
   return (
     <Flex w={width} h={height} direction="column">
       <Box sx={{ textAlign: "center" }}>
-        <Text size={100}>15</Text>
+        <Text component="span" size={100}>
+          {targetSprintPoint || "-"}
+        </Text>
+        <Text component="span" size={48}>
+          pt
+        </Text>
       </Box>
       <Flex>
-        <Flex sx={{ flexGrow: 1 }} direction="column" align="center">
-          <Text fz="md">前々スプリント比</Text>
-          <BsArrowUpRight size={48} color="#F06595" />
-          <Text fz="md">(+1)</Text>
-        </Flex>
-        <Flex sx={{ flexGrow: 1 }} direction="column" align="center">
-          <Text fz="md">前スプリント比</Text>
-          <BsArrowDownRight size={48} color="#339AF0" />
-          <Text fz="md">(-1)</Text>
-        </Flex>
+        <StoryPointResultCompare
+          from={prepreSprintPoint}
+          to={targetSprintPoint}
+          label="前々スプリント比"
+        />
+        <StoryPointResultCompare
+          from={preSprintPoint}
+          to={targetSprintPoint}
+          label="前スプリント比"
+        />
       </Flex>
     </Flex>
   );

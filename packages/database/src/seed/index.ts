@@ -1,9 +1,16 @@
-import { generate_users } from "./user";
+import { generate_sprints, SPRINT_DATA_LIST } from "./sprint";
+import { generate_stories } from "./story";
+import { generate_tasks } from "./task";
 
 (async () => {
   console.log("seeding started...");
   try {
-    await Promise.all([...generate_users()]);
+    const sprintIds = SPRINT_DATA_LIST.map((sprint) => sprint.id);
+    await Promise.all([
+      ...generate_sprints(),
+      ...generate_stories(sprintIds),
+      ...generate_tasks(sprintIds),
+    ]);
   } catch (error) {
     console.error("seeding aborted.");
     console.error(error);

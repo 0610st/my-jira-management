@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Sprint, SprintSummary } from "../types/sprint";
+import { StorySummary } from "../types/story";
 import { Task, TaskSummary } from "../types/task";
 import {
   getSprints,
   getSprintSummary,
+  getStorySummaries,
   getTasks,
   getTaskSummaries,
 } from "./rest";
@@ -32,4 +34,13 @@ export const useTaskSummaries = (sprintId?: number) =>
   useQuery<TaskSummary[], Error>(
     [`${import.meta.env.VITE_API_URL}/tasks/summaries`, sprintId],
     () => getTaskSummaries(sprintId)
+  );
+
+export const useStorySummaries = (sprintId?: number) =>
+  useQuery<StorySummary[], Error>(
+    [`${import.meta.env.VITE_API_URL}/stories/summaries`, sprintId],
+    () => getStorySummaries(sprintId),
+    {
+      staleTime: Infinity,
+    }
   );

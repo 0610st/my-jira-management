@@ -1,9 +1,10 @@
 import { Tabs } from "@mantine/core";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const MenuTabs = () => {
   const navigate = useNavigate();
-  const { tabValue } = useParams();
+  const location = useLocation();
+  const tabValue = location.pathname.split("/")[2];
 
   return (
     <Tabs

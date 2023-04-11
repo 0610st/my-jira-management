@@ -14,7 +14,7 @@ import { SprintSummary } from "../../../../types/sprint";
 import { TaskSummary } from "../../../../types/task";
 
 interface Props {
-  sprintId: string | null;
+  sprintId: number | null;
   width: number;
   height: number;
 }
