@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { SprintSummary } from "../../../../types/sprint";
 import { TaskSummary } from "../../../../types/task";
 
 interface Props {
@@ -19,12 +20,11 @@ interface Props {
 }
 export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
   const queryClient = useQueryClient();
-  const taskSummaries = queryClient.getQueryData<TaskSummary[]>([
-    `${import.meta.env.VITE_API_URL}/tasks/summaries`,
-    sprintId === null ? null : Number(sprintId),
+  const sprintSummary = queryClient.getQueryData<SprintSummary>([
+    `${import.meta.env.VITE_API_URL}/sprints/${sprintId}/summary`,
   ]);
 
-  if (!taskSummaries) {
+  if (!sprintSummary) {
     return <Skeleton width={width} height={height} />;
   }
 
@@ -33,7 +33,7 @@ export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
   };
 
   return (
-    <BarChart width={width} height={height} data={taskSummaries}>
+    <BarChart width={width} height={height} data={sprintSummary.taskSummaries}>
       <CartesianGrid strokeDasharray="2" />
       <XAxis dataKey="assignee" />
       <YAxis unit="h" />

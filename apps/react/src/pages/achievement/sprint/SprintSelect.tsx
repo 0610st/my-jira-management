@@ -1,5 +1,5 @@
 import { Select } from "@mantine/core";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { useSprints } from "../../../../api/hooks";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: string | null) => void;
 }
 
-export const SprintSelect: FC<Props> = ({ value, onChange }) => {
+const _SprintSelect: FC<Props> = ({ value, onChange }) => {
   const { data: sprints } = useSprints();
 
   const data = useMemo(() => {
@@ -31,3 +31,5 @@ export const SprintSelect: FC<Props> = ({ value, onChange }) => {
     />
   );
 };
+
+export const SprintSelect = memo(_SprintSelect);

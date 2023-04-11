@@ -1,7 +1,7 @@
 import { Box, Container, Flex } from "@mantine/core";
 import { useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useTaskSummaries } from "../../../../api/hooks";
+import { useSprintSummary, useTaskSummaries } from "../../../../api/hooks";
 import { MemberGraphs } from "./MemberGraphs";
 import { SprintSelect } from "./SprintSelect";
 import { SprintSummary } from "./SprintSummary";
@@ -10,7 +10,7 @@ export const Sprint = () => {
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
   const sprintId = searchParam.get("sprintId");
-  useTaskSummaries(sprintId !== null ? Number(sprintId) : undefined);
+  useSprintSummary(Number(sprintId), !isNaN(Number(sprintId)));
 
   const handleChanget = useCallback((value: string | null) => {
     if (value === null) {

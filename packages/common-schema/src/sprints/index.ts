@@ -5,3 +5,5 @@ export {
   CreateSprintsFromJiraSchema,
   SprintSchema,
 } from "./sprints.schema";
+
+export { SprintSummarySchema } from "./sprint-summary.schema";

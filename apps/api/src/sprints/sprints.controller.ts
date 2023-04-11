@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintsService } from './sprints.service';
 
@@ -14,5 +21,10 @@ export class SprintsController {
   @Post()
   createSprintsFromJira(@Body() dto: CreataSprintsFromJiraDto) {
     return this.sprintsService.createSprintsFromJira(dto);
+  }
+
+  @Get(':id/summary')
+  getSprintSummary(@Param('id', ParseIntPipe) id: number) {
+    return this.sprintsService.getSprintSummary(id);
   }
 }
