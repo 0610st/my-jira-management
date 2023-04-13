@@ -7,6 +7,8 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { BsSun, BsMoon } from "react-icons/bs";
+import menuItems from "./menuItems";
+import { NavbarLinkItem } from "./NavbarLinkItem";
 
 export const Navbar: FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -27,7 +29,9 @@ export const Navbar: FC = () => {
         </Box>
       </MtNavbar.Section>
       <MtNavbar.Section grow mt="md">
-        {}
+        {menuItems.map((item) => (
+          <NavbarLinkItem key={item.label} {...item} />
+        ))}
       </MtNavbar.Section>
     </MtNavbar>
   );

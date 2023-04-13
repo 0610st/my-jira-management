@@ -1,5 +1,4 @@
 import { Skeleton } from "@mantine/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
 import {
   Bar,
@@ -10,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { SprintSummary } from "../../../../types/sprint";
+import { useSprintSummary } from "../../../../api/hooks";
 import { TaskSummary } from "../../../../types/task";
 
 interface Props {
@@ -19,10 +18,10 @@ interface Props {
   height: number;
 }
 export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
-  const queryClient = useQueryClient();
-  const sprintSummary = queryClient.getQueryData<SprintSummary>([
-    `${import.meta.env.VITE_API_URL}/sprints/${sprintId}/summary`,
-  ]);
+  const { data: sprintSummary } = useSprintSummary(
+    Number(sprintId),
+    sprintId !== null
+  );
 
   if (!sprintSummary) {
     return <Skeleton width={width} height={height} />;

@@ -4,6 +4,6 @@ import { EpicsController } from './epics.controller';
 
 @Module({
   providers: [EpicsService],
-  controllers: [EpicsController]
+  controllers: [EpicsController],
 })
 export class EpicsModule {}

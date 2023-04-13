@@ -10,10 +10,11 @@ export const MenuTabs = () => {
     <Tabs
       value={tabValue}
       onTabChange={(value) => navigate(`/achievement/${value}`)}
+      maw={600}
     >
       <Tabs.List>
-        <Tabs.Tab value="whole">全期間</Tabs.Tab>
         <Tabs.Tab value="sprint">スプリント別</Tabs.Tab>
+        <Tabs.Tab value="whole">全期間</Tabs.Tab>
       </Tabs.List>
     </Tabs>
   );

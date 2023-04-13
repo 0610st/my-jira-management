@@ -1,5 +1,4 @@
 import { Box, Skeleton } from "@mantine/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { FC, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +11,7 @@ import {
   Tooltip,
   Cell,
 } from "recharts";
+import { useStorySummaries } from "../../../../api/hooks";
 import { StorySummary } from "../../../../types/story";
 
 interface Props {
@@ -21,12 +21,8 @@ interface Props {
 }
 
 export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
+  const { data: storySummaries } = useStorySummaries();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const storySummaries = queryClient.getQueryData<StorySummary[]>([
-    `${import.meta.env.VITE_API_URL}/stories/summaries`,
-    undefined,
-  ]);
 
   const compPoint = useCallback((prev: StorySummary, current: StorySummary) => {
     if (prev.sum.storyPoint === null) return false;
@@ -44,8 +40,20 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
 
   const scopedStorySummaries: StorySummary[] = useMemo(() => {
     if (!storySummaries) return [];
-    return storySummaries;
-  }, [storySummaries]);
+    if (storySummaries.length < 5) return storySummaries;
+    const targetIndex = storySummaries.findIndex(
+      (storySummary) => storySummary.sprintId === sprintId
+    );
+    if (targetIndex < 0) return [];
+    if (targetIndex < 3) {
+      return storySummaries.slice(0, 5);
+    }
+    if (targetIndex > storySummaries.length - 3) {
+      return storySummaries.slice(-5);
+    }
+
+    return storySummaries.slice(targetIndex - 2, targetIndex + 3);
+  }, [storySummaries, sprintId]);
 
   const handleClick = (data: StorySummary) => {
     navigate({ search: `sprintId=${data.sprintId}` });

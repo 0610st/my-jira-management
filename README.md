@@ -5,13 +5,13 @@ Based on [Turborepo](https://turbo.build/)
 
 ## Install modules
 
-``` bash
+```bash
 npm install
 ```
 
 ## husky
 
-``` bash
+```bash
 npx husky install
 ```
 
@@ -19,13 +19,13 @@ npx husky install
 
 ### Copy environment variables
 
-``` bash
+```bash
 cp .env.sample .env
 ```
 
 ### Setting database
 
-``` bash
+```bash
 docker compose up -d
 npm run db:push
 npm run db:seed
@@ -33,7 +33,7 @@ npm run db:seed
 
 ### Run
 
-``` bash
+```bash
 npm run dev
 ```
 

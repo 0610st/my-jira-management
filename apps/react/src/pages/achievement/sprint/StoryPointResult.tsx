@@ -1,7 +1,6 @@
 import { Box, Flex, Skeleton, Text } from "@mantine/core";
-import { useQueryClient } from "@tanstack/react-query";
 import { FC, useMemo } from "react";
-import { StorySummary } from "../../../../types/story";
+import { useStorySummaries } from "../../../../api/hooks";
 import { StoryPointResultCompare } from "./StoryPointResultCompare";
 
 interface Props {
@@ -11,11 +10,7 @@ interface Props {
 }
 
 export const StoryPointResult: FC<Props> = ({ sprintId, width, height }) => {
-  const queryClient = useQueryClient();
-  const storySummaries = queryClient.getQueryData<StorySummary[]>([
-    `${import.meta.env.VITE_API_URL}/stories/summaries`,
-    undefined,
-  ]);
+  const { data: storySummaries } = useStorySummaries();
 
   const currentSprintIndex = useMemo(() => {
     if (!storySummaries) return -1;
