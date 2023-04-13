@@ -13,6 +13,7 @@ npm install
 
 ```bash
 npx husky install
+chmod +x .husky/pre-commit
 ```
 
 ## Local Run
