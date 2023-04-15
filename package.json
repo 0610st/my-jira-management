@@ -15,6 +15,7 @@
     "db:push": "dotenv -- turbo run db:push",
     "db:generate": "dotenv -- turbo run db:generate",
     "db:seed": "dotenv -- turbo run db:seed",
+    "db:initialize": "npm run db:push && npm run db:seed",
     "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
