@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JiraService } from './jira.service';
+import { JiraController } from './jira.controller';
 
 @Module({
   imports: [
@@ -22,5 +23,6 @@ import { JiraService } from './jira.service';
   ],
   providers: [JiraService],
   exports: [JiraService],
+  controllers: [JiraController],
 })
 export class JiraModule {}

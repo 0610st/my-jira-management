@@ -1,1 +1,6 @@
-export { JiraIssueResponseSchema } from "./jira.schema";
+export {
+  JiraIssueResponseSchema,
+  GetJiraEpicsSchema,
+  GetJiraSprintsSchema,
+  ImportJiraSprintResultSchema,
+} from "./jira.schema";

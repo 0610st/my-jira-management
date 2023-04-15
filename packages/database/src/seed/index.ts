@@ -11,6 +11,7 @@ import { generate_tasks } from "./task";
       ...generate_stories(sprintIds),
       ...generate_tasks(sprintIds),
     ]);
+    console.error("seeding succeed.");
   } catch (error) {
     console.error("seeding aborted.");
     console.error(error);

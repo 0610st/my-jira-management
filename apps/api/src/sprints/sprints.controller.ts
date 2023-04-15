@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
+import { CreateSprintWithIssuesFromJiraDto } from './dto/create-sprint-with-issues-from-jira.dto';
 import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintsService } from './sprints.service';
 
@@ -21,6 +22,13 @@ export class SprintsController {
   @Post()
   createSprintsFromJira(@Body() dto: CreataSprintsFromJiraDto) {
     return this.sprintsService.createSprintsFromJira(dto);
+  }
+
+  @Post('import')
+  createSprintWithIssuesFromJira(
+    @Body() dto: CreateSprintWithIssuesFromJiraDto,
+  ) {
+    return this.sprintsService.createSprintWithIssuesFromJira(dto);
   }
 
   @Get(':id/summary')

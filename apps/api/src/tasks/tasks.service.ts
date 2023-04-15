@@ -47,7 +47,7 @@ export class TasksService {
   }
 
   getTasksFromJira(sprintId?: number) {
-    return this.jiraService.getSprintTasks(sprintId);
+    return this.jiraService.getJiraTasks(sprintId);
   }
 
   createTask(dto: CreateTaskDto) {

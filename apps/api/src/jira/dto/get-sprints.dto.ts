@@ -1,9 +1,14 @@
-import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
+import { GetJiraSprintsSchema } from 'common-schema';
+import { CreataSprintsFromJiraDto } from 'src/sprints/dto/create-sprints-from-jira.dto';
 
-const GetSprintsSchema = z.object({
-  startAt: z.number().optional(),
-  state: z.enum(['active', 'closed']).optional(),
-});
-
-export class GetSprintsDto extends createZodDto(GetSprintsSchema) {}
+export class GetJiraSprintsDto extends createZodDto(GetJiraSprintsSchema) {
+  static fromCreataSprintsFromJiraDto(
+    dto: CreataSprintsFromJiraDto,
+  ): GetJiraSprintsDto {
+    return {
+      startAt: dto.startAt ? dto.startAt + '' : undefined,
+      state: dto.state,
+    };
+  }
+}

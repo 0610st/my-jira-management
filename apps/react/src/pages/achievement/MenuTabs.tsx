@@ -15,6 +15,7 @@ export const MenuTabs = () => {
       <Tabs.List>
         <Tabs.Tab value="sprint">スプリント別</Tabs.Tab>
         <Tabs.Tab value="whole">全期間</Tabs.Tab>
+        <Tabs.Tab value="import">取り込み</Tabs.Tab>
       </Tabs.List>
     </Tabs>
   );

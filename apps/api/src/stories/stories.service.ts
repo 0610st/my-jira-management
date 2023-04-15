@@ -45,7 +45,7 @@ export class StoriesService {
   }
 
   getStoriesFromJira(sprintId?: number) {
-    return this.jiraService.getSprintStories(sprintId);
+    return this.jiraService.getJiraStories(sprintId);
   }
 
   createStory(dto: CreateStoryDto) {

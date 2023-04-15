@@ -2,7 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom } from 'rxjs';
-import { GetSprintsDto } from './dto/get-sprints.dto';
+import { SprintsJiraResponseDto } from 'src/sprints/dto/sprints-jira-response.dto';
+import { GetJiraSprintsDto } from './dto/get-sprints.dto';
+import { SprintResponseDto } from './dto/sprint-response.dto';
 import { StoriesJiraResponseDto } from './dto/stories-jira-response.dto';
 import { TasksJiraResponseDto } from './dto/tasks-jira-response.dto';
 
@@ -19,19 +21,30 @@ export class JiraService {
     ) as unknown as string;
   }
 
-  async getSprints(dto: GetSprintsDto) {
+  async getJiraSprint(id: number) {
     const { data } = await lastValueFrom(
-      this.httpService.get('/rest/agile/1.0/board/2/sprint', {
-        params: {
-          ...dto,
-        },
-      }),
+      this.httpService.get<SprintResponseDto>(`/rest/agile/1.0/sprint/${id}`),
     );
 
     return data;
   }
 
-  async getSprintTasks(sprintId?: number) {
+  async getJiraSprints(dto: GetJiraSprintsDto) {
+    const { data } = await lastValueFrom(
+      this.httpService.get<SprintsJiraResponseDto>(
+        '/rest/agile/1.0/board/2/sprint',
+        {
+          params: {
+            ...dto,
+          },
+        },
+      ),
+    );
+
+    return data;
+  }
+
+  async getJiraTasks(sprintId?: number) {
     if (sprintId)
       return this.getSprintIssues<TasksJiraResponseDto>(
         sprintId,
@@ -40,7 +53,7 @@ export class JiraService {
     return this.searchTasks();
   }
 
-  async getSprintStories(sprintId?: number) {
+  async getJiraStories(sprintId?: number) {
     if (sprintId)
       return this.getSprintIssues<StoriesJiraResponseDto>(
         sprintId,

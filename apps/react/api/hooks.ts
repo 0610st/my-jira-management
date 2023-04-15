@@ -1,8 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { Sprint, SprintSummary } from "../types/sprint";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from "@tanstack/react-query";
+import {
+  CreateSprintWithIssuesFromJira,
+  GetJiraSprints,
+  Sprint,
+  SprintsJiraResponse,
+  SprintSummary,
+} from "../types/sprint";
 import { StorySummary } from "../types/story";
 import { Task, TaskSummary } from "../types/task";
 import {
+  createSprintWithIssuesFromJira,
+  getJiraSprints,
   getSprints,
   getSprintSummary,
   getStorySummaries,
@@ -43,4 +55,22 @@ export const useStorySummaries = (sprintId?: number) =>
     {
       staleTime: Infinity,
     }
+  );
+
+export const useJiraSprints = (params: GetJiraSprints, enabled: boolean) =>
+  useQuery<SprintsJiraResponse, Error>(
+    [`${import.meta.env.VITE_API_URL}/jira/sprints`],
+    () => getJiraSprints(params),
+    {
+      staleTime: Infinity,
+      enabled,
+    }
+  );
+
+export const useCreateSprintWithIssuesFromJira = (
+  options: UseMutationOptions<void, Error, CreateSprintWithIssuesFromJira>
+) =>
+  useMutation<void, Error, CreateSprintWithIssuesFromJira>(
+    (params) => createSprintWithIssuesFromJira(params),
+    options
   );

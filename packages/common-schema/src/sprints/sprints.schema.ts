@@ -1,11 +1,14 @@
 import { Prisma, Sprint } from "database";
 import { z } from "zod";
 
+export const SprintStateSchema = z.enum(["active", "closed", "future"]);
+
 export const SprintValueSchema = z.object({
   id: z.number(),
   name: z.string(),
   startDate: z.date(),
   endDate: z.date(),
+  state: SprintStateSchema,
 });
 
 export const SprintsJiraResponseSchema = z.object({
@@ -24,7 +27,7 @@ export const CreateSprintSchema = z.object({
 
 export const CreateSprintsFromJiraSchema = z.object({
   startAt: z.number().optional(),
-  state: z.enum(["active", "closed"]).optional(),
+  state: SprintStateSchema.optional(),
 });
 
 export const SprintSchema = z.object({
