@@ -25,7 +25,8 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
     "recharts": "^2.5.0",
-    "zod": "^3.14.3"
+    "zod": "^3.14.3",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
