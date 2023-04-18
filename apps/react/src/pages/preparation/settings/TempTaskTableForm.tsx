@@ -66,6 +66,7 @@ export const TempTaskTableForm: FC<Props> = ({
     onSubmit({
       name: parsedName,
       estimatedHour: parsedEstimatedHour,
+      deleted: false,
     });
   };
 

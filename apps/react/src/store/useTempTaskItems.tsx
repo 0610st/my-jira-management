@@ -3,6 +3,7 @@ import { create } from "zustand";
 export interface ItemProps {
   name: string;
   estimatedHour: number;
+  deleted: boolean;
 }
 
 interface useTempTaskItemsStoreProps {
@@ -11,13 +12,14 @@ interface useTempTaskItemsStoreProps {
   replaceItem: (item: ItemProps, index: number) => void;
   addItem: (item: ItemProps) => void;
   removeItem: (index: number) => void;
+  resurrectItem: (index: number) => void;
 }
 
 const INITIAL_ITEMS: ItemProps[] = [
-  { name: "テストケース作成", estimatedHour: 2 },
-  { name: "E2Eスクリプト作成", estimatedHour: 2 },
-  { name: "テスト実施", estimatedHour: 1 },
-  { name: "STG環境デプロイ", estimatedHour: 1 },
+  { name: "テストケース作成", estimatedHour: 2, deleted: false },
+  { name: "E2Eスクリプト作成", estimatedHour: 2, deleted: false },
+  { name: "テスト実施", estimatedHour: 1, deleted: false },
+  { name: "STG環境デプロイ", estimatedHour: 1, deleted: false },
 ];
 
 export const useTempTaskItems = create<useTempTaskItemsStoreProps>((set) => ({
@@ -36,8 +38,17 @@ export const useTempTaskItems = create<useTempTaskItemsStoreProps>((set) => ({
     }));
   },
   removeItem: (index: number) => {
-    set((state) => ({
-      items: state.items.filter((_, idx) => idx !== index),
-    }));
+    set((state) => {
+      const newItems = [...state.items];
+      newItems[index].deleted = true;
+      return { items: newItems };
+    });
+  },
+  resurrectItem: (index: number) => {
+    set((state) => {
+      const newItems = [...state.items];
+      newItems[index].deleted = false;
+      return { items: newItems };
+    });
   },
 }));
