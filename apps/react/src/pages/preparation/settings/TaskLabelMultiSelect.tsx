@@ -1,6 +1,5 @@
 import { MultiSelect } from "@mantine/core";
 import { useState } from "react";
-import { useStoryLabels } from "../../../store/useStoryLabels";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 
 export const TaskLabelMultiSelect = () => {

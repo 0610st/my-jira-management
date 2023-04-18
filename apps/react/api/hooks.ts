@@ -3,6 +3,7 @@ import {
   UseMutationOptions,
   useQuery,
 } from "@tanstack/react-query";
+import { EpicsJiraResponse } from "../types/epic";
 import {
   CreateSprintWithIssuesFromJira,
   GetJiraSprints,
@@ -11,9 +12,11 @@ import {
   SprintSummary,
 } from "../types/sprint";
 import { StorySummary } from "../types/story";
-import { Task, TaskSummary } from "../types/task";
+import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import {
   createSprintWithIssuesFromJira,
+  getJiraEpicTasks,
+  getJiraSprintEpics,
   getJiraSprints,
   getSprints,
   getSprintSummary,
@@ -23,34 +26,26 @@ import {
 } from "./rest";
 
 export const useSprints = () =>
-  useQuery<Sprint[], Error>(
-    [`${import.meta.env.VITE_API_URL}/sprints`],
-    getSprints,
-    { staleTime: Infinity }
-  );
+  useQuery<Sprint[], Error>(["sprints"], getSprints, { staleTime: Infinity });
 
 export const useSprintSummary = (sprintId: number, enabled: boolean) =>
   useQuery<SprintSummary, Error>(
-    [`${import.meta.env.VITE_API_URL}/sprints/${sprintId}/summary`],
+    [`sprints/${sprintId}/summary`],
     () => getSprintSummary(sprintId),
     { staleTime: Infinity, enabled }
   );
 
 export const useTasks = (sprintId?: number) =>
-  useQuery<Task[], Error>(
-    [`${import.meta.env.VITE_API_URL}/tasks`, sprintId],
-    () => getTasks(sprintId)
-  );
+  useQuery<Task[], Error>(["tasks", sprintId], () => getTasks(sprintId));
 
 export const useTaskSummaries = (sprintId?: number) =>
-  useQuery<TaskSummary[], Error>(
-    [`${import.meta.env.VITE_API_URL}/tasks/summaries`, sprintId],
-    () => getTaskSummaries(sprintId)
+  useQuery<TaskSummary[], Error>(["tasks/summaries", sprintId], () =>
+    getTaskSummaries(sprintId)
   );
 
 export const useStorySummaries = (sprintId?: number) =>
   useQuery<StorySummary[], Error>(
-    [`${import.meta.env.VITE_API_URL}/stories/summaries`, sprintId],
+    ["stories/summaries", sprintId],
     () => getStorySummaries(sprintId),
     {
       staleTime: Infinity,
@@ -59,10 +54,20 @@ export const useStorySummaries = (sprintId?: number) =>
 
 export const useJiraSprints = (params: GetJiraSprints, enabled: boolean) =>
   useQuery<SprintsJiraResponse, Error>(
-    [`${import.meta.env.VITE_API_URL}/jira/sprints`],
+    ["jira/sprints"],
     () => getJiraSprints(params),
     {
       staleTime: Infinity,
+      enabled,
+    }
+  );
+
+export const useJiraFutureSprints = (enabled: boolean) =>
+  useQuery<SprintsJiraResponse, Error>(
+    ["jira/sprints", "future"],
+    () => getJiraSprints({ state: "future" }),
+    {
+      cacheTime: 0,
       enabled,
     }
   );
@@ -73,4 +78,22 @@ export const useCreateSprintWithIssuesFromJira = (
   useMutation<void, Error, CreateSprintWithIssuesFromJira>(
     (params) => createSprintWithIssuesFromJira(params),
     options
+  );
+
+export const useJiraSprintEpics = (sprintId: number) =>
+  useQuery<EpicsJiraResponse, Error>(
+    ["jira/epics", sprintId],
+    () => getJiraSprintEpics(sprintId),
+    {
+      staleTime: Infinity,
+    }
+  );
+
+export const useJiraEpicTasks = (epicKey: string) =>
+  useQuery<TasksJiraResponse, Error>(
+    ["jira/tasks", epicKey],
+    () => getJiraEpicTasks(epicKey),
+    {
+      staleTime: Infinity,
+    }
   );

@@ -6,8 +6,10 @@ import {
   SprintsJiraResponse,
   SprintSummary,
 } from "../types/sprint";
-import { Task, TaskSummary } from "../types/task";
+import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import { StorySummary } from "../types/story";
+import { JiraSearch } from "../types/jira";
+import { EpicsJiraResponse } from "../types/epic";
 
 export const getSprints = async () => {
   const res = await axios.get<Sprint[]>(
@@ -79,4 +81,28 @@ export const createSprintWithIssuesFromJira = async (
     `${import.meta.env.VITE_API_URL}/sprints/import`,
     params
   );
+};
+
+export const getJiraSprintEpics = async (sprintId: number) => {
+  const params: JiraSearch = {
+    conditions: [{ key: "sprint", value: sprintId + "" }],
+  };
+  const res = await axios.post<EpicsJiraResponse>(
+    `${import.meta.env.VITE_API_URL}/jira/epics`,
+    params
+  );
+
+  return res.data;
+};
+
+export const getJiraEpicTasks = async (epicKey: string) => {
+  const params: JiraSearch = {
+    conditions: [{ key: "parent", value: epicKey }],
+  };
+  const res = await axios.post<TasksJiraResponse>(
+    `${import.meta.env.VITE_API_URL}/jira/tasks`,
+    params
+  );
+
+  return res.data;
 };

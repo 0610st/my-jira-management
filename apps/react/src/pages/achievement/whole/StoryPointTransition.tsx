@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mantine/core";
+import { Box, Flex, Skeleton } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 import {
   CartesianGrid,
@@ -23,8 +23,9 @@ export const StoryPointTransition = () => {
 
   const maxPoint = useMemo(() => {
     if (!storySummaries) return 0;
-    const max = storySummaries.reduce((prev, current) =>
-      comp(prev, current) ? prev : current
+    const max = storySummaries.reduce(
+      (prev, current) => (comp(prev, current) ? prev : current),
+      { sprintId: null, sum: { storyPoint: null } }
     ).sum.storyPoint;
     return max !== null ? max : 0;
   }, [comp, storySummaries]);

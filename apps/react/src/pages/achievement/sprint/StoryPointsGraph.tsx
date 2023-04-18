@@ -32,8 +32,9 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
 
   const maxPoint = useMemo(() => {
     if (!storySummaries) return 0;
-    const max = storySummaries.reduce((prev, current) =>
-      compPoint(prev, current) ? prev : current
+    const max = storySummaries.reduce(
+      (prev, current) => (compPoint(prev, current) ? prev : current),
+      { sprintId: null, sum: { storyPoint: null } }
     ).sum.storyPoint;
     return max !== null ? max : 0;
   }, [compPoint, storySummaries]);

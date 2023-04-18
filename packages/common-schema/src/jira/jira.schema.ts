@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SprintStateSchema } from "../sprints/sprints.schema";
 
 export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
   issueSchema: IssueFieldType
@@ -13,7 +14,7 @@ export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
 
 export const GetJiraSprintsSchema = z.object({
   startAt: z.string().optional(),
-  state: z.enum(["active", "closed"]).optional(),
+  state: SprintStateSchema.optional(),
 });
 
 export const GetJiraEpicsSchema = z.object({
@@ -24,4 +25,8 @@ export const ImportJiraSprintResultSchema = z.object({
   sprintId: z.number(),
   withTasks: z.boolean(),
   withStories: z.boolean(),
+});
+
+export const JiraSearchSchema = z.object({
+  conditions: z.array(z.object({ key: z.string(), value: z.string() })),
 });

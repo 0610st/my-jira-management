@@ -35,7 +35,7 @@ export const TempTaskTable = () => {
           <tr>
             <th style={{ width: 50 }}>ID</th>
             <th style={{ width: 500 }}>タスク名</th>
-            <th>見積もり時間(h)</th>
+            <th>見積h</th>
             <th style={{ width: 200 }}></th>
           </tr>
         </thead>

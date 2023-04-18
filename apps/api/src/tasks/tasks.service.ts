@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JiraSearchDto } from 'src/jira/dto/jira-search.dto';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -24,7 +25,9 @@ export class TasksService {
   async createTasksFromJira(dto: CreataTasksFromJiraDto) {
     const createDtos: CreateTaskDto[] = [];
     for (const sprintId of dto.sprintIds) {
-      const response = await this.getTasksFromJira(sprintId);
+      const dto = new JiraSearchDto();
+      dto.conditions.push({ key: 'sprint', value: sprintId + '' });
+      const response = await this.jiraService.getJiraTasks(dto);
       createDtos.push(...CreateTaskDto.fromResponseDto(response));
     }
 
@@ -44,10 +47,6 @@ export class TasksService {
         estimatedTime: dto.estimatedTime,
       })),
     });
-  }
-
-  getTasksFromJira(sprintId?: number) {
-    return this.jiraService.getJiraTasks(sprintId);
   }
 
   createTask(dto: CreateTaskDto) {

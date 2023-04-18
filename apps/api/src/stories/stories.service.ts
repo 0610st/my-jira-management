@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JiraSearchDto } from 'src/jira/dto/jira-search.dto';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStoriesFromJiraDto } from './dto/create-stories-from-jira.dto';
@@ -24,7 +25,9 @@ export class StoriesService {
   async createStoriesFromJira(dto: CreateStoriesFromJiraDto) {
     const createDtos: CreateStoryDto[] = [];
     for (const sprintId of dto.sprintIds) {
-      const response = await this.getStoriesFromJira(sprintId);
+      const dto = new JiraSearchDto();
+      dto.conditions.push({ key: 'sprint', value: sprintId + '' });
+      const response = await this.jiraService.getJiraStories(dto);
       createDtos.push(...CreateStoryDto.fromResponseDto(response));
     }
 
@@ -42,10 +45,6 @@ export class StoriesService {
         storyPoint: dto.storyPoint,
       })),
     });
-  }
-
-  getStoriesFromJira(sprintId?: number) {
-    return this.jiraService.getJiraStories(sprintId);
   }
 
   createStory(dto: CreateStoryDto) {

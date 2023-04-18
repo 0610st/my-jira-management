@@ -3,4 +3,5 @@ export {
   GetJiraEpicsSchema,
   GetJiraSprintsSchema,
   ImportJiraSprintResultSchema,
+  JiraSearchSchema,
 } from "./jira.schema";
