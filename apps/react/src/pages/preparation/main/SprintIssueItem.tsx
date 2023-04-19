@@ -119,6 +119,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
           <thead>
             <tr>
               <th style={{ width: 100 }}>ID</th>
+              <th style={{ width: 100 }}>ステータス</th>
               <th style={{ width: 300 }}>タスク名</th>
               <th style={{ width: 100 }}>見積h</th>
               <th>ラベル</th>

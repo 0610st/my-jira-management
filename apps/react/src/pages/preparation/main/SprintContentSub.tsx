@@ -1,9 +1,50 @@
-import { FC } from "react";
+import { Box, Flex, List, Text } from "@mantine/core";
+import { FC, useMemo } from "react";
+import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
+import { useNextSprintTime } from "../../../store/useNestSprintTime";
 
-interface Props {
-  sprintId: number;
-}
+interface Props {}
 
-export const SprintContentSub: FC<Props> = ({ sprintId }) => {
-  return <>{sprintId}</>;
+export const SprintContentSub: FC<Props> = () => {
+  const points = useNestSprintPoint((state) => state.points);
+  const times = useNextSprintTime((state) => state.times);
+
+  const pointSum = useMemo(
+    () => points.reduce((acc, cur) => acc + cur.point, 0),
+    [points]
+  );
+
+  const timeSum = useMemo(
+    () => times.reduce((acc, cur) => acc + cur.time, 0),
+    [times]
+  );
+
+  const timeSumRegistered = useMemo(
+    () =>
+      times
+        .filter((time) => !time.key.startsWith("ADD-"))
+        .reduce((acc, cur) => acc + cur.time, 0),
+    [times]
+  );
+
+  const timeSumAdd = useMemo(
+    () =>
+      times
+        .filter((time) => time.key.startsWith("ADD-"))
+        .reduce((acc, cur) => acc + cur.time, 0),
+    [times]
+  );
+
+  return (
+    <List>
+      <List.Item>{`合計ポイント: ${pointSum} pt`}</List.Item>
+      <List.Item>
+        {`合計予定時間: ${timeSum} H`}
+        <List withPadding>
+          <List.Item>{`登録済みタスク: ${timeSumRegistered} H`}</List.Item>
+          <List.Item>{`追加タスク: ${timeSumAdd} H`}</List.Item>
+        </List>
+      </List.Item>
+    </List>
+  );
 };

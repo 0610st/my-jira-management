@@ -4,17 +4,20 @@ import { BsFillCloudSlashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useCreateJiraTask } from "../../../../api/hooks";
 import { JiraTaskCreate } from "../../../../types/jira";
+import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 import { ItemProps } from "../../../store/useTempTaskItems";
 import { NewItem, SprintIssueNewTaskForm } from "./SprintIssueNewTaskForm";
 
 interface Props {
+  index: number;
   initalItem: ItemProps;
   execute: boolean;
   sprintId: number;
   epicKey: string;
 }
 export const SprintIssueNewTaskItem: FC<Props> = ({
+  index,
   initalItem,
   execute,
   sprintId,
@@ -44,6 +47,8 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
       setForceSubmit(false);
     },
   });
+  const setTime = useNextSprintTime((state) => state.setTime);
+  const removeTime = useNextSprintTime((state) => state.removeTime);
 
   const handleEdit = () => {
     setEditMode(true);
@@ -61,6 +66,14 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
   const toggleDelete = () => {
     setDeleted(!deleted);
   };
+
+  useEffect(() => {
+    if (deleted) {
+      removeTime(`ADD-${epicKey}-${index}`);
+    } else {
+      setTime({ key: `ADD-${epicKey}-${index}`, time: item.estimatedHour });
+    }
+  }, [deleted, item, removeTime, setTime, epicKey, index]);
 
   useEffect(() => {
     if (execute && status === "idle" && !deleted) {
@@ -107,6 +120,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
       <td>
         <Text strikethrough={deleted}>追加</Text>
       </td>
+      <td></td>
       <td>
         <Text strikethrough={deleted}>{item.name}</Text>
       </td>

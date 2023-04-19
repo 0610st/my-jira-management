@@ -39,7 +39,7 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
       <Box w={300}>
         <Text fz="lg">{futureSprint.values[0].name}</Text>
         <Box mt={8}>
-          <SprintContentSub sprintId={futureSprint.values[0].id} />
+          <SprintContentSub />
         </Box>
       </Box>
       <Box sx={{ flex: 1 }} miw={700}>

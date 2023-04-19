@@ -1,6 +1,7 @@
 import { Loader } from "@mantine/core";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useJiraEpicTasks } from "../../../../api/hooks";
+import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTempTaskItems } from "../../../store/useTempTaskItems";
 import { SprintIssueNewTaskItem } from "./SprintIssueNewTaskItem";
 import { SprintIssueTaskItem } from "./SprintIssueTaskItem";
@@ -18,8 +19,21 @@ export const SprintIssueTaskBody: FC<Props> = ({
 }) => {
   const { data, isLoading, error } = useJiraEpicTasks(epicKey);
   const tempItems = useTempTaskItems((state) => state.items);
+  const setTime = useNextSprintTime((state) => state.setTime);
 
-  console.log(tempItems);
+  useEffect(() => {
+    if (data) {
+      data.issues.forEach((task) => {
+        const time = task.fields.timetracking.remainingEstimateSeconds
+          ? task.fields.timetracking.remainingEstimateSeconds / 60 / 60
+          : 0;
+        setTime({
+          key: task.key,
+          time,
+        });
+      });
+    }
+  }, [setTime, data]);
 
   if (isLoading) {
     return (
@@ -54,6 +68,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
         .map((item, index) => (
           <SprintIssueNewTaskItem
             key={index}
+            index={index}
             initalItem={item}
             execute={execute}
             sprintId={sprintId}

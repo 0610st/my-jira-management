@@ -10,6 +10,9 @@ export const EpicIssueSchema = z.object({
     .nullable(),
   customfield_10016: z.number().nullable().describe("story point estimate"),
   labels: z.array(z.string()),
+  status: z.object({
+    name: z.string(),
+  }),
 });
 
 export const EpicsJiraResponseSchema = JiraIssueResponseSchema(EpicIssueSchema);

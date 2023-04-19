@@ -83,6 +83,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   return (
     <tr>
       <td>追加</td>
+      <td></td>
       <td>
         <Box>
           <TextInput

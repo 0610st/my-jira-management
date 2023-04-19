@@ -1,8 +1,9 @@
 import { ActionIcon, Flex, Loader, MultiSelect, Text } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
 import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../../api/hooks";
 import { TaskIssue } from "../../../../types/task";
+import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 
 interface Props {
@@ -35,10 +36,23 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
       setStatus("error");
     },
   });
+  const setTime = useNextSprintTime((state) => state.setTime);
+  const removeTime = useNextSprintTime((state) => state.removeTime);
 
-  const toggleExclude = () => {
-    setExclude((prev) => !exclude);
-  };
+  const toggleExclude = useCallback(() => {
+    if (exclude) {
+      const time = task.fields.timetracking.remainingEstimateSeconds
+        ? task.fields.timetracking.remainingEstimateSeconds / 60 / 60
+        : 0;
+      setTime({
+        key: task.key,
+        time,
+      });
+    } else {
+      removeTime(task.key);
+    }
+    setExclude((prev) => !prev);
+  }, [exclude, removeTime, setTime]);
 
   useEffect(() => {
     if (execute && status === "idle" && !exclude) {
@@ -57,6 +71,7 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
   return (
     <tr key={task.key}>
       <td>{task.key}</td>
+      <td>{task.fields.status.name}</td>
       <td>{task.fields.summary}</td>
       <td>
         {task.fields.timetracking.originalEstimateSeconds

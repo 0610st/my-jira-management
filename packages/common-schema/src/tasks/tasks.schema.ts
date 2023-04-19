@@ -29,6 +29,9 @@ export const TaskIssueSchema = z.object({
     remainingEstimateSeconds: z.number().optional(),
     timeSpentSeconds: z.number().optional(),
   }),
+  status: z.object({
+    name: z.string(),
+  }),
 });
 
 export const TasksJiraResponseSchema = JiraIssueResponseSchema(TaskIssueSchema);
