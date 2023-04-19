@@ -20,6 +20,7 @@ export const TaskIssueSchema = z.object({
     })
     .nullable(),
   timespent: z.number().nullable(),
+  labels: z.array(z.string()),
 });
 
 export const TasksJiraResponseSchema = JiraIssueResponseSchema(TaskIssueSchema);

@@ -9,7 +9,7 @@ interface Props {
   index: number;
   item: ItemProps;
 }
-export const TempTaskTableRow: FC<Props> = ({ index, item }) => {
+export const TempTaskTableItem: FC<Props> = ({ index, item }) => {
   const [editMode, setEditMode] = useState(false);
   const replaceItem = useTempTaskItems((state) => state.replaceItem);
   const removeItem = useTempTaskItems((state) => state.removeItem);

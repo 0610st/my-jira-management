@@ -1,6 +1,15 @@
-import { Box, Flex, Paper, Slider, Table, Text } from "@mantine/core";
-import { FC } from "react";
+import {
+  Box,
+  Flex,
+  MultiSelect,
+  Paper,
+  Slider,
+  Table,
+  Text,
+} from "@mantine/core";
+import { FC, useState } from "react";
 import { EpicIssue } from "../../../../types/epic";
+import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
 
 interface Props {
@@ -11,6 +20,12 @@ interface Props {
 }
 
 export const SprintIssueItem: FC<Props> = ({ epic }) => {
+  const storyLabels = useStoryLabels((state) => state.storyLabels);
+  const [labels, setLabels] = useState([...epic.fields.labels, ...storyLabels]);
+  const [labelData, setLabelData] = useState(
+    labels.map((label) => ({ label: label, value: label }))
+  );
+
   return (
     <Paper shadow="xs" radius="xs" p="md">
       <Flex direction="column" sx={{ gap: 4 }}>
@@ -18,6 +33,23 @@ export const SprintIssueItem: FC<Props> = ({ epic }) => {
           {epic.key}
         </Text>
         <Text fz="lg">{epic.fields.summary}</Text>
+        <Box maw={500}>
+          <MultiSelect
+            label="ラベル"
+            data={labelData}
+            value={labels}
+            searchable
+            creatable
+            clearable
+            getCreateLabel={(query) => `+ Create ${query}`}
+            onCreate={(query) => {
+              const item = { value: query, label: query };
+              setLabelData((current) => [...current, item]);
+              return item;
+            }}
+            onChange={(value) => setLabels(value)}
+          />
+        </Box>
         <Box w={400} my={32}>
           <Slider
             labelAlwaysOn
@@ -41,8 +73,8 @@ export const SprintIssueItem: FC<Props> = ({ epic }) => {
             <tr>
               <th style={{ width: 100 }}>ID</th>
               <th style={{ width: 300 }}>タスク名</th>
-              <th>見積h</th>
-              <th style={{ width: 150 }}>ラベル</th>
+              <th style={{ width: 100 }}>見積h</th>
+              <th>ラベル</th>
               <th style={{ width: 100 }}></th>
             </tr>
           </thead>

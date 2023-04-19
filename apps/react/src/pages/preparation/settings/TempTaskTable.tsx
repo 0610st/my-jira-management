@@ -1,6 +1,6 @@
 import { ActionIcon, Flex, Table, Text } from "@mantine/core";
 import { ItemProps, useTempTaskItems } from "../../../store/useTempTaskItems";
-import { TempTaskTableRow } from "./TempTaskTableRow";
+import { TempTaskTableItem } from "./TempTaskTableItem";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
 import { TempTaskTableForm } from "./TempTaskTableForm";
@@ -41,7 +41,7 @@ export const TempTaskTable = () => {
         </thead>
         <tbody>
           {taskItems.map((item, index) => (
-            <TempTaskTableRow key={index} index={index} item={item} />
+            <TempTaskTableItem key={index} index={index} item={item} />
           ))}
           {showAddRow && (
             <TempTaskTableForm
