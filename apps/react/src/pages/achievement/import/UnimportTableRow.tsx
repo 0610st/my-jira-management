@@ -1,4 +1,4 @@
-import { Flex, Switch, Text } from "@mantine/core";
+import { Flex, Loader, Switch, Text } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCreateSprintWithIssuesFromJira } from "../../../../api/hooks";
@@ -92,7 +92,10 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
             />
           </Flex>
         ) : status === "executing" ? (
-          <Text>取込中...</Text>
+          <Flex align="center">
+            <Loader size="xs" />
+            <Text>取込中...</Text>
+          </Flex>
         ) : status === "success" ? (
           <Text component={Link} to={`/sprint/${data.id}`}>
             成功

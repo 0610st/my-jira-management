@@ -6,9 +6,10 @@ import { SprintIssues } from "./SprintIssues";
 
 interface Props {
   enabled: boolean;
+  execute: boolean;
 }
 
-export const SprintContent: FC<Props> = ({ enabled }) => {
+export const SprintContent: FC<Props> = ({ enabled, execute }) => {
   const {
     data: futureSprint,
     isLoading,
@@ -42,7 +43,7 @@ export const SprintContent: FC<Props> = ({ enabled }) => {
         </Box>
       </Box>
       <Box sx={{ flex: 1 }} miw={700}>
-        <SprintIssues sprintId={futureSprint.values[0].id} />
+        <SprintIssues sprintId={futureSprint.values[0].id} execute={execute} />
       </Box>
     </Flex>
   );

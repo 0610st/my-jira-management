@@ -4,9 +4,10 @@ import { SprintIssueItem } from "./SprintIssueItem";
 
 interface Props {
   sprintId: number;
+  execute: boolean;
 }
 
-export const SprintIssues: FC<Props> = ({ sprintId }) => {
+export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   const { data, isLoading, error } = useJiraSprintEpics(sprintId);
 
   if (isLoading) {
@@ -20,7 +21,12 @@ export const SprintIssues: FC<Props> = ({ sprintId }) => {
   return (
     <>
       {data!.issues.map((epic) => (
-        <SprintIssueItem key={epic.key} epic={epic} />
+        <SprintIssueItem
+          key={epic.key}
+          epic={epic}
+          execute={execute}
+          sprintId={sprintId}
+        />
       ))}
     </>
   );

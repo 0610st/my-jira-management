@@ -4,6 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { EpicsJiraResponse } from "../types/epic";
+import { JiraEpicUpdate, JiraTaskCreate, JiraTaskUpdate } from "../types/jira";
 import {
   CreateSprintWithIssuesFromJira,
   GetJiraSprints,
@@ -14,6 +15,7 @@ import {
 import { StorySummary } from "../types/story";
 import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import {
+  createJiraTask,
   createSprintWithIssuesFromJira,
   getJiraEpicTasks,
   getJiraSprintEpics,
@@ -23,6 +25,8 @@ import {
   getStorySummaries,
   getTasks,
   getTaskSummaries,
+  updateJiraEpic,
+  updateJiraTask,
 } from "./rest";
 
 export const useSprints = () =>
@@ -91,9 +95,43 @@ export const useJiraSprintEpics = (sprintId: number) =>
 
 export const useJiraEpicTasks = (epicKey: string) =>
   useQuery<TasksJiraResponse, Error>(
-    ["jira/tasks", epicKey],
+    ["jira/tasks/search", epicKey],
     () => getJiraEpicTasks(epicKey),
     {
       staleTime: Infinity,
     }
+  );
+
+export interface UpdateJiraTaskProps {
+  key: string;
+  body: JiraTaskUpdate;
+}
+
+export const useUpdateJiraTask = (
+  options: UseMutationOptions<void, Error, UpdateJiraTaskProps>
+) =>
+  useMutation<void, Error, UpdateJiraTaskProps>(
+    ({ key, body }) => updateJiraTask(key, body),
+    options
+  );
+
+export const useCreateJiraTask = (
+  options: UseMutationOptions<void, Error, JiraTaskCreate>
+) =>
+  useMutation<void, Error, JiraTaskCreate>(
+    (body) => createJiraTask(body),
+    options
+  );
+
+export interface UpdateJiraEpicProps {
+  key: string;
+  body: JiraEpicUpdate;
+}
+
+export const useUpdateJiraEpic = (
+  options: UseMutationOptions<void, Error, UpdateJiraEpicProps>
+) =>
+  useMutation<void, Error, UpdateJiraEpicProps>(
+    ({ key, body }) => updateJiraEpic(key, body),
+    options
   );

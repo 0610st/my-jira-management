@@ -1,13 +1,15 @@
 import {
   Box,
   Flex,
+  Loader,
   MultiSelect,
   Paper,
   Slider,
   Table,
   Text,
 } from "@mantine/core";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../../api/hooks";
 import { EpicIssue } from "../../../../types/epic";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
@@ -17,39 +19,84 @@ interface Props {
     key: string;
     fields: EpicIssue;
   };
+  execute: boolean;
+  sprintId: number;
 }
 
-export const SprintIssueItem: FC<Props> = ({ epic }) => {
+export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
   const storyLabels = useStoryLabels((state) => state.storyLabels);
-  const [labels, setLabels] = useState([...epic.fields.labels, ...storyLabels]);
+  const [labels, setLabels] = useState(
+    Array.from(new Set([...epic.fields.labels, ...storyLabels]))
+  );
   const [labelData, setLabelData] = useState(
     labels.map((label) => ({ label: label, value: label }))
   );
+  const [status, setStatus] = useState<
+    "idle" | "executing" | "success" | "error"
+  >("idle");
+  const { mutate: updateEpic } = useUpdateJiraEpic({
+    onSuccess: () => {
+      setStatus("success");
+    },
+    onError: (error) => {
+      console.error(error);
+      setStatus("error");
+    },
+  });
+
+  useEffect(() => {
+    if (execute && status === "idle") {
+      setStatus("executing");
+      const params: UpdateJiraEpicProps = {
+        key: epic.key,
+        body: {
+          labels: labels,
+        },
+      };
+      updateEpic(params);
+    }
+  }, [execute, status]);
 
   return (
-    <Paper shadow="xs" radius="xs" p="md">
+    <Paper shadow="md" radius="xs" p="md" mb={8}>
       <Flex direction="column" sx={{ gap: 4 }}>
         <Text c="dimmed" fz="sm">
           {epic.key}
         </Text>
         <Text fz="lg">{epic.fields.summary}</Text>
-        <Box maw={500}>
-          <MultiSelect
-            label="ラベル"
-            data={labelData}
-            value={labels}
-            searchable
-            creatable
-            clearable
-            getCreateLabel={(query) => `+ Create ${query}`}
-            onCreate={(query) => {
-              const item = { value: query, label: query };
-              setLabelData((current) => [...current, item]);
-              return item;
-            }}
-            onChange={(value) => setLabels(value)}
-          />
-        </Box>
+        <Flex maw={600} align="flex-end" sx={{ gap: 6 }}>
+          <Box>
+            <MultiSelect
+              label="ラベル"
+              data={labelData}
+              value={labels}
+              searchable
+              creatable
+              clearable
+              getCreateLabel={(query) => `+ Create ${query}`}
+              onCreate={(query) => {
+                const item = { value: query, label: query };
+                setLabelData((current) => [...current, item]);
+                return item;
+              }}
+              onChange={(value) => setLabels(value)}
+            />
+          </Box>
+          <Box w={150}>
+            {status === "idle" ? (
+              <></>
+            ) : status === "executing" ? (
+              <Flex align="center">
+                <Loader size="xs" />
+                <Text>更新中...</Text>
+              </Flex>
+            ) : status === "success" ? (
+              <Text>成功</Text>
+            ) : (
+              <Text>エラー</Text>
+            )}
+          </Box>
+        </Flex>
         <Box w={400} my={32}>
           <Slider
             labelAlwaysOn
@@ -79,7 +126,11 @@ export const SprintIssueItem: FC<Props> = ({ epic }) => {
             </tr>
           </thead>
           <tbody>
-            <SprintIssueTaskBody epicKey={epic.key} />
+            <SprintIssueTaskBody
+              epicKey={epic.key}
+              execute={execute}
+              sprintId={sprintId}
+            />
           </tbody>
         </Table>
       </Flex>

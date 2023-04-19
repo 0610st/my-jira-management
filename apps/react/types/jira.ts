@@ -1,4 +1,15 @@
 import { z } from "zod";
-import { JiraSearchSchema } from "common-schema";
+import {
+  JiraEpicUpdateSchema,
+  JiraSearchSchema,
+  JiraTaskCreateSchema,
+  JiraTaskUpdateSchema,
+} from "common-schema";
 
 export type JiraSearch = z.infer<typeof JiraSearchSchema>;
+
+export type JiraTaskUpdate = z.infer<typeof JiraTaskUpdateSchema>;
+
+export type JiraTaskCreate = z.infer<typeof JiraTaskCreateSchema>;
+
+export type JiraEpicUpdate = z.infer<typeof JiraEpicUpdateSchema>;

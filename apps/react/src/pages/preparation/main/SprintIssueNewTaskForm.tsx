@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Flex, MultiSelect, TextInput } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
 import { z, ZodError } from "zod";
 import { ItemProps } from "../../../store/useTempTaskItems";
@@ -16,12 +16,14 @@ interface Props {
   initialItem: NewItem;
   onSubmit: (item: NewItem) => void;
   onCancel: () => void;
+  forceSubmit?: boolean;
 }
 
 export const SprintIssueNewTaskForm: FC<Props> = ({
   initialItem,
   onSubmit,
   onCancel,
+  forceSubmit = false,
 }) => {
   const [name, setName] = useState(initialItem.name);
   const [nameError, setNameError] = useState("");
@@ -56,7 +58,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
     }
   }, [estimatedHour]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     const parsedName = nameSchema.parse(name);
     const parsedEstimatedHour = estimatedHourSchema.parse(estimatedHour);
     if (
@@ -70,11 +72,17 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
       estimatedHour: parsedEstimatedHour,
       labels,
     });
-  };
+  }, [estimatedHour, labels, name, onSubmit]);
+
+  useEffect(() => {
+    if (forceSubmit) {
+      handleSubmit();
+    }
+  }, [forceSubmit, handleSubmit]);
 
   return (
     <tr>
-      <td></td>
+      <td>追加</td>
       <td>
         <Box>
           <TextInput

@@ -8,7 +8,12 @@ import {
 } from "../types/sprint";
 import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import { StorySummary } from "../types/story";
-import { JiraSearch } from "../types/jira";
+import {
+  JiraEpicUpdate,
+  JiraSearch,
+  JiraTaskCreate,
+  JiraTaskUpdate,
+} from "../types/jira";
 import { EpicsJiraResponse } from "../types/epic";
 
 export const getSprints = async () => {
@@ -100,9 +105,27 @@ export const getJiraEpicTasks = async (epicKey: string) => {
     conditions: [{ key: "parent", value: epicKey }],
   };
   const res = await axios.post<TasksJiraResponse>(
-    `${import.meta.env.VITE_API_URL}/jira/tasks`,
+    `${import.meta.env.VITE_API_URL}/jira/tasks/search`,
     params
   );
 
   return res.data;
+};
+
+export const updateJiraTask = async (key: string, body: JiraTaskUpdate) => {
+  await axios.put<void>(
+    `${import.meta.env.VITE_API_URL}/jira/tasks/${key}`,
+    body
+  );
+};
+
+export const createJiraTask = async (body: JiraTaskCreate) => {
+  await axios.post<void>(`${import.meta.env.VITE_API_URL}/jira/tasks`, body);
+};
+
+export const updateJiraEpic = async (key: string, body: JiraEpicUpdate) => {
+  await axios.put<void>(
+    `${import.meta.env.VITE_API_URL}/jira/epics/${key}`,
+    body
+  );
 };

@@ -21,6 +21,14 @@ export const TaskIssueSchema = z.object({
     .nullable(),
   timespent: z.number().nullable(),
   labels: z.array(z.string()),
+  timetracking: z.object({
+    originalEstimate: z.string().optional(),
+    remainingEstimate: z.string().optional(),
+    timeSpent: z.string().optional(),
+    originalEstimateSeconds: z.number().optional(),
+    remainingEstimateSeconds: z.number().optional(),
+    timeSpentSeconds: z.number().optional(),
+  }),
 });
 
 export const TasksJiraResponseSchema = JiraIssueResponseSchema(TaskIssueSchema);

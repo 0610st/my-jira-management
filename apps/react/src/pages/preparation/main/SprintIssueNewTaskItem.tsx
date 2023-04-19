@@ -1,16 +1,27 @@
-import { Flex, ActionIcon, Text, Chip } from "@mantine/core";
-import { FC, useState } from "react";
+import { Flex, ActionIcon, Text, Chip, Loader } from "@mantine/core";
+import { FC, useEffect, useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
+import { useCreateJiraTask } from "../../../../api/hooks";
+import { JiraTaskCreate } from "../../../../types/jira";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 import { ItemProps } from "../../../store/useTempTaskItems";
 import { NewItem, SprintIssueNewTaskForm } from "./SprintIssueNewTaskForm";
 
 interface Props {
   initalItem: ItemProps;
+  execute: boolean;
+  sprintId: number;
+  epicKey: string;
 }
-export const SprintIssueNewTaskItem: FC<Props> = ({ initalItem }) => {
+export const SprintIssueNewTaskItem: FC<Props> = ({
+  initalItem,
+  execute,
+  sprintId,
+  epicKey,
+}) => {
   const [editMode, setEditMode] = useState(false);
+  const [forceSubmit, setForceSubmit] = useState(false);
   const taskLables = useTaskLabels((state) => state.taskLabels);
   const [item, setItem] = useState<NewItem>({
     name: initalItem.name,
@@ -18,6 +29,21 @@ export const SprintIssueNewTaskItem: FC<Props> = ({ initalItem }) => {
     labels: taskLables,
   });
   const [deleted, setDeleted] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "executing" | "success" | "error"
+  >("idle");
+  const { mutate: createTask } = useCreateJiraTask({
+    onSuccess: () => {
+      setStatus("success");
+    },
+    onError: (error) => {
+      console.error(error);
+      setStatus("error");
+    },
+    onSettled: () => {
+      setForceSubmit(false);
+    },
+  });
 
   const handleEdit = () => {
     setEditMode(true);
@@ -36,19 +62,51 @@ export const SprintIssueNewTaskItem: FC<Props> = ({ initalItem }) => {
     setDeleted(!deleted);
   };
 
+  useEffect(() => {
+    if (execute && status === "idle" && !deleted) {
+      if (editMode) {
+        setForceSubmit(true);
+        return;
+      }
+
+      setStatus("executing");
+      const params: JiraTaskCreate = {
+        estimatedTime: item.estimatedHour,
+        name: item.name,
+        sprintId: sprintId,
+        labels: item.labels,
+        parentKey: epicKey,
+      };
+      createTask(params);
+    }
+  }, [
+    execute,
+    status,
+    deleted,
+    editMode,
+    setForceSubmit,
+    createTask,
+    item,
+    epicKey,
+    sprintId,
+  ]);
+
   if (editMode) {
     return (
       <SprintIssueNewTaskForm
         initialItem={item}
         onSubmit={handleEditSubmit}
         onCancel={handleEditCancel}
+        forceSubmit={forceSubmit}
       />
     );
   }
 
   return (
     <tr>
-      <td></td>
+      <td>
+        <Text strikethrough={deleted}>追加</Text>
+      </td>
       <td>
         <Text strikethrough={deleted}>{item.name}</Text>
       </td>
@@ -65,22 +123,33 @@ export const SprintIssueNewTaskItem: FC<Props> = ({ initalItem }) => {
         </Flex>
       </td>
       <td>
-        <Flex sx={{ gap: 24 }} justify="flex-end">
-          <ActionIcon
-            color="indigo"
-            variant="outline"
-            onClick={handleEdit}
-            disabled={deleted}
-          >
-            <MdEdit />
-          </ActionIcon>
-          <ActionIcon
-            variant={deleted ? "filled" : "outline"}
-            onClick={handleDelete}
-          >
-            <BsTrashFill />
-          </ActionIcon>
-        </Flex>
+        {status === "idle" ? (
+          <Flex sx={{ gap: 24 }} justify="flex-end">
+            <ActionIcon
+              color="indigo"
+              variant="outline"
+              onClick={handleEdit}
+              disabled={deleted}
+            >
+              <MdEdit />
+            </ActionIcon>
+            <ActionIcon
+              variant={deleted ? "filled" : "outline"}
+              onClick={handleDelete}
+            >
+              <BsTrashFill />
+            </ActionIcon>
+          </Flex>
+        ) : status === "executing" ? (
+          <Flex align="center">
+            <Loader size="xs" />
+            <Text>作成中...</Text>
+          </Flex>
+        ) : status === "success" ? (
+          <Text>成功</Text>
+        ) : (
+          <Text>エラー</Text>
+        )}
       </td>
     </tr>
   );

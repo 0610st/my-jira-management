@@ -7,9 +7,15 @@ import { SprintIssueTaskItem } from "./SprintIssueTaskItem";
 
 interface Props {
   epicKey: string;
+  execute: boolean;
+  sprintId: number;
 }
 
-export const SprintIssueTaskBody: FC<Props> = ({ epicKey }) => {
+export const SprintIssueTaskBody: FC<Props> = ({
+  epicKey,
+  execute,
+  sprintId,
+}) => {
   const { data, isLoading, error } = useJiraEpicTasks(epicKey);
   const tempItems = useTempTaskItems((state) => state.items);
 
@@ -36,12 +42,23 @@ export const SprintIssueTaskBody: FC<Props> = ({ epicKey }) => {
   return (
     <>
       {data.issues.map((task) => (
-        <SprintIssueTaskItem key={task.key} task={task} />
+        <SprintIssueTaskItem
+          key={task.key}
+          task={task}
+          execute={execute}
+          sprintId={sprintId}
+        />
       ))}
       {tempItems
         .filter((item) => !item.deleted)
         .map((item, index) => (
-          <SprintIssueNewTaskItem key={index} initalItem={item} />
+          <SprintIssueNewTaskItem
+            key={index}
+            initalItem={item}
+            execute={execute}
+            sprintId={sprintId}
+            epicKey={epicKey}
+          />
         ))}
     </>
   );

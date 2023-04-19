@@ -52,7 +52,7 @@ export class SprintsService {
     let createTaskDtos: CreateTaskDto[] = [];
     let createStoryDtos: CreateStoryDto[] = [];
     const searchDto = new JiraSearchDto();
-    searchDto.conditions.push({ key: 'sprint', value: dto.sprintId + '' });
+    searchDto.conditions = [{ key: 'sprint', value: dto.sprintId + '' }];
     if (dto.withTasks) {
       const taskResponse = await this.jiraService.getJiraTasks(searchDto);
       createTaskDtos = CreateTaskDto.fromResponseDto(taskResponse);
