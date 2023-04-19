@@ -20,6 +20,7 @@ const EPIC_ISSUE_TYPE = 'エピック';
 @Injectable()
 export class JiraService {
   project: string;
+  boardId: string;
 
   constructor(
     private readonly httpService: HttpService,
@@ -28,6 +29,7 @@ export class JiraService {
     this.project = this.configService.get(
       'JIRA_PROJECT_NAME',
     ) as unknown as string;
+    this.boardId = this.configService.get('JIRA_BOARD_ID') as unknown as string;
   }
 
   async getJiraSprint(id: number) {

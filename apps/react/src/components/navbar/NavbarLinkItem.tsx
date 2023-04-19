@@ -60,9 +60,10 @@ interface Props {
   Icon: IconType;
   label: string;
   path?: string;
+  link?: string;
 }
 
-const _NavbarLinkItem: React.FC<Props> = ({ Icon, label, path }) => {
+const _NavbarLinkItem: React.FC<Props> = ({ Icon, label, path, link }) => {
   const { classes, cx } = useStyles();
   const location = useLocation();
 
@@ -76,7 +77,7 @@ const _NavbarLinkItem: React.FC<Props> = ({ Icon, label, path }) => {
       className={cx(classes.link, {
         [classes.linkActive]: active,
       })}
-      to={path || ""}
+      to={link || path || ""}
       key={label}
     >
       <Icon className={classes.linkIcon} />
