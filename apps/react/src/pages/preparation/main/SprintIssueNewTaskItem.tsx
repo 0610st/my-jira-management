@@ -1,6 +1,6 @@
 import { Flex, ActionIcon, Text, Chip, Loader } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
-import { BsTrashFill } from "react-icons/bs";
+import { BsFillCloudSlashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useCreateJiraTask } from "../../../../api/hooks";
 import { JiraTaskCreate } from "../../../../types/jira";
@@ -58,7 +58,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
     setEditMode(false);
   };
 
-  const handleDelete = () => {
+  const toggleDelete = () => {
     setDeleted(!deleted);
   };
 
@@ -135,9 +135,10 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
             </ActionIcon>
             <ActionIcon
               variant={deleted ? "filled" : "outline"}
-              onClick={handleDelete}
+              disabled={execute}
+              onClick={toggleDelete}
             >
-              <BsTrashFill />
+              <BsFillCloudSlashFill />
             </ActionIcon>
           </Flex>
         ) : status === "executing" ? (

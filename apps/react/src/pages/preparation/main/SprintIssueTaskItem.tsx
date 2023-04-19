@@ -1,5 +1,6 @@
-import { Flex, Loader, MultiSelect, Text } from "@mantine/core";
+import { ActionIcon, Flex, Loader, MultiSelect, Text } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
+import { BsFillCloudSlashFill } from "react-icons/bs";
 import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../../api/hooks";
 import { TaskIssue } from "../../../../types/task";
 import { useTaskLabels } from "../../../store/useTaskLabels";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
+  const [exclude, setExclude] = useState(false);
   const taskLabels = useTaskLabels((state) => state.taskLabels);
   const [labels, setLabels] = useState(
     Array.from(new Set([...task.fields.labels, ...taskLabels]))
@@ -34,8 +36,12 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
     },
   });
 
+  const toggleExclude = () => {
+    setExclude((prev) => !exclude);
+  };
+
   useEffect(() => {
-    if (execute && status === "idle") {
+    if (execute && status === "idle" && !exclude) {
       setStatus("executing");
       const params: UpdateJiraTaskProps = {
         key: task.key,
@@ -74,7 +80,17 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
         />
       </td>
       <td>
-        {status === "executing" ? (
+        {status === "idle" ? (
+          <Flex sx={{ gap: 24 }} justify="flex-end">
+            <ActionIcon
+              variant={exclude ? "filled" : "outline"}
+              disabled={execute}
+              onClick={toggleExclude}
+            >
+              <BsFillCloudSlashFill />
+            </ActionIcon>
+          </Flex>
+        ) : status === "executing" ? (
           <Flex align="center">
             <Loader size="xs" />
             <Text>更新中...</Text>
