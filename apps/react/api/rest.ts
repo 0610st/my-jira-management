@@ -88,10 +88,13 @@ export const createSprintWithIssuesFromJira = async (
   );
 };
 
-export const getJiraSprintEpics = async (sprintId: number) => {
+export const getJiraSprintEpics = async (sprintId: number, open?: boolean) => {
   const params: JiraSearch = {
     conditions: [{ key: "sprint", value: sprintId + "" }],
   };
+  if (open) {
+    params.open = true;
+  }
   const res = await axios.post<EpicsJiraResponse>(
     `${import.meta.env.VITE_API_URL}/jira/epics`,
     params
@@ -100,10 +103,14 @@ export const getJiraSprintEpics = async (sprintId: number) => {
   return res.data;
 };
 
-export const getJiraEpicTasks = async (epicKey: string) => {
+export const getJiraEpicTasks = async (epicKey: string, open?: boolean) => {
   const params: JiraSearch = {
     conditions: [{ key: "parent", value: epicKey }],
   };
+
+  if (open) {
+    params.open = true;
+  }
   const res = await axios.post<TasksJiraResponse>(
     `${import.meta.env.VITE_API_URL}/jira/tasks/search`,
     params

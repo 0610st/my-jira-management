@@ -84,19 +84,19 @@ export const useCreateSprintWithIssuesFromJira = (
     options
   );
 
-export const useJiraSprintEpics = (sprintId: number) =>
+export const useJiraSprintEpics = (sprintId: number, open?: boolean) =>
   useQuery<EpicsJiraResponse, Error>(
-    ["jira/epics", sprintId],
-    () => getJiraSprintEpics(sprintId),
+    ["jira/epics", sprintId, open],
+    () => getJiraSprintEpics(sprintId, open),
     {
       staleTime: Infinity,
     }
   );
 
-export const useJiraEpicTasks = (epicKey: string) =>
+export const useJiraEpicTasks = (epicKey: string, open?: boolean) =>
   useQuery<TasksJiraResponse, Error>(
-    ["jira/tasks/search", epicKey],
-    () => getJiraEpicTasks(epicKey),
+    ["jira/tasks/search", epicKey, open],
+    () => getJiraEpicTasks(epicKey, open),
     {
       staleTime: Infinity,
     }

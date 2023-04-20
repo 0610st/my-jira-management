@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react";
 import { useJiraSprintEpics } from "../../../../api/hooks";
 import { useExcludeEpics } from "../../../store/useExcludeEpics";
+import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
 import { SprintIssueItem } from "./SprintIssueItem";
 
@@ -10,7 +11,8 @@ interface Props {
 }
 
 export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
-  const { data, isLoading, error } = useJiraSprintEpics(sprintId);
+  const open = useNestSprintFetchOption((state) => state.open);
+  const { data, isLoading, error } = useJiraSprintEpics(sprintId, open);
   const setPoint = useNestSprintPoint((state) => state.setPoint);
   const excludeEpics = useExcludeEpics((state) => state.excludeEpics);
 

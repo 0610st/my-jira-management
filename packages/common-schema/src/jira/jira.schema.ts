@@ -31,6 +31,7 @@ export const ImportJiraSprintResultSchema = z.object({
 
 export const JiraSearchSchema = z.object({
   conditions: z.array(z.object({ key: z.string(), value: z.string() })),
+  open: z.boolean().optional(),
 });
 
 export const JiraTaskUpdateSchema = z.object({
