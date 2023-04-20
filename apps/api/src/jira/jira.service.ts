@@ -43,7 +43,7 @@ export class JiraService {
   async getJiraSprints(dto: GetJiraSprintsDto) {
     const { data } = await lastValueFrom(
       this.httpService.get<SprintsJiraResponseDto>(
-        '/rest/agile/1.0/board/2/sprint',
+        `/rest/agile/1.0/board/${this.boardId}/sprint`,
         {
           params: {
             ...dto,
@@ -92,7 +92,7 @@ export class JiraService {
 
   async getBoardIssues<T>(jql?: string) {
     const { data } = await lastValueFrom(
-      this.httpService.get<T>('/rest/agile/1.0/board/2/issue', {
+      this.httpService.get<T>(`/rest/agile/1.0/board/${this.boardId}/issue`, {
         params: {
           jql,
         },
