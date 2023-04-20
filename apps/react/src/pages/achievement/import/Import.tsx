@@ -5,9 +5,14 @@ import { GetJiraSprints } from "../../../../types/sprint";
 import { UnimportTable } from "./UnimportTable";
 
 export const Import = () => {
-  const { data: currentSprints, isLoading: currentLoading } = useSprints();
+  const {
+    data: currentSprints,
+    isLoading: currentLoading,
+    refetch,
+  } = useSprints();
   const [enabled, setEnabled] = useState(false);
   const [execute, setExecute] = useState(false);
+  const [key, setKey] = useState(0);
   const params: GetJiraSprints = useMemo(() => {
     if (!currentSprints || currentSprints.length === 0) {
       return {
@@ -19,14 +24,17 @@ export const Import = () => {
       state: "closed",
     };
   }, [currentSprints]);
-  const { data, isLoading, refetch } = useJiraSprints(params, enabled);
+  const { data, isLoading } = useJiraSprints(params, enabled);
 
   const handleSubmit = useCallback(() => {
     if (!enabled) {
       setEnabled(true);
+      return;
     }
+    setKey((prev) => prev + 1);
+    setExecute(false);
     refetch();
-  }, [enabled, refetch, setEnabled]);
+  }, [enabled, refetch, setEnabled, setKey]);
 
   return (
     <Container fluid>
@@ -43,6 +51,7 @@ export const Import = () => {
         )}
       </Flex>
       <UnimportTable
+        key={key}
         data={data}
         isLoading={isLoading && enabled}
         execute={execute}

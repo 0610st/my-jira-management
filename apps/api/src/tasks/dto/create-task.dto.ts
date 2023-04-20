@@ -6,14 +6,14 @@ export class CreateTaskDto extends createZodDto(CreateTaskSchema) {
   static fromResponseDto(responseDto: TasksJiraResponseDto): CreateTaskDto[] {
     return responseDto.issues.map((issue) => {
       const { key, fields } = issue;
-      const { assignee, sprint, summary, timespent } = fields;
+      const { assignee, sprint, summary, timespent, timetracking } = fields;
 
       const dto = new CreateTaskDto();
       dto.key = key;
       dto.sprintId = sprint ? sprint.id : null;
       dto.summary = summary;
       dto.assignee = assignee ? assignee.displayName : null;
-      // TODO dto.estimatedTime = estimatedTime;
+      dto.estimatedTime = timetracking.originalEstimateSeconds || null;
       dto.spentTime = timespent;
       return dto;
     });

@@ -58,7 +58,7 @@ export const useStorySummaries = (sprintId?: number) =>
 
 export const useJiraSprints = (params: GetJiraSprints, enabled: boolean) =>
   useQuery<SprintsJiraResponse, Error>(
-    ["jira/sprints"],
+    ["jira/sprints", params.startAt],
     () => getJiraSprints(params),
     {
       staleTime: Infinity,

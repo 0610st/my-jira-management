@@ -17,7 +17,7 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
   const [withTasks, setWithTasks] = useState(true);
   const [withStories, setWithStories] = useState(true);
   const [status, setStatus] = useState<
-    "idle" | "executing" | "success" | "error"
+    "idle" | "executing" | "success" | "error" | "skip"
   >("idle");
   const { mutate: createSprint } = useCreateSprintWithIssuesFromJira({
     onSuccess: () => {
@@ -50,6 +50,10 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
 
   useEffect(() => {
     if (execute && status === "idle") {
+      if (!isImport) {
+        setStatus("skip");
+        return;
+      }
       setStatus("executing");
       const params: CreateSprintWithIssuesFromJira = {
         sprintId: data.id,
@@ -100,6 +104,8 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
           <Text component={Link} to={`/sprint/${data.id}`}>
             成功
           </Text>
+        ) : status === "skip" ? (
+          <Text>Skip</Text>
         ) : (
           <Text>エラー</Text>
         )}
