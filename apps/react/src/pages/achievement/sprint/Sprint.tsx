@@ -1,6 +1,7 @@
 import { Box, Container, Flex } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSprints } from "../../../../api/hooks";
 import { CountGraph } from "./CountGraph";
 import { EstimatedTimeGraph } from "./EstimatedTimeGraph";
 import { SprintSelect } from "./SprintSelect";
@@ -8,13 +9,23 @@ import { StoryPointResult } from "./StoryPointResult";
 import { StoryPointsGraph } from "./StoryPointsGraph";
 
 export const Sprint = () => {
+  const { data: sprints } = useSprints();
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
-  const strSprintId = searchParam.get("sprintId");
+  const strSprintId = useMemo(() => {
+    if (searchParam.has("sprintId")) {
+      return searchParam.get("sprintId");
+    }
+    if (sprints && sprints.length > 0) {
+      return sprints[0].id + "";
+    }
+    return null;
+  }, [searchParam, sprints]);
   const sprintId = Number.isNaN(strSprintId) ? null : Number(strSprintId);
+
   const [count, setCount] = useState(0);
 
-  const handleChanget = useCallback((value: string | null) => {
+  const handleChange = useCallback((value: string | null) => {
     if (value === null) {
       navigate({ search: "" });
     } else {
@@ -31,7 +42,7 @@ export const Sprint = () => {
       <Flex direction="column" gap={16}>
         <Flex justify="flex-end">
           <Box sx={{ width: 300 }}>
-            <SprintSelect value={strSprintId} onChange={handleChanget} />
+            <SprintSelect value={strSprintId} onChange={handleChange} />
           </Box>
         </Flex>
         <Flex display="row" justify="flex-start" wrap="wrap" gap={16}>
