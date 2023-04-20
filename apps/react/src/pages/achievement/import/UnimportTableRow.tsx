@@ -62,7 +62,15 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
       };
       createSprint(params);
     }
-  }, [execute, status]);
+  }, [
+    execute,
+    status,
+    withTasks,
+    withStories,
+    isImport,
+    data.id,
+    createSprint,
+  ]);
 
   return (
     <tr>

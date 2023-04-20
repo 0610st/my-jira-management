@@ -51,16 +51,21 @@ export class SprintsService {
     const createSprintDto = CreateSprintDto.fromResponseDtoSingle(sprint);
     let createTaskDtos: CreateTaskDto[] = [];
     let createStoryDtos: CreateStoryDto[] = [];
-    const searchDto = new JiraSearchDto();
-    searchDto.conditions = [{ key: 'sprint', value: dto.sprintId + '' }];
     if (dto.withTasks) {
-      const taskResponse = await this.jiraService.getJiraTasks(searchDto);
+      const taskResponse = await this.jiraService.getJiraTasks({
+        conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+      });
+      console.log({ taskResponse });
       createTaskDtos = CreateTaskDto.fromResponseDto(taskResponse);
     }
     if (dto.withStories) {
-      const storyResponse = await this.jiraService.getJiraStories(searchDto);
+      const storyResponse = await this.jiraService.getJiraStories({
+        conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+      });
+      console.log({ storyResponse });
       createStoryDtos = CreateStoryDto.fromResponseDto(storyResponse);
     }
+    console.log({ createSprintDto, createTaskDtos, createStoryDtos });
     await this.prismaService.$transaction(
       async (tx) =>
         await Promise.all([

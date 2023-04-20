@@ -56,23 +56,38 @@ export class JiraService {
   }
 
   async getJiraTasks(dto: JiraSearchDto) {
-    dto.conditions.push({ key: 'issuetype', value: TASK_ISSUE_TYPE });
     return this.getBoardIssues<TasksJiraResponseDto>(
-      JiraSearchDto.createJql(dto),
+      JiraSearchDto.createJql({
+        ...dto,
+        conditions: [
+          ...dto.conditions,
+          { key: 'issuetype', value: TASK_ISSUE_TYPE },
+        ],
+      }),
     );
   }
 
   async getJiraStories(dto: JiraSearchDto) {
-    dto.conditions.push({ key: 'issuetype', value: STORY_ISSUE_TYPE });
     return this.getBoardIssues<StoriesJiraResponseDto>(
-      JiraSearchDto.createJql(dto),
+      JiraSearchDto.createJql({
+        ...dto,
+        conditions: [
+          ...dto.conditions,
+          { key: 'issuetype', value: STORY_ISSUE_TYPE },
+        ],
+      }),
     );
   }
 
   async getJiraEpics(dto: JiraSearchDto) {
-    dto.conditions.push({ key: 'issuetype', value: EPIC_ISSUE_TYPE });
     return this.getBoardIssues<EpicsJiraResponseDto>(
-      JiraSearchDto.createJql(dto),
+      JiraSearchDto.createJql({
+        ...dto,
+        conditions: [
+          ...dto.conditions,
+          { key: 'issuetype', value: EPIC_ISSUE_TYPE },
+        ],
+      }),
     );
   }
 
