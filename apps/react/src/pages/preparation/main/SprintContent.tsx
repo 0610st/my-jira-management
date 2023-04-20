@@ -16,8 +16,6 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
     error,
   } = useJiraFutureSprints(enabled);
 
-  console.log(futureSprint);
-
   if (isLoading) {
     return <></>;
   }
