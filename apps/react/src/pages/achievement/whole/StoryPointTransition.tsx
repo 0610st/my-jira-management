@@ -1,5 +1,6 @@
 import { Box, Flex, Skeleton } from "@mantine/core";
 import { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   CartesianGrid,
   Legend,
@@ -9,11 +10,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { useStorySummaries } from "../../../../api/hooks";
 import { StorySummary } from "../../../../types/story";
 
 export const StoryPointTransition = () => {
   const { data: storySummaries } = useStorySummaries();
+  const navigate = useNavigate();
 
   const comp = useCallback((prev: StorySummary, current: StorySummary) => {
     if (prev.sum.storyPoint === null) return false;
@@ -30,6 +33,10 @@ export const StoryPointTransition = () => {
     return max !== null ? max : 0;
   }, [comp, storySummaries]);
 
+  const handleClick = (e: CategoricalChartState) => {
+    navigate(`/achievement/sprint?sprindId=${e.activeLabel}`);
+  };
+
   if (!storySummaries) {
     return <Skeleton width="100%" height={400} />;
   }
@@ -40,6 +47,7 @@ export const StoryPointTransition = () => {
         height={400}
         width={Math.max(storySummaries?.length * 50 + 100, 600)}
         data={storySummaries}
+        onClick={handleClick}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="sprintId" />

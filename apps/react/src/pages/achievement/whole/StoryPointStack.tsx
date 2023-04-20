@@ -1,5 +1,6 @@
 import { Box, Skeleton } from "@mantine/core";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Area,
   AreaChart,
@@ -9,11 +10,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { useStorySummaries } from "../../../../api/hooks";
 import { getAccumulatedSum } from "../../../utils/util";
 
 export const StoryPointStack = () => {
   const { data: storySummaries } = useStorySummaries();
+  const navigate = useNavigate();
 
   const accumulatedPoint = useMemo(() => {
     if (!storySummaries) return [];
@@ -31,6 +34,10 @@ export const StoryPointStack = () => {
     [storySummaries, accumulatedPoint]
   );
 
+  const handleClick = (e: CategoricalChartState) => {
+    navigate(`/achievement/sprint?sprindId=${e.activeLabel}`);
+  };
+
   if (!storySummaries) {
     return <Skeleton width="100%" height={400} />;
   }
@@ -41,6 +48,7 @@ export const StoryPointStack = () => {
         height={400}
         width={Math.max(storySummaries?.length * 50 + 50, 600)}
         data={graphData}
+        onClick={handleClick}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="sprintId" />
