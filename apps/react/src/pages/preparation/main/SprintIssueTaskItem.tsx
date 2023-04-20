@@ -55,6 +55,16 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
   }, [exclude, removeTime, setTime]);
 
   useEffect(() => {
+    const time = task.fields.timetracking.remainingEstimateSeconds
+      ? task.fields.timetracking.remainingEstimateSeconds / 60 / 60
+      : 0;
+    setTime({ key: task.key, time });
+    return () => {
+      removeTime(task.key);
+    };
+  }, [setTime, removeTime, task]);
+
+  useEffect(() => {
     if (execute && status === "idle" && !exclude) {
       setStatus("executing");
       const params: UpdateJiraTaskProps = {

@@ -1,5 +1,6 @@
 import { FC, useEffect } from "react";
 import { useJiraSprintEpics } from "../../../../api/hooks";
+import { useExcludeEpics } from "../../../store/useExcludeEpics";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
 import { SprintIssueItem } from "./SprintIssueItem";
 
@@ -11,6 +12,7 @@ interface Props {
 export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   const { data, isLoading, error } = useJiraSprintEpics(sprintId);
   const setPoint = useNestSprintPoint((state) => state.setPoint);
+  const excludeEpics = useExcludeEpics((state) => state.excludeEpics);
 
   useEffect(() => {
     if (data) {
@@ -30,14 +32,16 @@ export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
 
   return (
     <>
-      {data!.issues.map((epic) => (
-        <SprintIssueItem
-          key={epic.key}
-          epic={epic}
-          execute={execute}
-          sprintId={sprintId}
-        />
-      ))}
+      {data!.issues
+        .filter((epic) => !excludeEpics.includes(epic.key))
+        .map((epic) => (
+          <SprintIssueItem
+            key={epic.key}
+            epic={epic}
+            execute={execute}
+            sprintId={sprintId}
+          />
+        ))}
     </>
   );
 };

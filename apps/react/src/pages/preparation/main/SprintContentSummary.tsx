@@ -5,7 +5,7 @@ import { useNextSprintTime } from "../../../store/useNestSprintTime";
 
 interface Props {}
 
-export const SprintContentSub: FC<Props> = () => {
+export const SprintContentSummary: FC<Props> = () => {
   const points = useNestSprintPoint((state) => state.points);
   const times = useNextSprintTime((state) => state.times);
 

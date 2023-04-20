@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { GetJiraSprintsDto } from 'src/jira/dto/get-sprints.dto';
-import { JiraSearchDto } from 'src/jira/dto/jira-search.dto';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStoryDto } from 'src/stories/dto/create-story.dto';

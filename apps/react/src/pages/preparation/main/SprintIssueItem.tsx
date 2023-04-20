@@ -58,7 +58,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
   }, [execute, status]);
 
   return (
-    <Paper shadow="md" radius="xs" p="md" mb={8}>
+    <Paper id={epic.key} shadow="md" radius="xs" p="md" mb={8}>
       <Flex direction="column" sx={{ gap: 4 }}>
         <Text c="dimmed" fz="sm">
           {epic.key}

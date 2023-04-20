@@ -1,7 +1,8 @@
 import { Box, Flex, Text } from "@mantine/core";
 import { FC } from "react";
 import { useJiraFutureSprints } from "../../../../api/hooks";
-import { SprintContentSub } from "./SprintContentSub";
+import { SprintContentSummary } from "./SprintContentSummary";
+import { SprintEpicSelectContainer } from "./SprintEpicSelectContainer";
 import { SprintIssues } from "./SprintIssues";
 
 interface Props {
@@ -37,7 +38,10 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
       <Box w={300}>
         <Text fz="lg">{futureSprint.values[0].name}</Text>
         <Box mt={8}>
-          <SprintContentSub />
+          <SprintContentSummary />
+        </Box>
+        <Box mt={8}>
+          <SprintEpicSelectContainer sprintId={futureSprint.values[0].id} />
         </Box>
       </Box>
       <Box sx={{ flex: 1 }} miw={700}>

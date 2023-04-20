@@ -68,6 +68,13 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
   };
 
   useEffect(() => {
+    setTime({ key: `ADD-${epicKey}-${index}`, time: item.estimatedHour });
+    return () => {
+      removeTime(`ADD-${epicKey}-${index}`);
+    };
+  }, [setTime, removeTime]);
+
+  useEffect(() => {
     if (deleted) {
       removeTime(`ADD-${epicKey}-${index}`);
     } else {

@@ -2,6 +2,7 @@ import { Loader } from "@mantine/core";
 import { FC, useEffect } from "react";
 import { useJiraEpicTasks } from "../../../../api/hooks";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
+import { useTempTaskEpics } from "../../../store/useTempTaskEpics";
 import { useTempTaskItems } from "../../../store/useTempTaskItems";
 import { SprintIssueNewTaskItem } from "./SprintIssueNewTaskItem";
 import { SprintIssueTaskItem } from "./SprintIssueTaskItem";
@@ -20,6 +21,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
   const { data, isLoading, error } = useJiraEpicTasks(epicKey);
   const tempItems = useTempTaskItems((state) => state.items);
   const setTime = useNextSprintTime((state) => state.setTime);
+  const tempTaskEpics = useTempTaskEpics((state) => state.tempTaskEpics);
 
   useEffect(() => {
     if (data) {
@@ -63,18 +65,19 @@ export const SprintIssueTaskBody: FC<Props> = ({
           sprintId={sprintId}
         />
       ))}
-      {tempItems
-        .filter((item) => !item.deleted)
-        .map((item, index) => (
-          <SprintIssueNewTaskItem
-            key={index}
-            index={index}
-            initalItem={item}
-            execute={execute}
-            sprintId={sprintId}
-            epicKey={epicKey}
-          />
-        ))}
+      {tempTaskEpics.includes(epicKey) &&
+        tempItems
+          .filter((item) => !item.deleted)
+          .map((item, index) => (
+            <SprintIssueNewTaskItem
+              key={index}
+              index={index}
+              initalItem={item}
+              execute={execute}
+              sprintId={sprintId}
+              epicKey={epicKey}
+            />
+          ))}
     </>
   );
 };
