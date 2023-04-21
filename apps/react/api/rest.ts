@@ -93,13 +93,17 @@ export const getJiraSprintEpics = async (sprintId: number, open?: boolean) => {
     conditions: [{ key: "sprint", value: sprintId + "" }],
   };
   if (open) {
-    params.open = true;
+    params.conditions.push({
+      key: "status",
+      value: "Done",
+      operator: "not in",
+    });
   }
+
   const res = await axios.post<EpicsJiraResponse>(
     `${import.meta.env.VITE_API_URL}/jira/epics`,
     params
   );
-
   return res.data;
 };
 
@@ -107,10 +111,14 @@ export const getJiraEpicTasks = async (epicKey: string, open?: boolean) => {
   const params: JiraSearch = {
     conditions: [{ key: "parent", value: epicKey }],
   };
-
   if (open) {
-    params.open = true;
+    params.conditions.push({
+      key: "status",
+      value: "Done",
+      operator: "not in",
+    });
   }
+
   const res = await axios.post<TasksJiraResponse>(
     `${import.meta.env.VITE_API_URL}/jira/tasks/search`,
     params

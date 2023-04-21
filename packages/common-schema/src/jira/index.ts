@@ -7,4 +7,5 @@ export {
   JiraTaskUpdateSchema,
   JiraTaskCreateSchema,
   JiraEpicUpdateSchema,
+  JiraSearchConditionSchema,
 } from "./jira.schema";

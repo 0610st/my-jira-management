@@ -29,9 +29,14 @@ export const ImportJiraSprintResultSchema = z.object({
   withStories: z.boolean(),
 });
 
+export const JiraSearchConditionSchema = z.object({
+  key: z.string(),
+  value: z.string(),
+  operator: z.string().optional(),
+});
+
 export const JiraSearchSchema = z.object({
-  conditions: z.array(z.object({ key: z.string(), value: z.string() })),
-  open: z.boolean().optional(),
+  conditions: z.array(JiraSearchConditionSchema),
   startAt: z.number().optional(),
 });
 
