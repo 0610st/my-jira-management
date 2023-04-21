@@ -33,11 +33,12 @@ export const SprintIssueTaskBody: FC<Props> = ({
           : 0;
         setTime({
           key: task.key,
+          parent: epicKey,
           time,
         });
       });
     }
-  }, [setTime, data]);
+  }, [setTime, data, epicKey]);
 
   if (isLoading) {
     return (
@@ -63,6 +64,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
         <SprintIssueTaskItem
           key={task.key}
           task={task}
+          epicKey={epicKey}
           execute={execute}
           sprintId={sprintId}
         />

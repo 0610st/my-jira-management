@@ -11,11 +11,17 @@ interface Props {
     key: string;
     fields: TaskIssue;
   };
+  epicKey: string;
   execute: boolean;
   sprintId: number;
 }
 
-export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
+export const SprintIssueTaskItem: FC<Props> = ({
+  task,
+  epicKey,
+  execute,
+  sprintId,
+}) => {
   const [exclude, setExclude] = useState(false);
   const taskLabels = useTaskLabels((state) => state.taskLabels);
   const [labels, setLabels] = useState(
@@ -46,6 +52,7 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
         : 0;
       setTime({
         key: task.key,
+        parent: epicKey,
         time,
       });
     } else {
@@ -58,7 +65,7 @@ export const SprintIssueTaskItem: FC<Props> = ({ task, execute, sprintId }) => {
     const time = task.fields.timetracking.remainingEstimateSeconds
       ? task.fields.timetracking.remainingEstimateSeconds / 60 / 60
       : 0;
-    setTime({ key: task.key, time });
+    setTime({ key: task.key, parent: epicKey, time });
     return () => {
       removeTime(task.key);
     };

@@ -68,17 +68,25 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
   };
 
   useEffect(() => {
-    setTime({ key: `ADD-${epicKey}-${index}`, time: item.estimatedHour });
+    setTime({
+      key: `ADD-${epicKey}-${index}`,
+      parent: epicKey,
+      time: item.estimatedHour,
+    });
     return () => {
       removeTime(`ADD-${epicKey}-${index}`);
     };
-  }, [setTime, removeTime]);
+  }, [setTime, removeTime, epicKey]);
 
   useEffect(() => {
     if (deleted) {
       removeTime(`ADD-${epicKey}-${index}`);
     } else {
-      setTime({ key: `ADD-${epicKey}-${index}`, time: item.estimatedHour });
+      setTime({
+        key: `ADD-${epicKey}-${index}`,
+        parent: epicKey,
+        time: item.estimatedHour,
+      });
     }
   }, [deleted, item, removeTime, setTime, epicKey, index]);
 

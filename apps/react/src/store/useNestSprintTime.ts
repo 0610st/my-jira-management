@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
 interface useNestSprintTimeProps {
-  times: { key: string; time: number }[];
-  setTime: (record: { key: string; time: number }) => void;
+  times: { key: string; parent: string; time: number }[];
+  setTime: (record: { key: string; parent: string; time: number }) => void;
   removeTime: (key: string) => void;
   reset: () => void;
 }
 
 export const useNextSprintTime = create<useNestSprintTimeProps>((set, get) => ({
   times: [],
-  setTime: (record: { key: string; time: number }) =>
+  setTime: (record: { key: string; parent: string; time: number }) =>
     set((state) => {
       const filteredItems = state.times.filter(
         (item) => item.key !== record.key

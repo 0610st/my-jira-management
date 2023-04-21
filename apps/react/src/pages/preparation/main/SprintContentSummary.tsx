@@ -39,10 +39,10 @@ export const SprintContentSummary: FC<Props> = () => {
     <List>
       <List.Item>{`合計ポイント: ${pointSum} pt`}</List.Item>
       <List.Item>
-        {`合計予定時間: ${timeSum} H`}
+        {`合計予定時間: ${timeSum} h`}
         <List withPadding>
-          <List.Item>{`登録済みタスク: ${timeSumRegistered} H`}</List.Item>
-          <List.Item>{`追加タスク: ${timeSumAdd} H`}</List.Item>
+          <List.Item>{`登録済みタスク: ${timeSumRegistered} h`}</List.Item>
+          <List.Item>{`追加タスク: ${timeSumAdd} h`}</List.Item>
         </List>
       </List.Item>
     </List>

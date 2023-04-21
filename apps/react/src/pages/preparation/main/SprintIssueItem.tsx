@@ -8,9 +8,10 @@ import {
   Table,
   Text,
 } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../../api/hooks";
 import { EpicIssue } from "../../../../types/epic";
+import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
 
@@ -43,6 +44,13 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
       setStatus("error");
     },
   });
+  const times = useNextSprintTime((state) => state.times);
+
+  const timeSum = useMemo(() => {
+    return times
+      .filter((time) => time.parent === epic.key)
+      .reduce((sum, time) => sum + time.time, 0);
+  }, [times]);
 
   useEffect(() => {
     if (execute && status === "idle") {
@@ -64,55 +72,62 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
           {epic.key}
         </Text>
         <Text fz="lg">{epic.fields.summary}</Text>
-        <Flex maw={600} align="flex-end" sx={{ gap: 6 }}>
-          <Box>
-            <MultiSelect
-              label="ラベル"
-              data={labelData}
-              value={labels}
-              searchable
-              creatable
-              clearable
-              getCreateLabel={(query) => `+ Create ${query}`}
-              onCreate={(query) => {
-                const item = { value: query, label: query };
-                setLabelData((current) => [...current, item]);
-                return item;
-              }}
-              onChange={(value) => setLabels(value)}
-            />
-          </Box>
-          <Box w={150}>
-            {status === "idle" ? (
-              <></>
-            ) : status === "executing" ? (
-              <Flex align="center">
-                <Loader size="xs" />
-                <Text>更新中...</Text>
-              </Flex>
-            ) : status === "success" ? (
-              <Text>成功</Text>
-            ) : (
-              <Text>エラー</Text>
-            )}
-          </Box>
+        <Flex wrap="wrap" align="center">
+          <Flex align="center">
+            <Box w={300} my={32}>
+              <Slider
+                labelAlwaysOn
+                marks={[
+                  { value: 1, label: "1" },
+                  { value: 2, label: "2" },
+                  { value: 3, label: "3" },
+                  { value: 5, label: "5" },
+                  { value: 8, label: "8" },
+                  { value: 13, label: "13" },
+                  { value: 21, label: "21" },
+                ]}
+                max={25}
+                value={epic.fields.customfield_10016 || undefined}
+              />
+            </Box>
+            <Text ml={24} fz="xl" w={100}>
+              {timeSum} h
+            </Text>
+          </Flex>
+          <Flex miw={300} align="center" sx={{ gap: 6 }}>
+            <Box>
+              <MultiSelect
+                label="ラベル"
+                data={labelData}
+                value={labels}
+                searchable
+                creatable
+                clearable
+                getCreateLabel={(query) => `+ Create ${query}`}
+                onCreate={(query) => {
+                  const item = { value: query, label: query };
+                  setLabelData((current) => [...current, item]);
+                  return item;
+                }}
+                onChange={(value) => setLabels(value)}
+              />
+            </Box>
+            <Box w={100}>
+              {status === "idle" ? (
+                <></>
+              ) : status === "executing" ? (
+                <Flex align="center">
+                  <Loader size="xs" />
+                  <Text>更新中...</Text>
+                </Flex>
+              ) : status === "success" ? (
+                <Text>成功</Text>
+              ) : (
+                <Text>エラー</Text>
+              )}
+            </Box>
+          </Flex>
         </Flex>
-        <Box w={400} my={32}>
-          <Slider
-            labelAlwaysOn
-            marks={[
-              { value: 1, label: "1" },
-              { value: 2, label: "2" },
-              { value: 3, label: "3" },
-              { value: 5, label: "5" },
-              { value: 8, label: "8" },
-              { value: 13, label: "13" },
-              { value: 21, label: "21" },
-            ]}
-            max={25}
-            value={epic.fields.customfield_10016 || undefined}
-          />
-        </Box>
       </Flex>
       <Flex direction="column">
         <Table>
