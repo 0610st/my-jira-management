@@ -13,6 +13,8 @@ import { CreateSprintDto } from './dto/create-sprint.dto';
 import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintSummaryDto } from './dto/sprint-summary.dto';
 
+const JIRA_FINISH_STATUS = '完了,Done';
+
 @Injectable()
 export class SprintsService {
   constructor(
@@ -56,7 +58,10 @@ export class SprintsService {
       let taskTotal = 0;
       do {
         const taskResponse = await this.jiraService.getJiraTasks({
-          conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+          conditions: [
+            { key: 'sprint', value: dto.sprintId + '' },
+            { key: 'status', value: JIRA_FINISH_STATUS, operator: 'in' },
+          ],
           startAt: taskStartAt,
         });
         taskStartAt += taskResponse.issues.length;
@@ -69,7 +74,10 @@ export class SprintsService {
       let storyTotal = 0;
       do {
         const storyResponse = await this.jiraService.getJiraStories({
-          conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+          conditions: [
+            { key: 'sprint', value: dto.sprintId + '' },
+            { key: 'status', value: JIRA_FINISH_STATUS, operator: 'in' },
+          ],
           startAt: storyStartAt,
         });
         storyStartAt += storyResponse.issues.length;
