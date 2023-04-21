@@ -20,7 +20,7 @@ export const Import = () => {
       };
     }
     return {
-      startAt: currentSprints[0].id + "",
+      startAt: currentSprints.length,
       state: "closed",
     };
   }, [currentSprints]);

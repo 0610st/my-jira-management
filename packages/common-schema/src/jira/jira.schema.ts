@@ -15,7 +15,7 @@ export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
   });
 
 export const GetJiraSprintsSchema = z.object({
-  startAt: z.string().optional(),
+  startAt: z.number().optional(),
   state: SprintStateSchema.optional(),
 });
 
@@ -32,6 +32,7 @@ export const ImportJiraSprintResultSchema = z.object({
 export const JiraSearchSchema = z.object({
   conditions: z.array(z.object({ key: z.string(), value: z.string() })),
   open: z.boolean().optional(),
+  startAt: z.number().optional(),
 });
 
 export const JiraTaskUpdateSchema = z.object({

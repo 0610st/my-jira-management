@@ -48,20 +48,36 @@ export class SprintsService {
   async createSprintWithIssuesFromJira(dto: CreateSprintWithIssuesFromJiraDto) {
     const sprint = await this.jiraService.getJiraSprint(dto.sprintId);
     const createSprintDto = CreateSprintDto.fromResponseDtoSingle(sprint);
-    let createTaskDtos: CreateTaskDto[] = [];
-    let createStoryDtos: CreateStoryDto[] = [];
+
+    const createTaskDtos: CreateTaskDto[] = [];
+    const createStoryDtos: CreateStoryDto[] = [];
     if (dto.withTasks) {
-      const taskResponse = await this.jiraService.getJiraTasks({
-        conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
-      });
-      createTaskDtos = CreateTaskDto.fromResponseDto(taskResponse);
+      let taskStartAt = 0;
+      let taskTotal = 0;
+      do {
+        const taskResponse = await this.jiraService.getJiraTasks({
+          conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+          startAt: taskStartAt,
+        });
+        taskStartAt += taskResponse.issues.length;
+        taskTotal = taskResponse.total;
+        createTaskDtos.push(...CreateTaskDto.fromResponseDto(taskResponse));
+      } while (taskTotal === createTaskDtos.length);
     }
     if (dto.withStories) {
-      const storyResponse = await this.jiraService.getJiraStories({
-        conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
-      });
-      createStoryDtos = CreateStoryDto.fromResponseDto(storyResponse);
+      let storyStartAt = 0;
+      let storyTotal = 0;
+      do {
+        const storyResponse = await this.jiraService.getJiraStories({
+          conditions: [{ key: 'sprint', value: dto.sprintId + '' }],
+          startAt: storyStartAt,
+        });
+        storyStartAt += storyResponse.issues.length;
+        storyTotal = storyResponse.total;
+        createStoryDtos.push(...CreateStoryDto.fromResponseDto(storyResponse));
+      } while (storyTotal === createTaskDtos.length);
     }
+
     await this.prismaService.$transaction(
       async (tx) =>
         await Promise.all([
@@ -73,24 +89,47 @@ export class SprintsService {
               endDate: createSprintDto.endDate,
             },
           }),
-          tx.task.createMany({
-            data: createTaskDtos.map((dto) => ({
-              key: dto.key,
-              summary: dto.summary,
-              assignee: dto.assignee,
-              estimatedTime: dto.estimatedTime,
-              spentTime: dto.spentTime,
-              sprintId: createSprintDto.id,
-            })),
-          }),
-          tx.story.createMany({
-            data: createStoryDtos.map((dto) => ({
-              key: dto.key,
-              summary: dto.summary,
-              storyPoint: dto.storyPoint,
-              sprintId: createSprintDto.id,
-            })),
-          }),
+          ...createTaskDtos.map((dto) =>
+            tx.task.upsert({
+              where: {
+                key: dto.key,
+              },
+              create: {
+                key: dto.key,
+                summary: dto.summary,
+                assignee: dto.assignee,
+                estimatedTime: dto.estimatedTime,
+                spentTime: dto.spentTime,
+                sprintId: createSprintDto.id,
+              },
+              update: {
+                key: dto.key,
+                summary: dto.summary,
+                assignee: dto.assignee,
+                estimatedTime: dto.estimatedTime,
+                spentTime: dto.spentTime,
+                sprintId: createSprintDto.id,
+              },
+            }),
+          ),
+          ...createStoryDtos.map((dto) =>
+            tx.story.upsert({
+              where: {
+                key: dto.key,
+              },
+              create: {
+                key: dto.key,
+                summary: dto.summary,
+                storyPoint: dto.storyPoint,
+                sprintId: createSprintDto.id,
+              },
+              update: {
+                summary: dto.summary,
+                storyPoint: dto.storyPoint,
+                sprintId: createSprintDto.id,
+              },
+            }),
+          ),
         ]),
     );
   }

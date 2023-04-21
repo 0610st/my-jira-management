@@ -7,7 +7,7 @@ export class GetJiraSprintsDto extends createZodDto(GetJiraSprintsSchema) {
     dto: CreataSprintsFromJiraDto,
   ): GetJiraSprintsDto {
     return {
-      startAt: dto.startAt ? dto.startAt + '' : undefined,
+      startAt: dto.startAt,
       state: dto.state,
     };
   }
