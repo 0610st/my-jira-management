@@ -13,7 +13,7 @@ import { CreateSprintDto } from './dto/create-sprint.dto';
 import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintSummaryDto } from './dto/sprint-summary.dto';
 
-const JIRA_FINISH_STATUS = '完了,Done';
+const JIRA_FINISH_STATUS = 'Done';
 
 @Injectable()
 export class SprintsService {

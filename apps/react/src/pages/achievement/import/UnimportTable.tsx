@@ -23,10 +23,9 @@ const TableBase = ({ children }: { children: ReactNode }) => {
 interface Props {
   data?: SprintsJiraResponse;
   isLoading: boolean;
-  execute: boolean;
 }
 
-export const UnimportTable: FC<Props> = ({ data, isLoading, execute }) => {
+export const UnimportTable: FC<Props> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
       <TableBase>
@@ -42,7 +41,7 @@ export const UnimportTable: FC<Props> = ({ data, isLoading, execute }) => {
   return (
     <TableBase>
       {data?.values.map((value) => (
-        <UnimportTableRow key={value.id} data={value} execute={execute} />
+        <UnimportTableRow key={value.id} data={value} />
       ))}
     </TableBase>
   );

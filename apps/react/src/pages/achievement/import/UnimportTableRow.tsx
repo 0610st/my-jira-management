@@ -6,13 +6,13 @@ import {
   CreateSprintWithIssuesFromJira,
   SprintValue,
 } from "../../../../types/sprint";
+import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 
 interface Props {
   data: SprintValue;
-  execute: boolean;
 }
 
-export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
+export const UnimportTableRow: FC<Props> = ({ data }) => {
   const [isImport, setIsImport] = useState(true);
   const [withTasks, setWithTasks] = useState(true);
   const [withStories, setWithStories] = useState(true);
@@ -22,12 +22,15 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
   const { mutate: createSprint } = useCreateSprintWithIssuesFromJira({
     onSuccess: () => {
       setStatus("success");
+      nextStep();
     },
     onError: (error) => {
       console.error(error);
       setStatus("error");
     },
   });
+  const currentId = useSprintImportPipe((state) => state.currentId);
+  const nextStep = useSprintImportPipe((state) => state.nextStep);
 
   const handleSprintChange = () => {
     setIsImport(!isImport);
@@ -49,9 +52,10 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
   }, [isImport]);
 
   useEffect(() => {
-    if (execute && status === "idle") {
+    if (currentId === data.id && status === "idle") {
       if (!isImport) {
         setStatus("skip");
+        nextStep();
         return;
       }
       setStatus("executing");
@@ -63,7 +67,8 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
       createSprint(params);
     }
   }, [
-    execute,
+    currentId,
+    nextStep,
     status,
     withTasks,
     withStories,
@@ -86,21 +91,21 @@ export const UnimportTableRow: FC<Props> = ({ data, execute }) => {
               offLabel="sprint"
               checked={isImport}
               onChange={handleSprintChange}
-              disabled={execute}
+              disabled={currentId !== null}
             />
             <Switch
               onLabel="tasks"
               offLabel="tasks"
               checked={withTasks}
               onChange={handleTasksChange}
-              disabled={execute}
+              disabled={currentId !== null}
             />
             <Switch
               onLabel="stories"
               offLabel="stories"
               checked={withStories}
               onChange={handleStoriesChange}
-              disabled={execute}
+              disabled={currentId !== null}
             />
           </Flex>
         ) : status === "executing" ? (

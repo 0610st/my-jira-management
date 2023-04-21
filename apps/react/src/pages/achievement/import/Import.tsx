@@ -1,7 +1,8 @@
 import { Box, Button, Container, Flex } from "@mantine/core";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useJiraSprints, useSprints } from "../../../../api/hooks";
 import { GetJiraSprints } from "../../../../types/sprint";
+import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 import { UnimportTable } from "./UnimportTable";
 
 export const Import = () => {
@@ -11,7 +12,6 @@ export const Import = () => {
     refetch,
   } = useSprints();
   const [enabled, setEnabled] = useState(false);
-  const [execute, setExecute] = useState(false);
   const [key, setKey] = useState(0);
   const params: GetJiraSprints = useMemo(() => {
     if (!currentSprints || currentSprints.length === 0) {
@@ -25,6 +25,10 @@ export const Import = () => {
     };
   }, [currentSprints]);
   const { data, isLoading } = useJiraSprints(params, enabled);
+  const resetStep = useSprintImportPipe((state) => state.resetStep);
+  const startStep = useSprintImportPipe((state) => state.startStep);
+  const setSprintIds = useSprintImportPipe((state) => state.setSprintIds);
+  const currentId = useSprintImportPipe((state) => state.currentId);
 
   const handleSubmit = useCallback(() => {
     if (!enabled) {
@@ -32,9 +36,20 @@ export const Import = () => {
       return;
     }
     setKey((prev) => prev + 1);
-    setExecute(false);
     refetch();
   }, [enabled, refetch, setEnabled, setKey]);
+
+  useEffect(() => {
+    return () => {
+      resetStep();
+    };
+  }, [resetStep]);
+
+  useEffect(() => {
+    if (data) {
+      setSprintIds(data.values.map((d) => d.id));
+    }
+  }, [data, setSprintIds]);
 
   return (
     <Container fluid>
@@ -46,16 +61,13 @@ export const Import = () => {
         </Box>
         {enabled && (
           <Box>
-            <Button onClick={() => setExecute(true)}>取込実行</Button>
+            <Button onClick={() => startStep()} disabled={currentId !== null}>
+              取込実行
+            </Button>
           </Box>
         )}
       </Flex>
-      <UnimportTable
-        key={key}
-        data={data}
-        isLoading={isLoading && enabled}
-        execute={execute}
-      />
+      <UnimportTable key={key} data={data} isLoading={isLoading && enabled} />
     </Container>
   );
 };
