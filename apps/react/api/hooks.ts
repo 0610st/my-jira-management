@@ -39,8 +39,11 @@ export const useSprintSummary = (sprintId: number, enabled: boolean) =>
     { staleTime: Infinity, enabled }
   );
 
-export const useTasks = (sprintId?: number) =>
-  useQuery<Task[], Error>(["tasks", sprintId], () => getTasks(sprintId));
+export const useTasks = (sprintId: number | undefined, enabled: boolean) =>
+  useQuery<Task[], Error>(["tasks", sprintId], () => getTasks(sprintId), {
+    staleTime: Infinity,
+    enabled,
+  });
 
 export const useTaskSummaries = (sprintId?: number) =>
   useQuery<TaskSummary[], Error>(["tasks/summaries", sprintId], () =>

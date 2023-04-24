@@ -7,6 +7,7 @@ import { EstimatedTimeGraph } from "./EstimatedTimeGraph";
 import { SprintSelect } from "./SprintSelect";
 import { StoryPointResult } from "./StoryPointResult";
 import { StoryPointsGraph } from "./StoryPointsGraph";
+import { SprintTasks } from "./SprintTasks";
 
 export const Sprint = () => {
   const { data: sprints } = useSprints();
@@ -59,6 +60,9 @@ export const Sprint = () => {
             <EstimatedTimeGraph sprintId={sprintId} width={400} height={300} />
             <CountGraph sprintId={sprintId} width={400} height={300} />
           </Flex>
+        </Flex>
+        <Flex>
+          <SprintTasks sprintId={sprintId} />
         </Flex>
       </Flex>
     </Container>
