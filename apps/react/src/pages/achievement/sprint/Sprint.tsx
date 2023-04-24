@@ -40,7 +40,7 @@ export const Sprint = () => {
   return (
     <Container fluid>
       <Flex direction="column" gap={16}>
-        <Flex justify="flex-end">
+        <Flex justify="flex-start">
           <Box sx={{ width: 300 }}>
             <SprintSelect value={strSprintId} onChange={handleChange} />
           </Box>

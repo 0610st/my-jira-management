@@ -46,7 +46,7 @@ export const StoryPointStack = () => {
     <Box sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }}>
       <AreaChart
         height={400}
-        width={Math.max(storySummaries?.length * 50 + 50, 600)}
+        width={Math.max(storySummaries?.length * 50 + 100, 600)}
         data={graphData}
         onClick={handleClick}
       >
