@@ -67,7 +67,7 @@ export class SprintsService {
         taskStartAt += taskResponse.issues.length;
         taskTotal = taskResponse.total;
         createTaskDtos.push(...CreateTaskDto.fromResponseDto(taskResponse));
-      } while (taskTotal === createTaskDtos.length);
+      } while (taskTotal > createTaskDtos.length);
     }
     if (dto.withStories) {
       let storyStartAt = 0;
@@ -83,7 +83,7 @@ export class SprintsService {
         storyStartAt += storyResponse.issues.length;
         storyTotal = storyResponse.total;
         createStoryDtos.push(...CreateStoryDto.fromResponseDto(storyResponse));
-      } while (storyTotal === createTaskDtos.length);
+      } while (storyTotal > createStoryDtos.length);
     }
 
     await this.prismaService.$transaction(

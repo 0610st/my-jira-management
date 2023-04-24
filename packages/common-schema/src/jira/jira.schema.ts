@@ -37,7 +37,7 @@ export const JiraSearchConditionSchema = z.object({
 
 export const JiraSearchSchema = z.object({
   conditions: z.array(JiraSearchConditionSchema),
-  startAt: z.union([z.string(), z.string()]).optional(),
+  startAt: z.union([z.string(), z.number()]).optional(),
 });
 
 export const JiraTaskUpdateSchema = z.object({

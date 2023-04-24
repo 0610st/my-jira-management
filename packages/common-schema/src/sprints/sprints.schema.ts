@@ -26,7 +26,7 @@ export const CreateSprintSchema = z.object({
 }) satisfies z.ZodType<Prisma.SprintCreateInput>;
 
 export const CreateSprintsFromJiraSchema = z.object({
-  startAt: z.union([z.string(), z.string()]).optional(),
+  startAt: z.union([z.string(), z.number()]).optional(),
   state: SprintStateSchema.optional(),
 });
 
