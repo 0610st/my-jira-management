@@ -18,7 +18,7 @@
     "db:initialize": "npm run db:push && npm run db:seed",
     "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",

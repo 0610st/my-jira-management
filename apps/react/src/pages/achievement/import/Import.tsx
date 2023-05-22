@@ -37,7 +37,7 @@ export const Import = () => {
     }
     setKey((prev) => prev + 1);
     refetch();
-  }, [enabled, refetch, setEnabled, setKey]);
+  }, [enabled, refetch]);
 
   useEffect(() => {
     return () => {
