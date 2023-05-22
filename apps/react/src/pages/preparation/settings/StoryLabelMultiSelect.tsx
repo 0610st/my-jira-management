@@ -7,7 +7,7 @@ export const StoryLabelMultiSelect = () => {
   const setStoryLabels = useStoryLabels((state) => state.setStoryLabels);
   const [storyItems, setStoryItems] = useState(
     storyLabels.map((label) => ({
-      label: label,
+      label,
       value: label,
     }))
   );

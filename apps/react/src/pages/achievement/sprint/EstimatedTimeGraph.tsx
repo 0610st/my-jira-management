@@ -27,9 +27,7 @@ export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
     return <Skeleton width={width} height={height} />;
   }
 
-  const getValue = (data: TaskSummary) => {
-    return (data.sum.estimatedTime || 0) / 3600;
-  };
+  const getValue = (data: TaskSummary) => (data.sum.estimatedTime || 0) / 3600;
 
   return (
     <BarChart width={width} height={height} data={sprintSummary.taskSummaries}>

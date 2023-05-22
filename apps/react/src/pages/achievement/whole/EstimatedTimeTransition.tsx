@@ -50,28 +50,27 @@ export const EstimatedTimeTransition = () => {
           const task = tasks.find((task) => task.assignee === assignee);
           return {
             ...acc,
-            [assignee + ""]: task?.sum.estimatedTime || 0,
+            [`${assignee}`]: task?.sum.estimatedTime || 0,
           };
         }, {}),
       };
     });
     const assigneegetAccumulatedTime = assignees.map((assignee) => {
-      const key = assignee + "";
+      const key = `${assignee}`;
       const times = sprintsAssigneeTime.map((sprint) => sprint[key]);
       return getAccumulatedSum(times);
     });
-    return sprintIds.map((sprintId, sprintIndex) => {
-      return {
-        sprintId,
-        ...assignees.reduce((acc, assignee, index) => {
-          return {
-            ...acc,
-            [assignee + ""]:
-              assigneegetAccumulatedTime[index][sprintIndex] / 3600,
-          };
-        }, {}),
-      };
-    });
+    return sprintIds.map((sprintId, sprintIndex) => ({
+      sprintId,
+      ...assignees.reduce(
+        (acc, assignee, index) => ({
+          ...acc,
+          [`${assignee}`]:
+            assigneegetAccumulatedTime[index][sprintIndex] / 3600,
+        }),
+        {}
+      ),
+    }));
   }, [assignees, taskSummaries]);
 
   const handleClick = (e: CategoricalChartState) => {
@@ -95,17 +94,15 @@ export const EstimatedTimeTransition = () => {
         <YAxis unit="h" />
         <Tooltip />
         <Legend />
-        {assignees.map((assignee, index) => {
-          return (
-            <Line
-              key={assignee}
-              type="monotone"
-              unit="h"
-              dataKey={assignee + ""}
-              stroke={barColors[index % 10]}
-            />
-          );
-        })}
+        {assignees.map((assignee, index) => (
+          <Line
+            key={assignee}
+            type="monotone"
+            unit="h"
+            dataKey={`${assignee}`}
+            stroke={barColors[index % 10]}
+          />
+        ))}
       </LineChart>
     </Box>
   );

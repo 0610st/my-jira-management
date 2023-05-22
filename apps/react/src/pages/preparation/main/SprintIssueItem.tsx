@@ -30,7 +30,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
     Array.from(new Set([...epic.fields.labels, ...storyLabels]))
   );
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label: label, value: label }))
+    labels.map((label) => ({ label, value: label }))
   );
   const [status, setStatus] = useState<
     "idle" | "executing" | "success" | "error"
@@ -46,11 +46,13 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
   });
   const times = useNextSprintTime((state) => state.times);
 
-  const timeSum = useMemo(() => {
-    return times
-      .filter((time) => time.parent === epic.key)
-      .reduce((sum, time) => sum + time.time, 0);
-  }, [times]);
+  const timeSum = useMemo(
+    () =>
+      times
+        .filter((time) => time.parent === epic.key)
+        .reduce((sum, time) => sum + time.time, 0),
+    [times]
+  );
 
   useEffect(() => {
     if (execute && status === "idle") {
@@ -58,7 +60,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
       const params: UpdateJiraEpicProps = {
         key: epic.key,
         body: {
-          labels: labels,
+          labels,
         },
       };
       updateEpic(params);
@@ -138,7 +140,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
               <th style={{ width: 300 }}>タスク名</th>
               <th style={{ width: 100 }}>見積h</th>
               <th>ラベル</th>
-              <th style={{ width: 100 }}></th>
+              <th style={{ width: 100 }} />
             </tr>
           </thead>
           <tbody>

@@ -90,7 +90,7 @@ export const createSprintWithIssuesFromJira = async (
 
 export const getJiraSprintEpics = async (sprintId: number, open?: boolean) => {
   const params: JiraSearch = {
-    conditions: [{ key: "sprint", value: sprintId + "" }],
+    conditions: [{ key: "sprint", value: `${sprintId}` }],
   };
   if (open) {
     params.conditions.push({

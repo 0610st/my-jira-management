@@ -33,7 +33,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   const [estimatedHourError, setEstimatedHourError] = useState("");
   const [labels, setLabels] = useState([...initialItem.labels]);
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label: label, value: label }))
+    labels.map((label) => ({ label, value: label }))
   );
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   return (
     <tr>
       <td>追加</td>
-      <td></td>
+      <td />
       <td>
         <Box>
           <TextInput

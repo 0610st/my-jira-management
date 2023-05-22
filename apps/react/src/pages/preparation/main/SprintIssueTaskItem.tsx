@@ -28,7 +28,7 @@ export const SprintIssueTaskItem: FC<Props> = ({
     Array.from(new Set([...task.fields.labels, ...taskLabels]))
   );
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label: label, value: label }))
+    labels.map((label) => ({ label, value: label }))
   );
   const [status, setStatus] = useState<
     "idle" | "executing" | "success" | "error"
@@ -77,8 +77,8 @@ export const SprintIssueTaskItem: FC<Props> = ({
       const params: UpdateJiraTaskProps = {
         key: task.key,
         body: {
-          sprintId: sprintId,
-          labels: labels,
+          sprintId,
+          labels,
         },
       };
       updateTask(params);

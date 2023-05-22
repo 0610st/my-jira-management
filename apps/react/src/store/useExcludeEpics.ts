@@ -22,9 +22,8 @@ export const useExcludeEpics = create<Props>((set) => ({
     set((state) => {
       if (state.excludeEpics.includes(epic)) {
         return { excludeEpics: state.excludeEpics.filter((e) => e !== epic) };
-      } else {
-        return { excludeEpics: [...state.excludeEpics, epic] };
       }
+      return { excludeEpics: [...state.excludeEpics, epic] };
     }),
   reset: () => set({ excludeEpics: [] }),
 }));

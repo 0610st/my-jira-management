@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTasks } from "../../../../api/hooks";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
+import { useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
 
 interface Props {

@@ -101,7 +101,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
       const params: JiraTaskCreate = {
         estimatedTime: item.estimatedHour,
         name: item.name,
-        sprintId: sprintId,
+        sprintId,
         labels: item.labels,
         parentKey: epicKey,
       };
@@ -135,7 +135,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
       <td>
         <Text strikethrough={deleted}>追加</Text>
       </td>
-      <td></td>
+      <td />
       <td>
         <Text strikethrough={deleted}>{item.name}</Text>
       </td>

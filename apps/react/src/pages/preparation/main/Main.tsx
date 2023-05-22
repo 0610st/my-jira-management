@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Flex } from "@mantine/core";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
 import { SprintContent } from "./SprintContent";
 

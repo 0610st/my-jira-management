@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton } from "@mantine/core";
+import { Box, Skeleton } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {

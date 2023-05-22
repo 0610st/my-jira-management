@@ -6,7 +6,7 @@ export const TaskLabelMultiSelect = () => {
   const taskLabels = useTaskLabels((state) => state.taskLabels);
   const setTaskLabels = useTaskLabels((state) => state.setTaskLabels);
   const [taskItems, setTaskItems] = useState(
-    taskLabels.map((label) => ({ label: label, value: label }))
+    taskLabels.map((label) => ({ label, value: label }))
   );
 
   return (

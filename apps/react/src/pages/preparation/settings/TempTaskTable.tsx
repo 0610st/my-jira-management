@@ -1,8 +1,8 @@
 import { ActionIcon, Flex, Table, Text } from "@mantine/core";
-import { ItemProps, useTempTaskItems } from "../../../store/useTempTaskItems";
-import { TempTaskTableItem } from "./TempTaskTableItem";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
+import { ItemProps, useTempTaskItems } from "../../../store/useTempTaskItems";
+import { TempTaskTableItem } from "./TempTaskTableItem";
 import { TempTaskTableForm } from "./TempTaskTableForm";
 
 export const TempTaskTable = () => {
@@ -36,7 +36,7 @@ export const TempTaskTable = () => {
             <th style={{ width: 50 }}>ID</th>
             <th style={{ width: 500 }}>タスク名</th>
             <th>見積h</th>
-            <th style={{ width: 200 }}></th>
+            <th style={{ width: 200 }} />
           </tr>
         </thead>
         <tbody>

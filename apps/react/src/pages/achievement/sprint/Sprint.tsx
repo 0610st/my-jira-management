@@ -18,7 +18,7 @@ export const Sprint = () => {
       return searchParam.get("sprintId");
     }
     if (sprints && sprints.length > 0) {
-      return sprints[0].id + "";
+      return `${sprints[0].id}`;
     }
     return null;
   }, [searchParam, sprints]);

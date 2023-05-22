@@ -13,7 +13,7 @@ const _SprintSelect: FC<Props> = ({ value, onChange }) => {
   const data = useMemo(() => {
     if (!sprints) return [];
     return sprints.map((sprint) => ({
-      value: sprint.id + "",
+      value: `${sprint.id}`,
       label: sprint.name,
     }));
   }, [sprints]);

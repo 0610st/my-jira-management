@@ -1,4 +1,4 @@
-import { Box, Flex, List, Text } from "@mantine/core";
+import { List } from "@mantine/core";
 import { FC, useMemo } from "react";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";

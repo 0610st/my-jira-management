@@ -22,9 +22,8 @@ export const useTempTaskEpics = create<Props>((set) => ({
     set((state) => {
       if (state.tempTaskEpics.includes(epic)) {
         return { tempTaskEpics: state.tempTaskEpics.filter((e) => e !== epic) };
-      } else {
-        return { tempTaskEpics: [...state.tempTaskEpics, epic] };
       }
+      return { tempTaskEpics: [...state.tempTaskEpics, epic] };
     }),
   reset: () => set({ tempTaskEpics: [] }),
 }));

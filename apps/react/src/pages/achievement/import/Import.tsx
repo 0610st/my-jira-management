@@ -39,11 +39,12 @@ export const Import = () => {
     refetch();
   }, [enabled, refetch]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       resetStep();
-    };
-  }, [resetStep]);
+    },
+    [resetStep]
+  );
 
   useEffect(() => {
     if (data) {

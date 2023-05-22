@@ -29,12 +29,12 @@ export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   }
 
   if (error) {
-    <>{error.message}</>;
+    return <>{error.message}</>;
   }
 
   return (
     <>
-      {data!.issues
+      {data.issues
         .filter((epic) => !excludeEpics.includes(epic.key))
         .map((epic) => (
           <SprintIssueItem
