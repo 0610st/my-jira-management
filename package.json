@@ -18,12 +18,13 @@
     "db:initialize": "npm run db:push && npm run db:seed",
     "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "format": "turbo run format"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",
     "eslint-config-custom": "*",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "prettier": "latest",
     "turbo": "latest"
   },
@@ -34,5 +35,11 @@
   "volta": {
     "node": "18.11.0",
     "npm": "8.19.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
