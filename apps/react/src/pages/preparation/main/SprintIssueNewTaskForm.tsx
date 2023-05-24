@@ -1,7 +1,8 @@
 import { ActionIcon, Box, Flex, MultiSelect, TextInput } from "@mantine/core";
 import { FC, useCallback, useEffect, useState } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
-import { z, ZodError } from "zod";
+import { z } from "zod";
+import { useValidatedState } from "@mantine/hooks";
 import { ItemProps } from "../../../store/useTempTaskItems";
 
 const nameSchema = z.string().min(1);
@@ -25,54 +26,34 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   onCancel,
   forceSubmit = false,
 }) => {
-  const [name, setName] = useState(initialItem.name);
-  const [nameError, setNameError] = useState("");
-  const [estimatedHour, setEstimatedHour] = useState(
-    `${initialItem.estimatedHour}`
+  const [{ value: name, valid: validName }, setName] = useValidatedState(
+    initialItem.name,
+    (value) => nameSchema.safeParse(value).success,
+    true
   );
-  const [estimatedHourError, setEstimatedHourError] = useState("");
+  const [
+    { value: estimatedHour, valid: validEstimatedHour },
+    setEstimatedHour,
+  ] = useValidatedState(
+    `${initialItem.estimatedHour}`,
+    (value) => estimatedHourSchema.safeParse(value).success,
+    true
+  );
   const [labels, setLabels] = useState([...initialItem.labels]);
   const [labelData, setLabelData] = useState(
     labels.map((label) => ({ label, value: label }))
   );
 
-  useEffect(() => {
-    try {
-      nameSchema.parse(name);
-      setNameError("");
-    } catch (e) {
-      if (e instanceof ZodError) {
-        setNameError(e.issues[0].message);
-      }
-    }
-  }, [name]);
-
-  useEffect(() => {
-    try {
-      estimatedHourSchema.parse(estimatedHour);
-      setEstimatedHourError("");
-    } catch (e) {
-      if (e instanceof ZodError) {
-        setEstimatedHourError(e.issues[0].message);
-      }
-    }
-  }, [estimatedHour]);
-
   const handleSubmit = useCallback(() => {
-    const parsedName = nameSchema.parse(name);
-    const parsedEstimatedHour = estimatedHourSchema.parse(estimatedHour);
-    if (
-      Object.prototype.hasOwnProperty.call(parsedName, "error") ||
-      Object.prototype.hasOwnProperty.call(parsedEstimatedHour, "error")
-    ) {
+    if (!validName || !validEstimatedHour) {
       return;
     }
     onSubmit({
-      name: parsedName,
-      estimatedHour: parsedEstimatedHour,
+      name,
+      estimatedHour: Number(estimatedHour),
       labels,
     });
-  }, [estimatedHour, labels, name, onSubmit]);
+  }, [estimatedHour, labels, name, onSubmit, validEstimatedHour, validName]);
 
   useEffect(() => {
     if (forceSubmit) {
@@ -89,7 +70,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
           <TextInput
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
-            error={nameError}
+            error={!validName}
           />
         </Box>
       </td>
@@ -98,7 +79,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
           <TextInput
             value={estimatedHour}
             onChange={(e) => setEstimatedHour(e.currentTarget.value)}
-            error={estimatedHourError}
+            error={!validEstimatedHour}
           />
         </Box>
       </td>

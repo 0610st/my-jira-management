@@ -1,7 +1,8 @@
 import { ActionIcon, Box, Flex, TextInput } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
-import { z, ZodError } from "zod";
+import { z } from "zod";
+import { useValidatedState } from "@mantine/hooks";
 import { ItemProps } from "../../../store/useTempTaskItems";
 
 const nameSchema = z.string().min(1);
@@ -25,61 +26,43 @@ export const TempTaskTableForm: FC<Props> = ({
   onSubmit,
   onCancel,
 }) => {
-  const [name, setName] = useState(initialName);
+  const [{ value: name, valid: validName }, setName] = useValidatedState(
+    initialName,
+    (value) => nameSchema.safeParse(value).success,
+    true
+  );
+  const [
+    { value: estimatedHour, valid: validEstimatedHour },
+    setEstimatedHour,
+  ] = useValidatedState(
+    `${initialEstimatedHour}`,
+    (value) => estimatedHourSchema.safeParse(value).success,
+    true
+  );
   const [isNameTouched, setIsNameTouched] = useState(false);
-  const [nameError, setNameError] = useState("");
-  const [estimatedHour, setEstimatedHour] = useState(`${initialEstimatedHour}`);
   const [isEstimatedHourTouched, setIsEstimatedHourTouched] = useState(false);
-  const [estimatedHourError, setEstimatedHourError] = useState("");
-
-  useEffect(() => {
-    try {
-      nameSchema.parse(name);
-      setNameError("");
-    } catch (e) {
-      if (e instanceof ZodError) {
-        setNameError(e.issues[0].message);
-      }
-    }
-  }, [name]);
-
-  useEffect(() => {
-    try {
-      estimatedHourSchema.parse(estimatedHour);
-      setEstimatedHourError("");
-    } catch (e) {
-      if (e instanceof ZodError) {
-        setEstimatedHourError(e.issues[0].message);
-      }
-    }
-  }, [estimatedHour]);
 
   const handleSubmit = () => {
-    const parsedName = nameSchema.parse(name);
-    const parsedEstimatedHour = estimatedHourSchema.parse(estimatedHour);
-    if (
-      Object.prototype.hasOwnProperty.call(parsedName, "error") ||
-      Object.prototype.hasOwnProperty.call(parsedEstimatedHour, "error")
-    ) {
+    if (!validName || !validEstimatedHour) {
       return;
     }
     onSubmit({
-      name: parsedName,
-      estimatedHour: parsedEstimatedHour,
+      name,
+      estimatedHour: Number(estimatedHour),
       deleted: false,
     });
   };
 
   return (
     <tr>
-      <td>{id !== undefined ? id : ""}</td>
+      <td>{id ?? ""}</td>
       <td>
         <Box w={200}>
           <TextInput
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
             onBlur={() => setIsNameTouched(true)}
-            error={isNameTouched && nameError}
+            error={isNameTouched && !validName && "invalid format"}
           />
         </Box>
       </td>
@@ -89,7 +72,9 @@ export const TempTaskTableForm: FC<Props> = ({
             value={estimatedHour}
             onChange={(e) => setEstimatedHour(e.currentTarget.value)}
             onBlur={() => setIsEstimatedHourTouched(true)}
-            error={isEstimatedHourTouched && estimatedHourError}
+            error={
+              isEstimatedHourTouched && !validEstimatedHour && "invalid format"
+            }
           />
         </Box>
       </td>
