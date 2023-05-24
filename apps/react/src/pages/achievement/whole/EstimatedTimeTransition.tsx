@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -82,28 +82,26 @@ export const EstimatedTimeTransition = () => {
   }
 
   return (
-    <Box sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }}>
-      <LineChart
-        height={400}
-        width={Math.max(graphData.length * 50 + 100, 600)}
-        data={graphData}
-        onClick={handleClick}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="sprintId" />
-        <YAxis unit="h" />
-        <Tooltip />
-        <Legend />
-        {assignees.map((assignee, index) => (
-          <Line
-            key={assignee}
-            type="monotone"
-            unit="h"
-            dataKey={assignee}
-            stroke={barColors[index % 10]}
-          />
-        ))}
-      </LineChart>
-    </Box>
+    <LineChart
+      height={400}
+      width={Math.max(graphData.length * 50 + 100, 600)}
+      data={graphData}
+      onClick={handleClick}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="sprintId" />
+      <YAxis unit="h" />
+      <Tooltip />
+      <Legend />
+      {assignees.map((assignee, index) => (
+        <Line
+          key={assignee}
+          type="monotone"
+          unit="h"
+          dataKey={assignee}
+          stroke={barColors[index % 10]}
+        />
+      ))}
+    </LineChart>
   );
 };

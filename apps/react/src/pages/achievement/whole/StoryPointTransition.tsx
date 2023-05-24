@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -46,23 +46,21 @@ export const StoryPointTransition = () => {
   }
 
   return (
-    <Box sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }}>
-      <LineChart
-        height={400}
-        width={Math.max(
-          (storySummaries ? storySummaries.length : 0) * 50 + 100,
-          600
-        )}
-        data={storySummaries}
-        onClick={handleClick}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="sprintId" />
-        <YAxis domain={[0, maxPoint + 5]} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="sum.storyPoint" stroke="#8884d8" />
-      </LineChart>
-    </Box>
+    <LineChart
+      height={400}
+      width={Math.max(
+        (storySummaries ? storySummaries.length : 0) * 50 + 100,
+        600
+      )}
+      data={storySummaries}
+      onClick={handleClick}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="sprintId" />
+      <YAxis domain={[0, maxPoint + 5]} />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="sum.storyPoint" stroke="#8884d8" />
+    </LineChart>
   );
 };

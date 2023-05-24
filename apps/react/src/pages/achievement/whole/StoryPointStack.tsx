@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -47,23 +47,21 @@ export const StoryPointStack = () => {
   }
 
   return (
-    <Box sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }}>
-      <AreaChart
-        height={400}
-        width={Math.max(
-          (storySummaries ? storySummaries.length : 0) * 50 + 100,
-          600
-        )}
-        data={graphData}
-        onClick={handleClick}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="sprintId" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Area type="monotone" dataKey="point" stroke="#8884d8" />
-      </AreaChart>
-    </Box>
+    <AreaChart
+      height={400}
+      width={Math.max(
+        (storySummaries ? storySummaries.length : 0) * 50 + 100,
+        600
+      )}
+      data={graphData}
+      onClick={handleClick}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="sprintId" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Area type="monotone" dataKey="point" stroke="#8884d8" />
+    </AreaChart>
   );
 };
