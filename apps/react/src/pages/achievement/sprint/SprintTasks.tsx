@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
-  const { data: tasks, isLoading } = useTasks(
+  const { data: taskData, isLoading } = useTasks(
     sprintId === null ? undefined : sprintId,
     sprintId !== null
   );
@@ -25,8 +25,8 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
   }, []);
 
   const withDiffTasks = useMemo(
-    () => addDiffTimeRow(tasks),
-    [addDiffTimeRow, tasks]
+    () => addDiffTimeRow(taskData),
+    [addDiffTimeRow, taskData]
   );
 
   const sort = useCallback(
@@ -44,12 +44,10 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
       }
 
       const sorted = [...records].sort((a, b) => {
-        // @ts-ignore
         if (a[columnAccessor] < b[columnAccessor]) {
           return direction === "asc" ? -1 : 1;
         }
 
-        // @ts-ignore
         if (a[columnAccessor] > b[columnAccessor]) {
           return direction === "asc" ? 1 : -1;
         }

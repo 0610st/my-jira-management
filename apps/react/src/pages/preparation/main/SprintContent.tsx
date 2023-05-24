@@ -18,18 +18,18 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
   } = useJiraFutureSprints(enabled);
 
   if (isLoading) {
-    return <></>;
+    return <div />;
   }
 
   if (error) {
-    return <>{error.message}</>;
+    return <div>{error.message}</div>;
   }
 
   if (futureSprint.values.length !== 1) {
     return (
-      <>{`このデータは取り込めません。${JSON.stringify(
-        futureSprint.values
-      )}`}</>
+      <div>
+        {`このデータは取り込めません。${JSON.stringify(futureSprint.values)}`}
+      </div>
     );
   }
 

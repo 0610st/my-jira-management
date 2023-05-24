@@ -9,7 +9,9 @@ export const MenuTabs = () => {
   return (
     <Tabs
       value={tabValue}
-      onTabChange={(value) => navigate(`/achievement/${value}`)}
+      onTabChange={(value) =>
+        navigate(`/achievement/${value === null ? "sprint" : value}`)
+      }
       maw={600}
     >
       <Tabs.List>

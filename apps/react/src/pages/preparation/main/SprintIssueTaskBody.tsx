@@ -74,6 +74,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
           .filter((item) => !item.deleted)
           .map((item, index) => (
             <SprintIssueNewTaskItem
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
               index={index}
               initalItem={item}

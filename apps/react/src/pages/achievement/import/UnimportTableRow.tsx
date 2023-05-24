@@ -8,29 +8,102 @@ import {
 } from "../../../../types/sprint";
 import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 
-interface Props {
+interface ActionBodyProps {
+  status: "idle" | "executing" | "success" | "error" | "skip";
+  sprintChecked: boolean;
+  storyChecked: boolean;
+  taskChecked: boolean;
+  onClickSprint: () => void;
+  onClickStory: () => void;
+  onClickTack: () => void;
+  disabled: boolean;
+  sprintId: number;
+}
+
+const ActionBody: FC<ActionBodyProps> = ({
+  status,
+  sprintChecked,
+  storyChecked,
+  taskChecked,
+  onClickSprint,
+  onClickStory,
+  onClickTack,
+  disabled,
+  sprintId,
+}) => {
+  if (status === "idle") {
+    return (
+      <Flex gap={8} wrap="wrap">
+        <Switch
+          onLabel="sprint"
+          offLabel="sprint"
+          checked={sprintChecked}
+          onChange={onClickSprint}
+          disabled={disabled}
+        />
+        <Switch
+          onLabel="tasks"
+          offLabel="tasks"
+          checked={taskChecked}
+          onChange={onClickTack}
+          disabled={disabled}
+        />
+        <Switch
+          onLabel="stories"
+          offLabel="stories"
+          checked={storyChecked}
+          onChange={onClickStory}
+          disabled={disabled}
+        />
+      </Flex>
+    );
+  }
+  if (status === "executing") {
+    return (
+      <Flex align="center">
+        <Loader size="xs" />
+        <Text>取込中...</Text>
+      </Flex>
+    );
+  }
+
+  if (status === "success") {
+    return (
+      <Text component={Link} to={`/sprint/${sprintId}`}>
+        成功
+      </Text>
+    );
+  }
+
+  if (status === "skip") {
+    return <Text>Skip</Text>;
+  }
+
+  return <Text>エラー</Text>;
+};
+
+interface UnimportTableRowProps {
   data: SprintValue;
 }
 
-export const UnimportTableRow: FC<Props> = ({ data }) => {
+export const UnimportTableRow: FC<UnimportTableRowProps> = ({ data }) => {
   const [isImport, setIsImport] = useState(true);
   const [withTasks, setWithTasks] = useState(true);
   const [withStories, setWithStories] = useState(true);
   const [status, setStatus] = useState<
     "idle" | "executing" | "success" | "error" | "skip"
   >("idle");
+  const currentId = useSprintImportPipe((state) => state.currentId);
+  const nextStep = useSprintImportPipe((state) => state.nextStep);
   const { mutate: createSprint } = useCreateSprintWithIssuesFromJira({
     onSuccess: () => {
       setStatus("success");
       nextStep();
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
       setStatus("error");
     },
   });
-  const currentId = useSprintImportPipe((state) => state.currentId);
-  const nextStep = useSprintImportPipe((state) => state.nextStep);
 
   const handleSprintChange = () => {
     setIsImport(!isImport);
@@ -84,44 +157,17 @@ export const UnimportTableRow: FC<Props> = ({ data }) => {
       <td>{data.startDate.toString()}</td>
       <td>{data.endDate.toString()}</td>
       <td>
-        {status === "idle" ? (
-          <Flex gap={8} wrap="wrap">
-            <Switch
-              onLabel="sprint"
-              offLabel="sprint"
-              checked={isImport}
-              onChange={handleSprintChange}
-              disabled={currentId !== null}
-            />
-            <Switch
-              onLabel="tasks"
-              offLabel="tasks"
-              checked={withTasks}
-              onChange={handleTasksChange}
-              disabled={currentId !== null}
-            />
-            <Switch
-              onLabel="stories"
-              offLabel="stories"
-              checked={withStories}
-              onChange={handleStoriesChange}
-              disabled={currentId !== null}
-            />
-          </Flex>
-        ) : status === "executing" ? (
-          <Flex align="center">
-            <Loader size="xs" />
-            <Text>取込中...</Text>
-          </Flex>
-        ) : status === "success" ? (
-          <Text component={Link} to={`/sprint/${data.id}`}>
-            成功
-          </Text>
-        ) : status === "skip" ? (
-          <Text>Skip</Text>
-        ) : (
-          <Text>エラー</Text>
-        )}
+        <ActionBody
+          status={status}
+          sprintChecked={isImport}
+          storyChecked={withStories}
+          taskChecked={withTasks}
+          onClickSprint={handleSprintChange}
+          onClickStory={handleStoriesChange}
+          onClickTack={handleTasksChange}
+          disabled={currentId !== data.id}
+          sprintId={data.id}
+        />
       </td>
     </tr>
   );

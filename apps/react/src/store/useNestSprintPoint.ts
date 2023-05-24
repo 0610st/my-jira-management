@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
-interface useNestSprintPointProps {
+interface NestSprintPointProps {
   points: { key: string; point: number }[];
   setPoint: (record: { key: string; point: number }) => void;
   removePoint: (key: string) => void;
   reset: () => void;
 }
 
-export const useNestSprintPoint = create<useNestSprintPointProps>((set) => ({
+export const useNestSprintPoint = create<NestSprintPointProps>((set) => ({
   points: [],
   setPoint: (record: { key: string; point: number }) =>
     set((state) => {

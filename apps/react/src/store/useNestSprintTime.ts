@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
-interface useNestSprintTimeProps {
+interface NestSprintTimeProps {
   times: { key: string; parent: string; time: number }[];
   setTime: (record: { key: string; parent: string; time: number }) => void;
   removeTime: (key: string) => void;
   reset: () => void;
 }
 
-export const useNextSprintTime = create<useNestSprintTimeProps>((set, get) => ({
+export const useNextSprintTime = create<NestSprintTimeProps>((set) => ({
   times: [],
   setTime: (record: { key: string; parent: string; time: number }) =>
     set((state) => {

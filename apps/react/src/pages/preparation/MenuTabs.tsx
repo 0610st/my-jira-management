@@ -9,7 +9,9 @@ export const MenuTabs = () => {
   return (
     <Tabs
       value={tabValue}
-      onTabChange={(value) => navigate(`/preparation/${value}`)}
+      onTabChange={(value) =>
+        navigate(value !== null ? `/preparation/${value}` : "/preparation/main")
+      }
       maw={600}
     >
       <Tabs.List>

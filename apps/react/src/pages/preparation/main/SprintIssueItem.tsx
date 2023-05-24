@@ -15,7 +15,30 @@ import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
 
-interface Props {
+interface StatusBodyProps {
+  status: "idle" | "executing" | "success" | "error";
+}
+
+const StatusBody: FC<StatusBodyProps> = ({ status }) => {
+  if (status === "idle") {
+    return <div />;
+  }
+  if (status === "executing") {
+    return (
+      <Flex align="center">
+        <Loader size="xs" />
+        <Text>更新中...</Text>
+      </Flex>
+    );
+  }
+  if (status === "success") {
+    <Text>成功</Text>;
+  }
+
+  return <Text>エラー</Text>;
+};
+
+interface SprintIssueItemProps {
   epic: {
     key: string;
     fields: EpicIssue;
@@ -24,7 +47,11 @@ interface Props {
   sprintId: number;
 }
 
-export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
+export const SprintIssueItem: FC<SprintIssueItemProps> = ({
+  epic,
+  execute,
+  sprintId,
+}) => {
   const storyLabels = useStoryLabels((state) => state.storyLabels);
   const [labels, setLabels] = useState(
     Array.from(new Set([...epic.fields.labels, ...storyLabels]))
@@ -39,8 +66,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
     onSuccess: () => {
       setStatus("success");
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
       setStatus("error");
     },
   });
@@ -51,7 +77,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
       times
         .filter((time) => time.parent === epic.key)
         .reduce((sum, time) => sum + time.time, 0),
-    [times]
+    [epic.key, times]
   );
 
   useEffect(() => {
@@ -65,7 +91,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
       };
       updateEpic(params);
     }
-  }, [execute, status]);
+  }, [epic.key, execute, labels, status, updateEpic]);
 
   return (
     <Paper id={epic.key} shadow="md" radius="xs" p="md" mb={8}>
@@ -115,18 +141,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
               />
             </Box>
             <Box w={100}>
-              {status === "idle" ? (
-                <></>
-              ) : status === "executing" ? (
-                <Flex align="center">
-                  <Loader size="xs" />
-                  <Text>更新中...</Text>
-                </Flex>
-              ) : status === "success" ? (
-                <Text>成功</Text>
-              ) : (
-                <Text>エラー</Text>
-              )}
+              <StatusBody status={status} />
             </Box>
           </Flex>
         </Flex>
@@ -140,7 +155,7 @@ export const SprintIssueItem: FC<Props> = ({ epic, execute, sprintId }) => {
               <th style={{ width: 300 }}>タスク名</th>
               <th style={{ width: 100 }}>見積h</th>
               <th>ラベル</th>
-              <th style={{ width: 100 }} />
+              <th style={{ width: 100 }}> </th>
             </tr>
           </thead>
           <tbody>

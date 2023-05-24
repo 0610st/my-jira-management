@@ -12,7 +12,6 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { useTaskSummaries } from "../../../../api/hooks";
-import { getAccumulatedSum } from "../../../utils/util";
 
 const barColors = [
   "#4263EB",
@@ -33,48 +32,49 @@ export const EstimatedTimeTransition = () => {
 
   const assignees = useMemo(() => {
     if (!taskSummaries) return [];
-    return [...new Set(taskSummaries.map((task) => task.assignee))];
+    return [...new Set(taskSummaries.map((task) => task.assignee || "null"))];
+  }, [taskSummaries]);
+
+  const sprintIds = useMemo(() => {
+    if (!taskSummaries) return [];
+    return [...new Set(taskSummaries.map((task) => task.sprintId))];
   }, [taskSummaries]);
 
   const graphData = useMemo(() => {
     if (!taskSummaries) return [];
-
-    const sprintIds = [...new Set(taskSummaries.map((task) => task.sprintId))];
-    const sprintsAssigneeTime: Array<{
-      [key: string]: any;
-    }> = sprintIds.map((sprintId) => {
-      const tasks = taskSummaries.filter((task) => task.sprintId === sprintId);
-      return {
-        sprintId,
-        ...assignees.reduce((acc, assignee) => {
-          const task = tasks.find((task) => task.assignee === assignee);
-          return {
-            ...acc,
-            [`${assignee}`]: task?.sum.estimatedTime || 0,
-          };
-        }, {}),
-      };
+    const result: {
+      sprintId: number | null;
+      assignee: string;
+      estimatedTime: number;
+    }[] = [];
+    sprintIds.forEach((sprintId) => {
+      assignees.forEach((assignee) => {
+        const estimatedTime = taskSummaries
+          .filter((task) => {
+            if (assignee === "null" && task.assignee !== null) return false;
+            if (assignee !== task.assignee) return false;
+            return task.sprintId === sprintId;
+          })
+          .reduce(
+            (prev, current) => prev + (current.sum.estimatedTime || 0),
+            0
+          );
+        result.push({
+          sprintId,
+          assignee,
+          estimatedTime,
+        });
+      });
     });
-    const assigneegetAccumulatedTime = assignees.map((assignee) => {
-      const key = `${assignee}`;
-      const times = sprintsAssigneeTime.map((sprint) => sprint[key]);
-      return getAccumulatedSum(times);
-    });
-    return sprintIds.map((sprintId, sprintIndex) => ({
-      sprintId,
-      ...assignees.reduce(
-        (acc, assignee, index) => ({
-          ...acc,
-          [`${assignee}`]:
-            assigneegetAccumulatedTime[index][sprintIndex] / 3600,
-        }),
-        {}
-      ),
-    }));
-  }, [assignees, taskSummaries]);
+    return result;
+  }, [assignees, sprintIds, taskSummaries]);
 
   const handleClick = (e: CategoricalChartState) => {
-    navigate(`/achievement/sprint?sprindId=${e.activeLabel}`);
+    navigate(
+      e.activeLabel
+        ? `/achievement/sprint?sprindId=${e.activeLabel}`
+        : "/achievement/sprint"
+    );
   };
 
   if (!taskSummaries) {
@@ -99,7 +99,7 @@ export const EstimatedTimeTransition = () => {
             key={assignee}
             type="monotone"
             unit="h"
-            dataKey={`${assignee}`}
+            dataKey={assignee}
             stroke={barColors[index % 10]}
           />
         ))}

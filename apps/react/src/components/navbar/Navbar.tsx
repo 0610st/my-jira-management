@@ -11,6 +11,7 @@ import menuItems from "./menuItems";
 import { NavbarLinkItem } from "./NavbarLinkItem";
 
 export const Navbar: FC = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
@@ -29,8 +30,14 @@ export const Navbar: FC = () => {
         </Box>
       </MtNavbar.Section>
       <MtNavbar.Section grow mt="md">
-        {menuItems.map((item) => (
-          <NavbarLinkItem key={item.label} {...item} />
+        {menuItems.map(({ label, path, link, Icon }) => (
+          <NavbarLinkItem
+            key={label}
+            label={label}
+            link={link}
+            path={path}
+            Icon={Icon}
+          />
         ))}
       </MtNavbar.Section>
     </MtNavbar>

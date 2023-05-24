@@ -6,11 +6,7 @@ import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 import { UnimportTable } from "./UnimportTable";
 
 export const Import = () => {
-  const {
-    data: currentSprints,
-    isLoading: currentLoading,
-    refetch,
-  } = useSprints();
+  const { data: currentSprints, isLoading: currentLoading } = useSprints();
   const [enabled, setEnabled] = useState(false);
   const [key, setKey] = useState(0);
   const params: GetJiraSprints = useMemo(() => {
@@ -31,13 +27,9 @@ export const Import = () => {
   const currentId = useSprintImportPipe((state) => state.currentId);
 
   const handleSubmit = useCallback(() => {
-    if (!enabled) {
-      setEnabled(true);
-      return;
-    }
+    setEnabled(true);
     setKey((prev) => prev + 1);
-    refetch();
-  }, [enabled, refetch]);
+  }, []);
 
   useEffect(
     () => () => {
@@ -62,7 +54,7 @@ export const Import = () => {
         </Box>
         {enabled && (
           <Box>
-            <Button onClick={() => startStep()} disabled={currentId !== null}>
+            <Button onClick={startStep} disabled={currentId !== null}>
               取込実行
             </Button>
           </Box>

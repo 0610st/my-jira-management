@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: string | null) => void;
 }
 
-const _SprintSelect: FC<Props> = ({ value, onChange }) => {
+const SprintSelectMain: FC<Props> = ({ value, onChange }) => {
   const { data: sprints } = useSprints();
 
   const data = useMemo(() => {
@@ -32,4 +32,4 @@ const _SprintSelect: FC<Props> = ({ value, onChange }) => {
   );
 };
 
-export const SprintSelect = memo(_SprintSelect);
+export const SprintSelect = memo(SprintSelectMain);

@@ -6,7 +6,46 @@ import { TaskIssue } from "../../../../types/task";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 
-interface Props {
+interface ActionBodyProps {
+  status: "idle" | "executing" | "success" | "error" | "skip";
+  onClick: () => void;
+  disabled: boolean;
+  variant: "filled" | "outline";
+}
+
+const ActionBody: FC<ActionBodyProps> = ({
+  status,
+  onClick,
+  disabled,
+  variant,
+}) => {
+  if (status === "idle") {
+    return (
+      <Flex sx={{ gap: 24 }} justify="flex-end">
+        <ActionIcon variant={variant} disabled={disabled} onClick={onClick}>
+          <BsFillCloudSlashFill />
+        </ActionIcon>
+      </Flex>
+    );
+  }
+  if (status === "skip") {
+    return <div />;
+  }
+  if (status === "executing") {
+    return (
+      <Flex align="center">
+        <Loader size="xs" />
+        <Text>更新中...</Text>
+      </Flex>
+    );
+  }
+  if (status === "success") {
+    return <Text>成功</Text>;
+  }
+  return <Text>エラー</Text>;
+};
+
+interface SprintIssueTaskItemProps {
   task: {
     key: string;
     fields: TaskIssue;
@@ -16,7 +55,7 @@ interface Props {
   sprintId: number;
 }
 
-export const SprintIssueTaskItem: FC<Props> = ({
+export const SprintIssueTaskItem: FC<SprintIssueTaskItemProps> = ({
   task,
   epicKey,
   execute,
@@ -37,8 +76,7 @@ export const SprintIssueTaskItem: FC<Props> = ({
     onSuccess: () => {
       setStatus("success");
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
       setStatus("error");
     },
   });
@@ -59,7 +97,14 @@ export const SprintIssueTaskItem: FC<Props> = ({
       removeTime(task.key);
     }
     setExclude((prev) => !prev);
-  }, [exclude, removeTime, setTime]);
+  }, [
+    epicKey,
+    exclude,
+    removeTime,
+    setTime,
+    task.fields.timetracking.remainingEstimateSeconds,
+    task.key,
+  ]);
 
   useEffect(() => {
     const time = task.fields.timetracking.remainingEstimateSeconds
@@ -69,7 +114,7 @@ export const SprintIssueTaskItem: FC<Props> = ({
     return () => {
       removeTime(task.key);
     };
-  }, [setTime, removeTime, task]);
+  }, [setTime, removeTime, task, epicKey]);
 
   useEffect(() => {
     if (execute && status === "idle" && !exclude) {
@@ -83,7 +128,7 @@ export const SprintIssueTaskItem: FC<Props> = ({
       };
       updateTask(params);
     }
-  }, [execute, status]);
+  }, [exclude, execute, labels, sprintId, status, task.key, updateTask]);
 
   return (
     <tr key={task.key}>
@@ -112,28 +157,12 @@ export const SprintIssueTaskItem: FC<Props> = ({
         />
       </td>
       <td>
-        {status === "idle" ? (
-          <Flex sx={{ gap: 24 }} justify="flex-end">
-            <ActionIcon
-              variant={exclude ? "filled" : "outline"}
-              disabled={execute}
-              onClick={toggleExclude}
-            >
-              <BsFillCloudSlashFill />
-            </ActionIcon>
-          </Flex>
-        ) : status === "executing" ? (
-          <Flex align="center">
-            <Loader size="xs" />
-            <Text>更新中...</Text>
-          </Flex>
-        ) : status === "success" ? (
-          <Text>成功</Text>
-        ) : status === "error" ? (
-          <Text>エラー</Text>
-        ) : (
-          <></>
-        )}
+        <ActionBody
+          status={status}
+          onClick={toggleExclude}
+          variant={exclude ? "filled" : "outline"}
+          disabled={execute}
+        />
       </td>
     </tr>
   );

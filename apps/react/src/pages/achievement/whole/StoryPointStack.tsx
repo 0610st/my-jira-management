@@ -35,7 +35,11 @@ export const StoryPointStack = () => {
   );
 
   const handleClick = (e: CategoricalChartState) => {
-    navigate(`/achievement/sprint?sprindId=${e.activeLabel}`);
+    navigate(
+      e.activeLabel
+        ? `/achievement/sprint?sprindId=${e.activeLabel}`
+        : "/achievement/sprint"
+    );
   };
 
   if (!storySummaries) {
@@ -46,7 +50,10 @@ export const StoryPointStack = () => {
     <Box sx={{ flex: 1, overflowX: "scroll", overflowY: "hidden" }}>
       <AreaChart
         height={400}
-        width={Math.max(storySummaries?.length * 50 + 100, 600)}
+        width={Math.max(
+          (storySummaries ? storySummaries.length : 0) * 50 + 100,
+          600
+        )}
         data={graphData}
         onClick={handleClick}
       >

@@ -8,6 +8,16 @@ interface Props {
   label: string;
 }
 
+const CompareIcon: FC<{ from: number; to: number }> = ({ from, to }) => {
+  if (to > from) {
+    return <BsArrowUpRight size={48} color="#F06595" />;
+  }
+  if (to < from) {
+    return <BsArrowDownRight size={48} color="#339AF0" />;
+  }
+  return <BsArrowRight size={48} />;
+};
+
 export const StoryPointResultCompare: FC<Props> = ({ from, to, label }) => {
   if (from === null || to === null) {
     return (
@@ -21,14 +31,8 @@ export const StoryPointResultCompare: FC<Props> = ({ from, to, label }) => {
   return (
     <Flex sx={{ flexGrow: 1 }} direction="column" align="center">
       <Text fz="md">{label}</Text>
-      {to > from ? (
-        <BsArrowUpRight size={48} color="#F06595" />
-      ) : to < from ? (
-        <BsArrowDownRight size={48} color="#339AF0" />
-      ) : (
-        <BsArrowRight size={48} />
-      )}
-      <Text fz="md">{`(${(to < from ? "" : "+") + (to - from)})`}</Text>
+      <CompareIcon from={from} to={to} />
+      <Text fz="md">{`(${to < from ? `${to - from}` : `+${to - from}`})`}</Text>
     </Flex>
   );
 };

@@ -13,12 +13,12 @@ export const TempTaskTable = () => {
 
   const handleAddSubmit = (data: ItemProps) => {
     addItem(data);
-    setCount((count) => count + 1);
+    setCount((prev) => prev + 1);
     setShowAddRow(false);
   };
 
   const handleAddCancel = () => {
-    setCount((count) => count + 1);
+    setCount((prev) => prev + 1);
     setShowAddRow(false);
   };
 
@@ -36,11 +36,12 @@ export const TempTaskTable = () => {
             <th style={{ width: 50 }}>ID</th>
             <th style={{ width: 500 }}>タスク名</th>
             <th>見積h</th>
-            <th style={{ width: 200 }} />
+            <th style={{ width: 200 }}> </th>
           </tr>
         </thead>
         <tbody>
           {taskItems.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <TempTaskTableItem key={index} index={index} item={item} />
           ))}
           {showAddRow && (

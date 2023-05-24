@@ -22,7 +22,7 @@ module.exports = {
     project: ["./tsconfig.json"],
   },
   plugins: ["react", "@typescript-eslint", "unused-imports"],
-  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts"],
   rules: {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],

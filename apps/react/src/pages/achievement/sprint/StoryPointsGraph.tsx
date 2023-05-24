@@ -57,7 +57,9 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
   }, [storySummaries, sprintId]);
 
   const handleClick = (data: StorySummary) => {
-    navigate({ search: `sprintId=${data.sprintId}` });
+    navigate({
+      search: data.sprintId === null ? "" : `sprintId=${data.sprintId}`,
+    });
   };
 
   if (!storySummaries) {
@@ -78,9 +80,9 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
           fill="#8884d8"
           onClick={handleClick}
         >
-          {scopedStorySummaries.map((entry, index) => (
+          {scopedStorySummaries.map((entry) => (
             <Cell
-              key={`cell-${index}`}
+              key={`cell-${entry.sprintId || "null"}`}
               fill={entry.sprintId === sprintId ? "#8884d8" : "#D0BFFF"}
             />
           ))}

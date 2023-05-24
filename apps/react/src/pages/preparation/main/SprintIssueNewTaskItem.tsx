@@ -9,14 +9,68 @@ import { useTaskLabels } from "../../../store/useTaskLabels";
 import { ItemProps } from "../../../store/useTempTaskItems";
 import { NewItem, SprintIssueNewTaskForm } from "./SprintIssueNewTaskForm";
 
-interface Props {
+interface ActionBodyProps {
+  status: "idle" | "executing" | "success" | "error" | "skip";
+  onClickEdit: () => void;
+  onClickDelete: () => void;
+  editDisabled: boolean;
+  deleteDisabled: boolean;
+  deleteVariant: "filled" | "outline";
+}
+
+const ActionBody: FC<ActionBodyProps> = ({
+  status,
+  onClickEdit,
+  onClickDelete,
+  editDisabled,
+  deleteDisabled,
+  deleteVariant,
+}) => {
+  if (status === "idle") {
+    return (
+      <Flex sx={{ gap: 24 }} justify="flex-end">
+        <ActionIcon
+          color="indigo"
+          variant="outline"
+          onClick={onClickEdit}
+          disabled={editDisabled}
+        >
+          <MdEdit />
+        </ActionIcon>
+        <ActionIcon
+          variant={deleteVariant}
+          disabled={deleteDisabled}
+          onClick={onClickDelete}
+        >
+          <BsFillCloudSlashFill />
+        </ActionIcon>
+      </Flex>
+    );
+  }
+  if (status === "executing") {
+    return (
+      <Flex align="center">
+        <Loader size="xs" />
+        <Text>作成中...</Text>
+      </Flex>
+    );
+  }
+
+  if (status === "success") {
+    return <Text>成功</Text>;
+  }
+
+  return <Text>エラー</Text>;
+};
+
+interface SprintIssueNewTaskItemProps {
   index: number;
   initalItem: ItemProps;
   execute: boolean;
   sprintId: number;
   epicKey: string;
 }
-export const SprintIssueNewTaskItem: FC<Props> = ({
+export const SprintIssueNewTaskItem: FC<SprintIssueNewTaskItemProps> = ({
   index,
   initalItem,
   execute,
@@ -39,8 +93,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
     onSuccess: () => {
       setStatus("success");
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
       setStatus("error");
     },
     onSettled: () => {
@@ -76,7 +129,7 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
     return () => {
       removeTime(`ADD-${epicKey}-${index}`);
     };
-  }, [setTime, removeTime, epicKey]);
+  }, [setTime, removeTime, epicKey, index, item.estimatedHour]);
 
   useEffect(() => {
     if (deleted) {
@@ -152,34 +205,14 @@ export const SprintIssueNewTaskItem: FC<Props> = ({
         </Flex>
       </td>
       <td>
-        {status === "idle" ? (
-          <Flex sx={{ gap: 24 }} justify="flex-end">
-            <ActionIcon
-              color="indigo"
-              variant="outline"
-              onClick={handleEdit}
-              disabled={deleted}
-            >
-              <MdEdit />
-            </ActionIcon>
-            <ActionIcon
-              variant={deleted ? "filled" : "outline"}
-              disabled={execute}
-              onClick={toggleDelete}
-            >
-              <BsFillCloudSlashFill />
-            </ActionIcon>
-          </Flex>
-        ) : status === "executing" ? (
-          <Flex align="center">
-            <Loader size="xs" />
-            <Text>作成中...</Text>
-          </Flex>
-        ) : status === "success" ? (
-          <Text>成功</Text>
-        ) : (
-          <Text>エラー</Text>
-        )}
+        <ActionBody
+          status={status}
+          onClickEdit={handleEdit}
+          onClickDelete={toggleDelete}
+          editDisabled={deleted}
+          deleteDisabled={execute}
+          deleteVariant={deleted ? "filled" : "outline"}
+        />
       </td>
     </tr>
   );

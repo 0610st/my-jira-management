@@ -26,13 +26,12 @@ export const Sprint = () => {
 
   const [count, setCount] = useState(0);
 
-  const handleChange = useCallback((value: string | null) => {
-    if (value === null) {
-      navigate({ search: "" });
-    } else {
-      navigate({ search: `sprintId=${value}` });
-    }
-  }, []);
+  const handleChange = useCallback(
+    (value: string | null) => {
+      navigate({ search: value === null ? "" : `sprintId=${value}` });
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     setCount((prev) => prev + 1);

@@ -4,6 +4,7 @@ import { IconType } from "react-icons";
 import { Link, useLocation } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   link: {
     ...theme.fn.focusStyles(),
     display: "flex",
@@ -63,7 +64,7 @@ interface Props {
   link?: string;
 }
 
-const _NavbarLinkItem: React.FC<Props> = ({ Icon, label, path, link }) => {
+const NavbarLinkItemMain: React.FC<Props> = ({ Icon, label, path, link }) => {
   const { classes, cx } = useStyles();
   const location = useLocation();
 
@@ -86,4 +87,4 @@ const _NavbarLinkItem: React.FC<Props> = ({ Icon, label, path, link }) => {
   );
 };
 
-export const NavbarLinkItem = memo(_NavbarLinkItem);
+export const NavbarLinkItem = memo(NavbarLinkItemMain);

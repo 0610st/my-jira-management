@@ -6,7 +6,7 @@ export interface ItemProps {
   deleted: boolean;
 }
 
-interface useTempTaskItemsStoreProps {
+interface TempTaskItemsStoreProps {
   items: ItemProps[];
   setItems: (items: ItemProps[]) => void;
   replaceItem: (item: ItemProps, index: number) => void;
@@ -22,7 +22,7 @@ const INITIAL_ITEMS: ItemProps[] = [
   { name: "STG環境デプロイ", estimatedHour: 1, deleted: false },
 ];
 
-export const useTempTaskItems = create<useTempTaskItemsStoreProps>((set) => ({
+export const useTempTaskItems = create<TempTaskItemsStoreProps>((set) => ({
   items: INITIAL_ITEMS,
   setItems: (items: ItemProps[]) => set({ items }),
   replaceItem: (item: ItemProps, index: number) => {

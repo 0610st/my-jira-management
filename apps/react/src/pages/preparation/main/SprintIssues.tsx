@@ -25,11 +25,11 @@ export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   }, [setPoint, data]);
 
   if (isLoading) {
-    return <></>;
+    return <div />;
   }
 
   if (error) {
-    return <>{error.message}</>;
+    return <div>{error.message}</div>;
   }
 
   return (

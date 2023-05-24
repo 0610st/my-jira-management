@@ -11,7 +11,7 @@ interface Props {
 export const SprintEpicSelectContainer: FC<Props> = ({ sprintId }) => {
   const open = useNestSprintFetchOption((state) => state.open);
   const { data } = useJiraSprintEpics(sprintId, open);
-  if (!data) return <></>;
+  if (!data) return <div />;
 
   return (
     <Box>

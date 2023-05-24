@@ -3,9 +3,7 @@ import { FC, useMemo } from "react";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 
-interface Props {}
-
-export const SprintContentSummary: FC<Props> = () => {
+export const SprintContentSummary: FC = () => {
   const points = useNestSprintPoint((state) => state.points);
   const times = useNextSprintTime((state) => state.times);
 

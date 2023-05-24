@@ -62,8 +62,8 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
     const parsedName = nameSchema.parse(name);
     const parsedEstimatedHour = estimatedHourSchema.parse(estimatedHour);
     if (
-      parsedName.hasOwnProperty("error") ||
-      parsedEstimatedHour.hasOwnProperty("error")
+      Object.prototype.hasOwnProperty.call(parsedName, "error") ||
+      Object.prototype.hasOwnProperty.call(parsedEstimatedHour, "error")
     ) {
       return;
     }
