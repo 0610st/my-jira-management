@@ -1,5 +1,5 @@
 import { Flex, Loader, Switch, Text } from "@mantine/core";
-import { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCreateSprintWithIssuesFromJira } from "../../../../api/hooks";
 import {
@@ -8,16 +8,17 @@ import {
 } from "../../../../types/sprint";
 import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 
+type Status = "idle" | "executing" | "success" | "error" | "skip";
+
 interface ActionBodyProps {
-  status: "idle" | "executing" | "success" | "error" | "skip";
+  status: Status;
   sprintChecked: boolean;
   storyChecked: boolean;
   taskChecked: boolean;
-  onClickSprint: () => void;
+  onClickSprint: (e: ChangeEvent<HTMLInputElement>) => void;
   onClickStory: () => void;
   onClickTack: () => void;
-  disabled: boolean;
-  sprintId: number;
+  successLink: string;
 }
 
 const ActionBody: FC<ActionBodyProps> = ({
@@ -28,36 +29,8 @@ const ActionBody: FC<ActionBodyProps> = ({
   onClickSprint,
   onClickStory,
   onClickTack,
-  disabled,
-  sprintId,
+  successLink,
 }) => {
-  if (status === "idle") {
-    return (
-      <Flex gap={8} wrap="wrap">
-        <Switch
-          onLabel="sprint"
-          offLabel="sprint"
-          checked={sprintChecked}
-          onChange={onClickSprint}
-          disabled={disabled}
-        />
-        <Switch
-          onLabel="tasks"
-          offLabel="tasks"
-          checked={taskChecked}
-          onChange={onClickTack}
-          disabled={disabled}
-        />
-        <Switch
-          onLabel="stories"
-          offLabel="stories"
-          checked={storyChecked}
-          onChange={onClickStory}
-          disabled={disabled}
-        />
-      </Flex>
-    );
-  }
   if (status === "executing") {
     return (
       <Flex align="center">
@@ -69,7 +42,7 @@ const ActionBody: FC<ActionBodyProps> = ({
 
   if (status === "success") {
     return (
-      <Text component={Link} to={`/sprint/${sprintId}`}>
+      <Text component={Link} to={successLink}>
         成功
       </Text>
     );
@@ -79,7 +52,34 @@ const ActionBody: FC<ActionBodyProps> = ({
     return <Text>Skip</Text>;
   }
 
-  return <Text>エラー</Text>;
+  if (status === "error") {
+    return <Text>エラー</Text>;
+  }
+
+  return (
+    <Flex gap={8} wrap="wrap">
+      <Switch
+        onLabel="sprint"
+        offLabel="sprint"
+        checked={sprintChecked}
+        onChange={onClickSprint}
+      />
+      <Switch
+        onLabel="tasks"
+        offLabel="tasks"
+        checked={taskChecked}
+        onChange={onClickTack}
+        disabled={!sprintChecked}
+      />
+      <Switch
+        onLabel="stories"
+        offLabel="stories"
+        checked={storyChecked}
+        onChange={onClickStory}
+        disabled={!sprintChecked}
+      />
+    </Flex>
+  );
 };
 
 interface UnimportTableRowProps {
@@ -87,12 +87,10 @@ interface UnimportTableRowProps {
 }
 
 export const UnimportTableRow: FC<UnimportTableRowProps> = ({ data }) => {
-  const [isImport, setIsImport] = useState(true);
+  const [active, setActive] = useState(true);
   const [withTasks, setWithTasks] = useState(true);
   const [withStories, setWithStories] = useState(true);
-  const [status, setStatus] = useState<
-    "idle" | "executing" | "success" | "error" | "skip"
-  >("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const currentId = useSprintImportPipe((state) => state.currentId);
   const nextStep = useSprintImportPipe((state) => state.nextStep);
   const { mutate: createSprint } = useCreateSprintWithIssuesFromJira({
@@ -105,28 +103,24 @@ export const UnimportTableRow: FC<UnimportTableRowProps> = ({ data }) => {
     },
   });
 
-  const handleSprintChange = () => {
-    setIsImport(!isImport);
-  };
+  const toggleActive = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setActive(checked);
+    setWithTasks(checked);
+    setWithStories(checked);
+  }, []);
 
-  const handleTasksChange = () => {
-    setWithTasks(!withTasks);
-  };
+  const toggleWithTasks = useCallback(() => {
+    setWithTasks((prev) => !prev);
+  }, []);
 
-  const handleStoriesChange = () => {
-    setWithStories(!withStories);
-  };
-
-  useEffect(() => {
-    if (!isImport) {
-      setWithTasks(false);
-      setWithStories(false);
-    }
-  }, [isImport]);
+  const toggleWithStories = useCallback(() => {
+    setWithStories((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     if (currentId === data.id && status === "idle") {
-      if (!isImport) {
+      if (!active) {
         setStatus("skip");
         nextStep();
         return;
@@ -145,7 +139,7 @@ export const UnimportTableRow: FC<UnimportTableRowProps> = ({ data }) => {
     status,
     withTasks,
     withStories,
-    isImport,
+    active,
     data.id,
     createSprint,
   ]);
@@ -159,14 +153,13 @@ export const UnimportTableRow: FC<UnimportTableRowProps> = ({ data }) => {
       <td>
         <ActionBody
           status={status}
-          sprintChecked={isImport}
+          sprintChecked={active}
           storyChecked={withStories}
           taskChecked={withTasks}
-          onClickSprint={handleSprintChange}
-          onClickStory={handleStoriesChange}
-          onClickTack={handleTasksChange}
-          disabled={currentId !== data.id}
-          sprintId={data.id}
+          onClickSprint={toggleActive}
+          onClickStory={toggleWithStories}
+          onClickTack={toggleWithTasks}
+          successLink={`/sprint/${data.id}`}
         />
       </td>
     </tr>
