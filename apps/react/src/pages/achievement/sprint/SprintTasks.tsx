@@ -1,7 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
+import { MultiSelect } from "@mantine/core";
 import { useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
+
+const UNASSIGNED = "(未割り当て)";
 
 interface Props {
   sprintId: number | null;
@@ -12,35 +15,29 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     sprintId === null ? undefined : sprintId,
     sprintId !== null
   );
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+    columnAccessor: "",
+    direction: "asc",
+  });
+  const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
+  const assignees = useMemo(() => {
+    if (!taskData) {
+      return [];
+    }
+    return [...new Set(taskData.map((task) => task.assignee ?? UNASSIGNED))];
+  }, [taskData]);
 
-  const addDiffTimeRow = useCallback((tasks: Task[] | undefined) => {
-    if (!tasks) return undefined;
-    return tasks.map((task) => ({
-      ...task,
-      diffTime:
-        task.estimatedTime === null || task.spentTime === null
-          ? null
-          : task.estimatedTime - task.spentTime,
-    }));
-  }, []);
-
-  const withDiffTasks = useMemo(
-    () => addDiffTimeRow(taskData),
-    [addDiffTimeRow, taskData]
-  );
-
-  const sort = useCallback(
+  const sortBy = useCallback(
     (
-      records:
-        | (Task & {
-            diffTime: number | null;
-          })[]
-        | undefined,
+      records: (Task & { diffTime: number | null })[] | undefined,
       columnAccessor: string,
       direction: "asc" | "desc"
     ) => {
       if (!records) {
         return undefined;
+      }
+      if (!columnAccessor) {
+        return records;
       }
 
       const sorted = [...records].sort((a, b) => {
@@ -60,62 +57,108 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     []
   );
 
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-    columnAccessor: "key",
-    direction: "asc",
-  });
-  const [records, setRecords] = useState<
-    | (Task & {
-        diffTime: number | null;
-      })[]
-    | undefined
-  >(sort(withDiffTasks, "key", "asc"));
+  const filter = useCallback(
+    (records: (Task & { diffTime: number | null })[] | undefined) => {
+      if (!records) {
+        return undefined;
+      }
+      if (selectedAssignees.length === 0) {
+        return records;
+      }
+      return records.filter((record) => {
+        if (record.assignee === null) {
+          return selectedAssignees.includes(UNASSIGNED);
+        }
+        return selectedAssignees.includes(record.assignee);
+      });
+    },
+    [selectedAssignees]
+  );
 
-  useEffect(() => {
-    const sortedData = sort(
-      withDiffTasks,
-      sortStatus.columnAccessor,
-      sortStatus.direction
+  const calcDiffTime = useCallback(
+    (estimatedTime: number | null, spentTime: number | null) => {
+      if (estimatedTime === null || spentTime === null) {
+        return null;
+      }
+      return (estimatedTime - spentTime) / 3600;
+    },
+    []
+  );
+
+  const records = useMemo(() => {
+    if (!taskData) {
+      return [];
+    }
+    const data = taskData.map((task) => ({
+      ...task,
+      diffTime: calcDiffTime(task.estimatedTime, task.spentTime),
+      estimatedTime:
+        task.estimatedTime !== null ? task.estimatedTime / 3600 : null,
+      spentTime: task.spentTime !== null ? task.spentTime / 3600 : null,
+    }));
+    return filter(
+      sortBy(data, sortStatus.columnAccessor, sortStatus.direction)
     );
-    setRecords(sortedData);
-  }, [withDiffTasks, sortStatus, sort]);
+  }, [
+    calcDiffTime,
+    filter,
+    sortBy,
+    sortStatus.columnAccessor,
+    sortStatus.direction,
+    taskData,
+  ]);
 
   return (
     <DataTable
-      withBorder
-      withColumnBorders
+      sx={{ width: "100%" }}
+      shadow="sm"
+      verticalAlignment="top"
       minHeight={150}
       fetching={isLoading}
       records={records}
       columns={[
-        { accessor: "key", title: "課題ID", sortable: true, width: 100 },
-        { accessor: "summary", title: "タイトル" },
-        { accessor: "assignee", title: "担当者", sortable: true },
+        { accessor: "key", title: "課題ID", sortable: true, width: 150 },
+        { accessor: "summary", title: "タイトル", width: "auto" },
+        {
+          accessor: "assignee",
+          title: "担当者",
+          sortable: true,
+          width: 200,
+          filter: (
+            <MultiSelect
+              w={300}
+              label="担当者選択"
+              data={assignees}
+              value={selectedAssignees}
+              onChange={setSelectedAssignees}
+              clearable
+              searchable
+            />
+          ),
+          filtering: selectedAssignees.length > 0,
+        },
         {
           accessor: "estimatedTime",
           title: "見積h",
           sortable: true,
           textAlignment: "right",
-          render: ({ estimatedTime }) =>
-            estimatedTime !== null ? estimatedTime / 3600 : null,
+          width: 100,
         },
         {
           accessor: "spentTime",
           title: "実績h",
           sortable: true,
           textAlignment: "right",
-          render: ({ spentTime }) =>
-            spentTime !== null ? spentTime / 3600 : null,
+          width: 100,
         },
         {
           accessor: "diffTime",
           title: "差分h",
           sortable: true,
           textAlignment: "right",
-          render: ({ diffTime }) =>
-            diffTime !== null ? diffTime / 3600 : null,
           cellsStyle: ({ diffTime }) =>
             diffTime !== null && diffTime < 0 ? { color: "red" } : undefined,
+          width: 100,
         },
       ]}
       sortStatus={sortStatus}
