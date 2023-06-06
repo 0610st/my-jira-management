@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
+import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { useTaskSummaries } from "../../../../api/hooks";
 
 const barColors = [
@@ -43,27 +44,45 @@ export const EstimatedTimeTransition = () => {
   const graphData = useMemo(() => {
     if (!taskSummaries) return [];
     const result: {
-      sprintId: number | null;
-      assignee: string;
-      estimatedTime: number;
+      [key: string]: number | null;
     }[] = [];
     sprintIds.forEach((sprintId) => {
+      let sprintResult: {
+        [assignee: string]: number;
+      } = {};
       assignees.forEach((assignee) => {
         const estimatedTime = taskSummaries
           .filter((task) => {
-            if (assignee === "null" && task.assignee !== null) return false;
-            if (assignee !== task.assignee) return false;
-            return task.sprintId === sprintId;
+            // return false if sprintId is null and task.sprintId is not null
+            if (sprintId === null && task.sprintId !== null) {
+              return false;
+            }
+            // return false if sprintId is not null and task.sprintId is greater than sprintId
+            if (
+              sprintId !== null &&
+              (task.sprintId === null || task.sprintId > sprintId)
+            ) {
+              return false;
+            }
+
+            // return false if assignee is 'null'
+            if (assignee === "null" && task.assignee !== null) {
+              return false;
+            }
+            return assignee === task.assignee;
           })
           .reduce(
             (prev, current) => prev + (current.sum.estimatedTime || 0),
             0
           );
-        result.push({
-          sprintId,
-          assignee,
-          estimatedTime,
-        });
+        sprintResult = {
+          ...sprintResult,
+          [assignee]: Math.round((estimatedTime / 3600) * 100) / 100,
+        };
+      });
+      result.push({
+        sprintId,
+        ...sprintResult,
       });
     });
     return result;
@@ -72,7 +91,7 @@ export const EstimatedTimeTransition = () => {
   const handleClick = (e: CategoricalChartState) => {
     navigate(
       e.activeLabel
-        ? `/achievement/sprint?sprindId=${e.activeLabel}`
+        ? `/achievement/sprint?sprintId=${e.activeLabel}`
         : "/achievement/sprint"
     );
   };
@@ -91,7 +110,9 @@ export const EstimatedTimeTransition = () => {
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="sprintId" />
       <YAxis unit="h" />
-      <Tooltip />
+      <Tooltip
+        itemSorter={(item: Payload<number, string>) => (item.value ?? 0) * -1}
+      />
       <Legend />
       {assignees.map((assignee, index) => (
         <Line

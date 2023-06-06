@@ -37,7 +37,7 @@ export const StoryPointStack = () => {
   const handleClick = (e: CategoricalChartState) => {
     navigate(
       e.activeLabel
-        ? `/achievement/sprint?sprindId=${e.activeLabel}`
+        ? `/achievement/sprint?sprintId=${e.activeLabel}`
         : "/achievement/sprint"
     );
   };

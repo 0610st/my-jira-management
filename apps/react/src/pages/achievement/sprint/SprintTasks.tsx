@@ -36,15 +36,28 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
       if (!records) {
         return undefined;
       }
-      if (!columnAccessor) {
-        return records;
-      }
 
       const sorted = [...records].sort((a, b) => {
+        if (!(columnAccessor in a) || !(columnAccessor in b)) {
+          return -1;
+        }
+
+        // @ts-expect-error columnAccessor is key of Task
+        if (a[columnAccessor] === null) {
+          return 1;
+        }
+
+        // @ts-expect-error columnAccessor is key of Task
+        if (b[columnAccessor] === null) {
+          return -1;
+        }
+
+        // @ts-expect-error columnAccessor is key of Task
         if (a[columnAccessor] < b[columnAccessor]) {
           return direction === "asc" ? -1 : 1;
         }
 
+        // @ts-expect-error columnAccessor is key of Task
         if (a[columnAccessor] > b[columnAccessor]) {
           return direction === "asc" ? 1 : -1;
         }
@@ -80,7 +93,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
       if (estimatedTime === null || spentTime === null) {
         return null;
       }
-      return (estimatedTime - spentTime) / 3600;
+      return Math.round(((estimatedTime - spentTime) / 3600) * 100) / 100;
     },
     []
   );
@@ -93,8 +106,13 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
       ...task,
       diffTime: calcDiffTime(task.estimatedTime, task.spentTime),
       estimatedTime:
-        task.estimatedTime !== null ? task.estimatedTime / 3600 : null,
-      spentTime: task.spentTime !== null ? task.spentTime / 3600 : null,
+        task.estimatedTime !== null
+          ? Math.round((task.estimatedTime / 3600) * 100) / 100
+          : null,
+      spentTime:
+        task.spentTime !== null
+          ? Math.round((task.spentTime / 3600) * 100) / 100
+          : null,
     }));
     return filter(
       sortBy(data, sortStatus.columnAccessor, sortStatus.direction)
