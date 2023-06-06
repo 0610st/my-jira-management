@@ -14,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "zod": "^3.14.3",
-    "database": "*"
+    "database": "*",
+    "eslint-config-custom": "*"
   },
   "devDependencies": {
     "tsconfig": "*",
