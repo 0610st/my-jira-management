@@ -9,10 +9,13 @@ import {
 import { BsSun, BsMoon } from "react-icons/bs";
 import menuItems from "./menuItems";
 import { NavbarLinkItem } from "./NavbarLinkItem";
+import { useAppEnvs } from "../../../api/hooks";
 
 export const Navbar: FC = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  // prefetch envs
+  useAppEnvs();
 
   return (
     <MtNavbar width={{ base: 300 }} p="xs">

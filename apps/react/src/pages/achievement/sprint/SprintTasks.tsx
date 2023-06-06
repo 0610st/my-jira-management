@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
-import { MultiSelect } from "@mantine/core";
-import { useTasks } from "../../../../api/hooks";
+import { Anchor, MultiSelect } from "@mantine/core";
+import { useAppEnvs, useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
 
 const UNASSIGNED = "(未割り当て)";
@@ -15,6 +15,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     sprintId === null ? undefined : sprintId,
     sprintId !== null
   );
+  const { data: appEnvs } = useAppEnvs();
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
     columnAccessor: "",
     direction: "asc",
@@ -135,7 +136,20 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
       fetching={isLoading}
       records={records}
       columns={[
-        { accessor: "key", title: "課題ID", sortable: true, width: 150 },
+        {
+          accessor: "key",
+          title: "課題ID",
+          sortable: true,
+          width: 150,
+          render: ({ key }) => (
+            <Anchor
+              href={appEnvs ? `${appEnvs.jiraUrlPrefix}/${key}` : undefined}
+              target="_blank"
+            >
+              {key}
+            </Anchor>
+          ),
+        },
         { accessor: "summary", title: "タイトル", width: "auto" },
         {
           accessor: "assignee",

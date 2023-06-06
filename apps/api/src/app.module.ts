@@ -10,6 +10,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { HttpModule } from '@nestjs/axios';
 import { SprintsModule } from './sprints/sprints.module';
 import { StoriesModule } from './stories/stories.module';
+import { EnvironmentsModule } from './environments/environments.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StoriesModule } from './stories/stories.module';
     HttpModule,
     SprintsModule,
     StoriesModule,
+    EnvironmentsModule,
   ],
   providers: [
     {

@@ -17,6 +17,7 @@ import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import {
   createJiraTask,
   createSprintWithIssuesFromJira,
+  getAppEnvs,
   getJiraEpicTasks,
   getJiraSprintEpics,
   getJiraSprints,
@@ -28,6 +29,7 @@ import {
   updateJiraEpic,
   updateJiraTask,
 } from "./rest";
+import { AppEnvironment } from "../types/env";
 
 export const useSprints = () =>
   useQuery<Sprint[], Error>(["sprints"], getSprints, { staleTime: Infinity });
@@ -138,3 +140,8 @@ export const useUpdateJiraEpic = (
     ({ key, body }) => updateJiraEpic(key, body),
     options
   );
+
+export const useAppEnvs = () =>
+  useQuery<AppEnvironment, Error>(["environments"], () => getAppEnvs(), {
+    staleTime: Infinity,
+  });

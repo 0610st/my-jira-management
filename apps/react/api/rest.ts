@@ -15,6 +15,7 @@ import {
   JiraTaskUpdate,
 } from "../types/jira";
 import { EpicsJiraResponse } from "../types/epic";
+import { AppEnvironment } from "../types/env";
 
 const apiUrl = import.meta.env.VITE_API_URL as unknown as string;
 
@@ -125,4 +126,10 @@ export const createJiraTask = async (body: JiraTaskCreate) => {
 
 export const updateJiraEpic = async (key: string, body: JiraEpicUpdate) => {
   await axios.put<void>(`${apiUrl}/jira/epics/${key}`, body);
+};
+
+export const getAppEnvs = async () => {
+  const res = await axios.get<AppEnvironment>(`${apiUrl}/environments`);
+
+  return res.data;
 };
