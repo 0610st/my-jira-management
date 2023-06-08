@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
-import { Anchor, MultiSelect } from "@mantine/core";
+import { MultiSelect } from "@mantine/core";
 import { useAppEnvs, useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
+import { IssueLink } from "../../../components/link/IssueLink";
 
 const UNASSIGNED = "(未割り当て)";
 
@@ -141,14 +142,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           title: "課題ID",
           sortable: true,
           width: 150,
-          render: ({ key }) => (
-            <Anchor
-              href={appEnvs ? `${appEnvs.jiraUrlPrefix}/${key}` : undefined}
-              target="_blank"
-            >
-              {key}
-            </Anchor>
-          ),
+          render: ({ key }) => <IssueLink issueId={key}>{key}</IssueLink>,
         },
         { accessor: "summary", title: "タイトル", width: "auto" },
         {

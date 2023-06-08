@@ -14,6 +14,7 @@ import { EpicIssue } from "../../../../types/epic";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
+import { IssueLink } from "../../../components/link/IssueLink";
 
 interface StatusBodyProps {
   status: "idle" | "executing" | "success" | "error";
@@ -96,9 +97,9 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
   return (
     <Paper id={epic.key} shadow="md" radius="xs" p="md" mb={8}>
       <Flex direction="column" sx={{ gap: 4 }}>
-        <Text c="dimmed" fz="sm">
+        <IssueLink issueId={epic.key} size="sm">
           {epic.key}
-        </Text>
+        </IssueLink>
         <Text fz="lg">{epic.fields.summary}</Text>
         <Flex wrap="wrap" align="center">
           <Flex align="center">
