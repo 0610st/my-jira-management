@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
 import { MultiSelect } from "@mantine/core";
-import { useAppEnvs, useTasks } from "../../../../api/hooks";
+import { useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
 import { IssueLink } from "../../../components/link/IssueLink";
 
@@ -16,7 +16,6 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     sprintId === null ? undefined : sprintId,
     sprintId !== null
   );
-  const { data: appEnvs } = useAppEnvs();
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
     columnAccessor: "",
     direction: "asc",
