@@ -33,7 +33,7 @@ const StatusBody: FC<StatusBodyProps> = ({ status }) => {
     );
   }
   if (status === "success") {
-    <Text>成功</Text>;
+    return <Text>成功</Text>;
   }
 
   return <Text>エラー</Text>;

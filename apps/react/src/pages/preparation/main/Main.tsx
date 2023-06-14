@@ -26,7 +26,7 @@ export const Main = () => {
         {enabled && (
           <Box>
             <Button disabled={execute} onClick={() => setExecute(true)}>
-              反映実行
+              反映
             </Button>
           </Box>
         )}

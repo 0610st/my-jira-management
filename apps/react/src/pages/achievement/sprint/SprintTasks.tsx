@@ -141,7 +141,11 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           title: "課題ID",
           sortable: true,
           width: 150,
-          render: ({ key }) => <IssueLink issueId={key}>{key}</IssueLink>,
+          render: ({ key }) => (
+            <IssueLink issueId={key} color="dimmed">
+              {key}
+            </IssueLink>
+          ),
         },
         { accessor: "summary", title: "タイトル", width: "auto" },
         {

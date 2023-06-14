@@ -5,6 +5,7 @@ import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../../api/hooks";
 import { TaskIssue } from "../../../../types/task";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
+import { IssueLink } from "../../../components/link/IssueLink";
 
 interface ActionBodyProps {
   status: "idle" | "executing" | "success" | "error" | "skip";
@@ -132,7 +133,11 @@ export const SprintIssueTaskItem: FC<SprintIssueTaskItemProps> = ({
 
   return (
     <tr key={task.key}>
-      <td>{task.key}</td>
+      <td>
+        <IssueLink issueId={task.key} color="dimmed">
+          {task.key}
+        </IssueLink>
+      </td>
       <td>{task.fields.status.name}</td>
       <td>{task.fields.summary}</td>
       <td>
