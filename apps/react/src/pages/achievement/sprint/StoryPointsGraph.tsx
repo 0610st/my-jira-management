@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import { useStorySummaries } from "../../../../api/hooks";
 import { StorySummary } from "../../../../types/story";
+import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 interface Props {
   sprintId: number | null;
@@ -70,12 +71,12 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
     <Box w={width} h={height}>
       <BarChart width={width} height={height} data={scopedStorySummaries}>
         <CartesianGrid strokeDasharray="2" />
-        <XAxis dataKey="sprintId" />
+        <XAxis dataKey="sprintId" tick={<SprintLabelForGraph />} />
         <YAxis domain={[0, maxPoint + 5]} />
         <Tooltip />
         <Legend />
         <Bar
-          name="storyPoint"
+          name="消化ポイント"
           dataKey="sum.storyPoint"
           fill="#8884d8"
           onClick={handleClick}

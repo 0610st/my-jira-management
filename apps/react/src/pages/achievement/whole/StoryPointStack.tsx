@@ -13,6 +13,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { useStorySummaries } from "../../../../api/hooks";
 import { getAccumulatedSum } from "../../../utils/util";
+import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 export const StoryPointStack = () => {
   const { data: storySummaries } = useStorySummaries();
@@ -57,11 +58,16 @@ export const StoryPointStack = () => {
       onClick={handleClick}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="sprintId" />
+      <XAxis dataKey="sprintId" tick={<SprintLabelForGraph />} />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Area type="monotone" dataKey="point" stroke="#8884d8" />
+      <Area
+        name="累積消化ポイント"
+        type="monotone"
+        dataKey="point"
+        stroke="#8884d8"
+      />
     </AreaChart>
   );
 };

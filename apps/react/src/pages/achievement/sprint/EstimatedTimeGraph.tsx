@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { useSprintSummary } from "../../../../api/hooks";
 import { TaskSummary } from "../../../../types/task";
+import { UNASSIGNED } from "./consts";
 
 interface Props {
   sprintId: number | null;
@@ -27,16 +28,17 @@ export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
     return <Skeleton width={width} height={height} />;
   }
 
+  const getAssignee = (data: TaskSummary) => data.assignee ?? UNASSIGNED;
   const getValue = (data: TaskSummary) => (data.sum.estimatedTime || 0) / 3600;
 
   return (
     <BarChart width={width} height={height} data={sprintSummary.taskSummaries}>
       <CartesianGrid strokeDasharray="2" />
-      <XAxis dataKey="assignee" />
+      <XAxis dataKey={getAssignee} />
       <YAxis unit="h" />
       <Tooltip />
       <Legend />
-      <Bar name="estimatedTime" unit="h" dataKey={getValue} fill="#8884d8" />
+      <Bar name="消化見積h" unit="h" dataKey={getValue} fill="#8884d8" />
     </BarChart>
   );
 };

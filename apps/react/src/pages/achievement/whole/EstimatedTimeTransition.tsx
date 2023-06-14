@@ -13,6 +13,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { useTaskSummaries } from "../../../../api/hooks";
+import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 const barColors = [
   "#4263EB",
@@ -108,7 +109,7 @@ export const EstimatedTimeTransition = () => {
       onClick={handleClick}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="sprintId" />
+      <XAxis dataKey="sprintId" tick={<SprintLabelForGraph />} />
       <YAxis unit="h" />
       <Tooltip
         itemSorter={(item: Payload<number, string>) => (item.value ?? 0) * -1}

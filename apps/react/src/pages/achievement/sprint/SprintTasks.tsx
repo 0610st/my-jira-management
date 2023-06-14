@@ -4,8 +4,7 @@ import { MultiSelect } from "@mantine/core";
 import { useTasks } from "../../../../api/hooks";
 import { Task } from "../../../../types/task";
 import { IssueLink } from "../../../components/link/IssueLink";
-
-const UNASSIGNED = "(未割り当て)";
+import { UNASSIGNED } from "./consts";
 
 interface Props {
   sprintId: number | null;

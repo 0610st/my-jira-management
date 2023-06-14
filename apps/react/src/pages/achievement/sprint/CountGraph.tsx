@@ -10,6 +10,8 @@ import {
   YAxis,
 } from "recharts";
 import { useSprintSummary } from "../../../../api/hooks";
+import { TaskSummary } from "../../../../types/task";
+import { UNASSIGNED } from "./consts";
 
 interface Props {
   sprintId: number | null;
@@ -26,14 +28,16 @@ export const CountGraph: FC<Props> = ({ sprintId, width, height }) => {
     return <Skeleton width={width} height={height} />;
   }
 
+  const getAssignee = (data: TaskSummary) => data.assignee ?? UNASSIGNED;
+
   return (
     <BarChart width={width} height={height} data={sprintSummary.taskSummaries}>
       <CartesianGrid strokeDasharray="2" />
-      <XAxis dataKey="assignee" />
+      <XAxis dataKey={getAssignee} />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="count" fill="#8884d8" />
+      <Bar name="消化タスク数" dataKey="count" fill="#8884d8" />
     </BarChart>
   );
 };

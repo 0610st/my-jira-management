@@ -13,6 +13,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { useStorySummaries } from "../../../../api/hooks";
 import { StorySummary } from "../../../../types/story";
+import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 export const StoryPointTransition = () => {
   const { data: storySummaries } = useStorySummaries();
@@ -56,11 +57,16 @@ export const StoryPointTransition = () => {
       onClick={handleClick}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="sprintId" />
+      <XAxis dataKey="sprintId" tick={<SprintLabelForGraph />} />
       <YAxis domain={[0, maxPoint + 5]} />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="sum.storyPoint" stroke="#8884d8" />
+      <Line
+        name="消化ポイント"
+        type="monotone"
+        dataKey="sum.storyPoint"
+        stroke="#8884d8"
+      />
     </LineChart>
   );
 };

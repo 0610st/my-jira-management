@@ -71,6 +71,7 @@ module.exports = {
     ],
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/jsx-no-useless-fragment": "off",
   },
   settings: {
     "import/resolver": {
