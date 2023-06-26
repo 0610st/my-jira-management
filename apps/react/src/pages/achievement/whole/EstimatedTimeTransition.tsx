@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
-import { useTaskSummaries } from "../../../../api/hooks";
+import { useTaskSummaries } from "../../../api/hooks";
 import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 const barColors = [
@@ -90,11 +90,7 @@ export const EstimatedTimeTransition = () => {
   }, [assignees, sprintIds, taskSummaries]);
 
   const handleClick = (e: CategoricalChartState) => {
-    navigate(
-      e.activeLabel
-        ? `/achievement/sprint?sprintId=${e.activeLabel}`
-        : "/achievement/sprint"
-    );
+    navigate(`/achievement/${e.activeLabel ?? ""}`);
   };
 
   if (!taskSummaries) {

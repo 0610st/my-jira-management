@@ -1,4 +1,5 @@
 import { Tabs } from "@mantine/core";
+import { BsGraphUp, BsList } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const MenuTabs = () => {
@@ -10,13 +11,17 @@ export const MenuTabs = () => {
     <Tabs
       value={tabValue}
       onTabChange={(value) =>
-        navigate(`/achievement/${value === null ? "sprint" : value}`)
+        navigate(`/achievement/${value === null ? "top" : value}`)
       }
       maw={600}
     >
       <Tabs.List>
-        <Tabs.Tab value="sprint">スプリント別</Tabs.Tab>
-        <Tabs.Tab value="whole">全期間</Tabs.Tab>
+        <Tabs.Tab value="top" icon={<BsList />}>
+          スプリント別
+        </Tabs.Tab>
+        <Tabs.Tab value="summaryGraph" icon={<BsGraphUp />}>
+          グラフ
+        </Tabs.Tab>
         <Tabs.Tab value="import">取込</Tabs.Tab>
       </Tabs.List>
     </Tabs>

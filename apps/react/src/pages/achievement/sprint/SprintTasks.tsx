@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, DataTableSortStatus } from "mantine-datatable";
 import { MultiSelect } from "@mantine/core";
-import { useTasks } from "../../../../api/hooks";
-import { Task } from "../../../../types/task";
+import { useTasks } from "../../../api/hooks";
+import { Task } from "../../../types/task";
 import { IssueLink } from "../../../components/link/IssueLink";
 import { UNASSIGNED } from "./consts";
 

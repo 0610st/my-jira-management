@@ -9,8 +9,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useSprintSummary } from "../../../../api/hooks";
-import { TaskSummary } from "../../../../types/task";
+import { useSprintSummary } from "../../../api/hooks";
+import { TaskSummary } from "../../../types/task";
 import { UNASSIGNED } from "./consts";
 
 interface Props {

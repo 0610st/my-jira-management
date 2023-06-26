@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Anchor, AnchorProps } from "@mantine/core";
-import { useAppEnvs } from "../../../api/hooks";
+import { useAppEnvs } from "../../api/hooks";
 
 type Props = AnchorProps & {
   issueId: string;

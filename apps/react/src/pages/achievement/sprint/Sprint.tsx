@@ -1,34 +1,24 @@
-import { Box, Container, Flex } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSprints } from "../../../../api/hooks";
+import { useNavigate, useParams } from "react-router-dom";
 import { CountGraph } from "./CountGraph";
 import { EstimatedTimeGraph } from "./EstimatedTimeGraph";
 import { SprintSelect } from "./SprintSelect";
 import { StoryPointResult } from "./StoryPointResult";
 import { StoryPointsGraph } from "./StoryPointsGraph";
 import { SprintTasks } from "./SprintTasks";
+import { MenuTabs } from "../MenuTabs";
 
 export const Sprint = () => {
-  const { data: sprints } = useSprints();
   const navigate = useNavigate();
-  const [searchParam] = useSearchParams();
-  const strSprintId = useMemo(() => {
-    if (searchParam.has("sprintId")) {
-      return searchParam.get("sprintId");
-    }
-    if (sprints && sprints.length > 0) {
-      return `${sprints[0].id}`;
-    }
-    return null;
-  }, [searchParam, sprints]);
-  const sprintId = Number.isNaN(strSprintId) ? null : Number(strSprintId);
+  const params = useParams<{ id: string }>();
+  const sprintId = useMemo(() => (params ? Number(params.id) : null), [params]);
 
   const [count, setCount] = useState(0);
 
   const handleChange = useCallback(
     (value: string | null) => {
-      navigate({ search: value === null ? "" : `sprintId=${value}` });
+      navigate(`/achievement/${value ?? ""}`);
     },
     [navigate]
   );
@@ -38,11 +28,17 @@ export const Sprint = () => {
   }, [sprintId]);
 
   return (
-    <Container fluid>
+    <Flex>
       <Flex direction="column" gap={16}>
+        <Box>
+          <MenuTabs />
+        </Box>
         <Flex justify="flex-start">
           <Box sx={{ width: 300 }}>
-            <SprintSelect value={strSprintId} onChange={handleChange} />
+            <SprintSelect
+              value={sprintId ? `${sprintId}` : ""}
+              onChange={handleChange}
+            />
           </Box>
         </Flex>
         <Flex display="row" justify="flex-start" wrap="wrap" gap={16}>
@@ -64,6 +60,6 @@ export const Sprint = () => {
           <SprintTasks sprintId={sprintId} />
         </Flex>
       </Flex>
-    </Container>
+    </Flex>
   );
 };

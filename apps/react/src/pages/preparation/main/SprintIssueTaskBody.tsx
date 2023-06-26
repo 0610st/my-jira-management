@@ -1,6 +1,6 @@
 import { Loader } from "@mantine/core";
 import { FC, useEffect } from "react";
-import { useJiraEpicTasks } from "../../../../api/hooks";
+import { useJiraEpicTasks } from "../../../api/hooks";
 import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTempTaskEpics } from "../../../store/useTempTaskEpics";

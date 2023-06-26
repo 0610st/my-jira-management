@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { useSprints } from "../../../api/hooks";
+import { useSprints } from "../../api/hooks";
 
 const SEARCH_KEY = "スプリント ";
 

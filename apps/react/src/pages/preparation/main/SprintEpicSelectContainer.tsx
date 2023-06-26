@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core";
 import { FC } from "react";
-import { useJiraSprintEpics } from "../../../../api/hooks";
+import { useJiraSprintEpics } from "../../../api/hooks";
 import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
 import { SprintEpicSelect } from "./SprintEpicSelect";
 

@@ -7,6 +7,7 @@ import { Whole } from "../pages/achievement/whole/Whole";
 import { Preparation } from "../pages/preparation";
 import { Main } from "../pages/preparation/main/Main";
 import { Settings } from "../pages/preparation/settings/Settings";
+import { SprintList } from "../pages/achievement/list/SprintList";
 
 export const Route = createBrowserRouter([
   {
@@ -18,11 +19,11 @@ export const Route = createBrowserRouter([
         element: <Achievement />,
         children: [
           {
-            path: "sprint",
-            element: <Sprint />,
+            path: "top",
+            element: <SprintList />,
           },
           {
-            path: "whole",
+            path: "summaryGraph",
             element: <Whole />,
           },
           {
@@ -30,7 +31,7 @@ export const Route = createBrowserRouter([
             element: <Import />,
           },
           {
-            path: "*",
+            path: ":id",
             element: <Sprint />,
           },
         ],

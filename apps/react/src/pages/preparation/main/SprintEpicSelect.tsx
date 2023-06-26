@@ -1,6 +1,6 @@
 import { Anchor, Box, Flex, Switch } from "@mantine/core";
 import { FC } from "react";
-import { EpicIssue } from "../../../../types/epic";
+import { EpicIssue } from "../../../types/epic";
 import { useExcludeEpics } from "../../../store/useExcludeEpics";
 import { useTempTaskEpics } from "../../../store/useTempTaskEpics";
 

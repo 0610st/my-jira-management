@@ -11,8 +11,8 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
-import { useStorySummaries } from "../../../../api/hooks";
-import { StorySummary } from "../../../../types/story";
+import { useStorySummaries } from "../../../api/hooks";
+import { StorySummary } from "../../../types/story";
 import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 export const StoryPointTransition = () => {
@@ -35,11 +35,7 @@ export const StoryPointTransition = () => {
   }, [comp, storySummaries]);
 
   const handleClick = (e: CategoricalChartState) => {
-    navigate(
-      e.activeLabel
-        ? `/achievement/sprint?sprintId=${e.activeLabel}`
-        : "/achievement/sprint"
-    );
+    navigate(`/achievement/${e.activeLabel ?? ""}`);
   };
 
   if (!storySummaries) {

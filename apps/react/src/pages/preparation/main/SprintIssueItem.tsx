@@ -9,8 +9,8 @@ import {
   Text,
 } from "@mantine/core";
 import { FC, useEffect, useMemo, useState } from "react";
-import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../../api/hooks";
-import { EpicIssue } from "../../../../types/epic";
+import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../api/hooks";
+import { EpicIssue } from "../../../types/epic";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";

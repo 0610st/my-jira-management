@@ -11,8 +11,8 @@ import {
   Tooltip,
   Cell,
 } from "recharts";
-import { useStorySummaries } from "../../../../api/hooks";
-import { StorySummary } from "../../../../types/story";
+import { useStorySummaries } from "../../../api/hooks";
+import { StorySummary } from "../../../types/story";
 import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
 
 interface Props {
@@ -58,9 +58,7 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
   }, [storySummaries, sprintId]);
 
   const handleClick = (data: StorySummary) => {
-    navigate({
-      search: data.sprintId === null ? "" : `sprintId=${data.sprintId}`,
-    });
+    navigate(`/achievement/${data.sprintId ?? ""}`);
   };
 
   if (!storySummaries) {

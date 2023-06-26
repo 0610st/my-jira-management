@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@mantine/core";
 import { FC } from "react";
-import { useJiraFutureSprints } from "../../../../api/hooks";
+import { useJiraFutureSprints } from "../../../api/hooks";
 import { SprintContentSummary } from "./SprintContentSummary";
 import { SprintEpicSelectContainer } from "./SprintEpicSelectContainer";
 import { SprintIssues } from "./SprintIssues";

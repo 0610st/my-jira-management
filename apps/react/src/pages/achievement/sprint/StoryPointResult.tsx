@@ -1,6 +1,6 @@
 import { Box, Flex, Skeleton, Text } from "@mantine/core";
 import { FC, useMemo } from "react";
-import { useStorySummaries } from "../../../../api/hooks";
+import { useStorySummaries } from "../../../api/hooks";
 import { StoryPointResultCompare } from "./StoryPointResultCompare";
 
 interface Props {

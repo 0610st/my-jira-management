@@ -1,8 +1,8 @@
 import { ActionIcon, Flex, Loader, MultiSelect, Text } from "@mantine/core";
 import { FC, useCallback, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
-import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../../api/hooks";
-import { TaskIssue } from "../../../../types/task";
+import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../api/hooks";
+import { TaskIssue } from "../../../types/task";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 import { IssueLink } from "../../../components/link/IssueLink";

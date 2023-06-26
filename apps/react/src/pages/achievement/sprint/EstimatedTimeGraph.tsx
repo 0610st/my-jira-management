@@ -9,9 +9,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useSprintSummary } from "../../../../api/hooks";
-import { TaskSummary } from "../../../../types/task";
+
+import { TaskSummary } from "../../../types/task";
 import { UNASSIGNED } from "./consts";
+import { useSprintSummary } from "../../../api/hooks";
 
 interface Props {
   sprintId: number | null;

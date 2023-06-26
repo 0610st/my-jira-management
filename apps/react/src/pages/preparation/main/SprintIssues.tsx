@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { useJiraSprintEpics } from "../../../../api/hooks";
+import { useJiraSprintEpics } from "../../../api/hooks";
 import { useExcludeEpics } from "../../../store/useExcludeEpics";
 import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
