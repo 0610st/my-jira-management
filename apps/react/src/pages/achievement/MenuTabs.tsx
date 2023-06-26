@@ -17,7 +17,7 @@ export const MenuTabs = () => {
     >
       <Tabs.List>
         <Tabs.Tab value="top" icon={<BsList />}>
-          スプリント別
+          リスト
         </Tabs.Tab>
         <Tabs.Tab value="summaryGraph" icon={<BsGraphUp />}>
           グラフ
