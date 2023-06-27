@@ -27,9 +27,7 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
 
   if (futureSprint.values.length !== 1) {
     return (
-      <div>
-        {`このデータは取り込めません。${JSON.stringify(futureSprint.values)}`}
-      </div>
+      <div>{`このデータは取り込めません。${JSON.stringify(futureSprint)}`}</div>
     );
   }
 

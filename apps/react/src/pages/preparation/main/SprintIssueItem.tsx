@@ -4,11 +4,12 @@ import {
   Loader,
   MultiSelect,
   Paper,
-  Slider,
   Table,
   Text,
 } from "@mantine/core";
 import { FC, useEffect, useMemo, useState } from "react";
+import { GiProgression } from "react-icons/gi";
+import { IoIosTimer } from "react-icons/io";
 import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../api/hooks";
 import { EpicIssue } from "../../../types/epic";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
@@ -97,32 +98,29 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
   return (
     <Paper id={epic.key} shadow="md" radius="xs" p="md" mb={8}>
       <Flex direction="column" sx={{ gap: 4 }}>
-        <IssueLink issueId={epic.key} size="sm">
-          {epic.key}
-        </IssueLink>
-        <Text fz="lg">{epic.fields.summary}</Text>
-        <Flex wrap="wrap" align="center">
-          <Flex align="center">
-            <Box w={300} my={32}>
-              <Slider
-                labelAlwaysOn
-                marks={[
-                  { value: 1, label: "1" },
-                  { value: 2, label: "2" },
-                  { value: 3, label: "3" },
-                  { value: 5, label: "5" },
-                  { value: 8, label: "8" },
-                  { value: 13, label: "13" },
-                  { value: 21, label: "21" },
-                ]}
-                max={25}
-                value={epic.fields.customfield_10016 || undefined}
-              />
-            </Box>
-            <Text ml={24} fz="xl" w={100}>
-              {timeSum} h
+        <Flex sx={{ gap: 12 }}>
+          <Box>
+            <IssueLink issueId={epic.key} size="sm">
+              {epic.key}
+            </IssueLink>
+          </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <Text fz="lg" truncate>
+              {epic.fields.summary}
             </Text>
+          </Box>
+          <Flex align="center">
+            <GiProgression size="1.2rem" />
+            {epic.fields.customfield_10016 !== undefined && (
+              <Text ml={2}>{epic.fields.customfield_10016} pt</Text>
+            )}
           </Flex>
+          <Flex align="center">
+            <IoIosTimer size="1.2rem" />
+            <Text ml={2}>{timeSum} h</Text>
+          </Flex>
+        </Flex>
+        <Flex align="center">
           <Flex miw={300} align="center" sx={{ gap: 6 }}>
             <Box>
               <MultiSelect
@@ -147,7 +145,7 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
           </Flex>
         </Flex>
       </Flex>
-      <Flex direction="column">
+      <Flex direction="column" mt={12}>
         <Table>
           <thead>
             <tr>
