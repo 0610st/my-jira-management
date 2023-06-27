@@ -66,9 +66,9 @@ export const EstimatedTimeTransition = () => {
               return false;
             }
 
-            // return false if assignee is 'null'
-            if (assignee === "null" && task.assignee !== null) {
-              return false;
+            // if assignee is 'null'
+            if (assignee === "null") {
+              return task.assignee === null;
             }
             return assignee === task.assignee;
           })
