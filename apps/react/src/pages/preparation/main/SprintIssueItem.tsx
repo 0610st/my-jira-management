@@ -16,6 +16,7 @@ import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
 import { IssueLink } from "../../../components/link/IssueLink";
+import { useExcludeEpics } from "../../../store/useExcludeEpics";
 
 interface StatusBodyProps {
   status: "idle" | "executing" | "success" | "error";
@@ -73,6 +74,7 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
     },
   });
   const times = useNextSprintTime((state) => state.times);
+  const excludeEpics = useExcludeEpics((state) => state.excludeEpics);
 
   const timeSum = useMemo(
     () =>
@@ -83,7 +85,7 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
   );
 
   useEffect(() => {
-    if (execute && status === "idle") {
+    if (execute && status === "idle" && !excludeEpics.includes(epic.key)) {
       setStatus("executing");
       const params: UpdateJiraEpicProps = {
         key: epic.key,
@@ -93,7 +95,11 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
       };
       updateEpic(params);
     }
-  }, [epic.key, execute, labels, status, updateEpic]);
+  }, [epic.key, excludeEpics, execute, labels, status, updateEpic]);
+
+  if (excludeEpics.includes(epic.key)) {
+    return <></>;
+  }
 
   return (
     <Paper id={epic.key} shadow="md" radius="xs" p="md" mb={8}>
