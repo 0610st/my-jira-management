@@ -9,7 +9,7 @@ import { StoryPointsGraph } from "./StoryPointsGraph";
 import { SprintTasks } from "./SprintTasks";
 import { MenuTabs } from "../MenuTabs";
 
-export const Sprint = () => {
+export const SprintDetail = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   const sprintId = useMemo(() => (params ? Number(params.id) : null), [params]);
@@ -18,7 +18,7 @@ export const Sprint = () => {
 
   const handleChange = useCallback(
     (value: string | null) => {
-      navigate(`/achievement/${value ?? ""}`);
+      navigate(`/sprint/${value ?? ""}`);
     },
     [navigate]
   );

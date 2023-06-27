@@ -21,7 +21,7 @@ export const SprintListTable: FC = () => {
       recordsPerPage={50}
       page={page}
       onPageChange={(p) => setPage(p)}
-      onRowClick={(row) => navigate(`/achievement/${row.id}`)}
+      onRowClick={(row) => navigate(`/sprint/${row.id}`)}
     />
   );
 };

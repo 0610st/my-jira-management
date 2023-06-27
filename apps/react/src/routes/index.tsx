@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Root } from "../components/root/Root";
-import { Achievement } from "../pages/achievement";
-import { Import } from "../pages/achievement/import/Import";
-import { Sprint } from "../pages/achievement/sprint/Sprint";
-import { Whole } from "../pages/achievement/whole/Whole";
+import { Sprint } from "../pages/sprint";
+import { Import } from "../pages/sprint/import/Import";
+import { SprintSummaryGraph } from "../pages/sprint/graph/SprintSummaryGraph";
 import { Preparation } from "../pages/preparation";
 import { Main } from "../pages/preparation/main/Main";
 import { Settings } from "../pages/preparation/settings/Settings";
-import { SprintList } from "../pages/achievement/list/SprintList";
+import { SprintList } from "../pages/sprint/list/SprintList";
+import { SprintDetail } from "../pages/sprint/detail/SprintDetail";
 
 export const Route = createBrowserRouter([
   {
@@ -15,8 +15,8 @@ export const Route = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "achievement",
-        element: <Achievement />,
+        path: "sprint",
+        element: <Sprint />,
         children: [
           {
             path: "top",
@@ -24,7 +24,7 @@ export const Route = createBrowserRouter([
           },
           {
             path: "summaryGraph",
-            element: <Whole />,
+            element: <SprintSummaryGraph />,
           },
           {
             path: "import",
@@ -32,7 +32,7 @@ export const Route = createBrowserRouter([
           },
           {
             path: ":id",
-            element: <Sprint />,
+            element: <SprintDetail />,
           },
         ],
       },

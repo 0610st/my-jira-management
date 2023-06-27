@@ -90,7 +90,7 @@ export const EstimatedTimeTransition = () => {
   }, [assignees, sprintIds, taskSummaries]);
 
   const handleClick = (e: CategoricalChartState) => {
-    navigate(`/achievement/${e.activeLabel ?? ""}`);
+    navigate(`/sprint/${e.activeLabel ?? ""}`);
   };
 
   if (!taskSummaries) {

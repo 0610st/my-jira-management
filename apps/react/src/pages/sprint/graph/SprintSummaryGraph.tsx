@@ -4,7 +4,7 @@ import { StoryPointStack } from "./StoryPointStack";
 import { StoryPointTransition } from "./StoryPointTransition";
 import { MenuTabs } from "../MenuTabs";
 
-export const Whole = () => (
+export const SprintSummaryGraph = () => (
   <>
     <Box>
       <MenuTabs />

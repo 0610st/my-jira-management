@@ -58,7 +58,7 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
   }, [storySummaries, sprintId]);
 
   const handleClick = (data: StorySummary) => {
-    navigate(`/achievement/${data.sprintId ?? ""}`);
+    navigate(`/sprint/${data.sprintId ?? ""}`);
   };
 
   if (!storySummaries) {

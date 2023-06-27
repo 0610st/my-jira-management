@@ -1,9 +1,10 @@
-import { Box, Button, Container, Flex } from "@mantine/core";
+import { Box, Button, Flex } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useJiraSprints, useSprints } from "../../../api/hooks";
 import { GetJiraSprints } from "../../../types/sprint";
 import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 import { UnimportTable } from "./UnimportTable";
+import { MenuTabs } from "../MenuTabs";
 
 export const Import = () => {
   const { data: currentSprints, isLoading: currentLoading } = useSprints();
@@ -45,8 +46,11 @@ export const Import = () => {
   }, [data, setSprintIds]);
 
   return (
-    <Container fluid>
-      <Flex justify="space-between">
+    <Flex direction="column">
+      <Box>
+        <MenuTabs />
+      </Box>
+      <Flex justify="space-between" mt={16}>
         <Box>
           <Button onClick={handleSubmit} disabled={currentLoading}>
             未取込スプリント取得
@@ -61,6 +65,6 @@ export const Import = () => {
         )}
       </Flex>
       <UnimportTable key={key} data={data} isLoading={isLoading && enabled} />
-    </Container>
+    </Flex>
   );
 };

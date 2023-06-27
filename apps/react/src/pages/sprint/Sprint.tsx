@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { useStorySummaries } from "../../api/hooks";
 
-export const Achievement: FC = () => {
+export const Sprint: FC = () => {
   useStorySummaries();
   return (
     <Container fluid display="flex">
