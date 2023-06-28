@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
-import { DataTable, DataTableSortStatus } from "mantine-datatable";
 import { MultiSelect } from "@mantine/core";
 import { useTasks } from "../../../api/hooks";
 import { Task } from "../../../types/task";
 import { IssueLink } from "../../../components/link/IssueLink";
 import { UNASSIGNED } from "./consts";
+import { CustomDataTable } from "../../../components/table/CustomDataTable";
 
 interface Props {
   sprintId: number | null;
@@ -15,10 +15,6 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     sprintId === null ? undefined : sprintId,
     sprintId !== null
   );
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-    columnAccessor: "",
-    direction: "asc",
-  });
   const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
   const assignees = useMemo(() => {
     if (!taskData) {
@@ -26,49 +22,6 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     }
     return [...new Set(taskData.map((task) => task.assignee ?? UNASSIGNED))];
   }, [taskData]);
-
-  const sortBy = useCallback(
-    (
-      records: (Task & { diffTime: number | null })[] | undefined,
-      columnAccessor: string,
-      direction: "asc" | "desc"
-    ) => {
-      if (!records) {
-        return undefined;
-      }
-
-      const sorted = [...records].sort((a, b) => {
-        if (!(columnAccessor in a) || !(columnAccessor in b)) {
-          return -1;
-        }
-
-        // @ts-expect-error columnAccessor is key of Task
-        if (a[columnAccessor] === null) {
-          return 1;
-        }
-
-        // @ts-expect-error columnAccessor is key of Task
-        if (b[columnAccessor] === null) {
-          return -1;
-        }
-
-        // @ts-expect-error columnAccessor is key of Task
-        if (a[columnAccessor] < b[columnAccessor]) {
-          return direction === "asc" ? -1 : 1;
-        }
-
-        // @ts-expect-error columnAccessor is key of Task
-        if (a[columnAccessor] > b[columnAccessor]) {
-          return direction === "asc" ? 1 : -1;
-        }
-
-        return 0;
-      });
-
-      return sorted;
-    },
-    []
-  );
 
   const filter = useCallback(
     (records: (Task & { diffTime: number | null })[] | undefined) => {
@@ -88,47 +41,19 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
     [selectedAssignees]
   );
 
-  const calcDiffTime = useCallback(
-    (estimatedTime: number | null, spentTime: number | null) => {
-      if (estimatedTime === null || spentTime === null) {
-        return null;
-      }
-      return Math.round(((estimatedTime - spentTime) / 3600) * 100) / 100;
-    },
-    []
-  );
-
   const records = useMemo(() => {
-    if (!taskData) {
-      return [];
-    }
-    const data = taskData.map((task) => ({
+    const data = taskData?.map((task) => ({
       ...task,
-      diffTime: calcDiffTime(task.estimatedTime, task.spentTime),
-      estimatedTime:
-        task.estimatedTime !== null
-          ? Math.round((task.estimatedTime / 3600) * 100) / 100
-          : null,
-      spentTime:
-        task.spentTime !== null
-          ? Math.round((task.spentTime / 3600) * 100) / 100
+      diffTime:
+        task.estimatedTime !== null && task.spentTime !== null
+          ? task.estimatedTime - task.spentTime
           : null,
     }));
-    return filter(
-      sortBy(data, sortStatus.columnAccessor, sortStatus.direction)
-    );
-  }, [
-    calcDiffTime,
-    filter,
-    sortBy,
-    sortStatus.columnAccessor,
-    sortStatus.direction,
-    taskData,
-  ]);
+    return filter(data);
+  }, [filter, taskData]);
 
   return (
-    <DataTable
-      sx={{ width: "100%" }}
+    <CustomDataTable
       shadow="sm"
       verticalAlignment="top"
       minHeight={150}
@@ -146,7 +71,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
             </IssueLink>
           ),
         },
-        { accessor: "summary", title: "タイトル", width: "auto" },
+        { accessor: "summary", title: "タイトル" },
         {
           accessor: "assignee",
           title: "担当者",
@@ -171,6 +96,10 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           sortable: true,
           textAlignment: "right",
           width: 100,
+          render: ({ estimatedTime }) =>
+            estimatedTime !== null
+              ? Math.round((estimatedTime / 3600) * 100) / 100
+              : null,
         },
         {
           accessor: "spentTime",
@@ -178,6 +107,10 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           sortable: true,
           textAlignment: "right",
           width: 100,
+          render: ({ spentTime }) =>
+            spentTime !== null
+              ? Math.round((spentTime / 3600) * 100) / 100
+              : null,
         },
         {
           accessor: "diffTime",
@@ -187,10 +120,12 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           cellsStyle: ({ diffTime }) =>
             diffTime !== null && diffTime < 0 ? { color: "red" } : undefined,
           width: 100,
+          render: ({ diffTime }) =>
+            diffTime !== null
+              ? Math.round((diffTime / 3600) * 100) / 100
+              : null,
         },
       ]}
-      sortStatus={sortStatus}
-      onSortStatusChange={setSortStatus}
     />
   );
 };

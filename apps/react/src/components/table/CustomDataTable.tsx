@@ -4,7 +4,7 @@ import {
   DataTableProps,
   DataTableSortStatus,
 } from "mantine-datatable";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
   const { records, columns, onRowClick } = props;
@@ -54,31 +54,26 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
     []
   );
 
+  const sortedRecords = useMemo(
+    () => sortBy(records, sortStatus.columnAccessor, sortStatus.direction),
+    [records, sortBy, sortStatus.columnAccessor, sortStatus.direction]
+  );
+
   useEffect(() => {
-    if (records) {
+    if (sortedRecords) {
       const newPage =
-        (page - 1) * pageSize > records.length
-          ? Math.ceil(records.length / pageSize)
+        (page - 1) * pageSize > sortedRecords.length
+          ? Math.ceil(sortedRecords.length / pageSize)
           : page;
       setPage(newPage);
       setShowRecords(
-        sortBy(records, sortStatus.columnAccessor, sortStatus.direction)?.slice(
-          (newPage - 1) * pageSize,
-          newPage * pageSize
-        )
+        sortedRecords.slice((newPage - 1) * pageSize, newPage * pageSize)
       );
     }
-  }, [
-    page,
-    records,
-    pageSize,
-    sortBy,
-    sortStatus.columnAccessor,
-    sortStatus.direction,
-  ]);
+  }, [page, pageSize, sortedRecords]);
 
   return (
-    <Flex direction="column" sx={{ gap: 6 }}>
+    <Flex direction="column" sx={{ flex: 1, gap: 6 }}>
       <Flex justify="flex-end">
         <Select
           label="行数"
