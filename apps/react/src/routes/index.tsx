@@ -8,6 +8,8 @@ import { Main } from "../pages/preparation/main/Main";
 import { Settings } from "../pages/preparation/settings/Settings";
 import { SprintList } from "../pages/sprint/list/SprintList";
 import { SprintDetail } from "../pages/sprint/detail/SprintDetail";
+import { Task } from "../pages/task";
+import { TaskList } from "../pages/task/list/TaskList";
 
 export const Route = createBrowserRouter([
   {
@@ -33,6 +35,24 @@ export const Route = createBrowserRouter([
           {
             path: ":id",
             element: <SprintDetail />,
+          },
+          {
+            path: "*",
+            element: <SprintList />,
+          },
+        ],
+      },
+      {
+        path: "task",
+        element: <Task />,
+        children: [
+          {
+            path: "top",
+            element: <TaskList />,
+          },
+          {
+            path: "*",
+            element: <TaskList />,
           },
         ],
       },

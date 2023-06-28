@@ -7,4 +7,10 @@ export default [
     link: "/sprint/top",
     Icon: BsFillAwardFill,
   },
+  {
+    label: "タスク",
+    path: "/task",
+    link: "/task/top",
+    Icon: BsFillAwardFill,
+  },
 ];
