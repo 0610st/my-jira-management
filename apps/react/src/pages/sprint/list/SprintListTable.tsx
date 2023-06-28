@@ -11,10 +11,10 @@ export const SprintListTable: FC = () => {
     <CustomDataTable
       records={sprints}
       columns={[
-        { accessor: "id" },
-        { accessor: "name" },
-        { accessor: "startDate" },
-        { accessor: "endDate" },
+        { accessor: "id", width: 100, sortable: true },
+        { accessor: "name", sortable: true },
+        { accessor: "startDate", width: 250, sortable: true },
+        { accessor: "endDate", width: 250, sortable: true },
       ]}
       onRowClick={(row) => navigate(`/sprint/${row.id}`)}
     />

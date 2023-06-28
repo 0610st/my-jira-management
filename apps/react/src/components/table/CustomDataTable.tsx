@@ -1,12 +1,58 @@
 import { Flex, Select } from "@mantine/core";
-import { DataTable, DataTableProps } from "mantine-datatable";
-import { useEffect, useState } from "react";
+import {
+  DataTable,
+  DataTableProps,
+  DataTableSortStatus,
+} from "mantine-datatable";
+import { useCallback, useEffect, useState } from "react";
 
 export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
   const { records, columns, onRowClick } = props;
   const [showRecords, setShowRecords] = useState<T[]>();
   const [pageSize, setPageSize] = useState(20);
   const [page, setPage] = useState(1);
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+    columnAccessor: "",
+    direction: "asc",
+  });
+
+  const sortBy = useCallback(
+    (
+      data: T[] | undefined,
+      columnAccessor: string,
+      direction: "asc" | "desc"
+    ) => {
+      if (!data) {
+        return undefined;
+      }
+
+      const sorted = Array.from(data).sort((a, b) => {
+        const valueA = a[columnAccessor as keyof T];
+        const valueB = b[columnAccessor as keyof T];
+
+        if (valueA == null) {
+          return 1;
+        }
+
+        if (valueB == null) {
+          return -1;
+        }
+
+        if (valueA < valueB) {
+          return direction === "asc" ? -1 : 1;
+        }
+
+        if (valueA > valueB) {
+          return direction === "asc" ? 1 : -1;
+        }
+
+        return 0;
+      });
+
+      return sorted;
+    },
+    []
+  );
 
   useEffect(() => {
     if (records) {
@@ -16,10 +62,20 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
           : page;
       setPage(newPage);
       setShowRecords(
-        records.slice((newPage - 1) * pageSize, newPage * pageSize)
+        sortBy(records, sortStatus.columnAccessor, sortStatus.direction)?.slice(
+          (newPage - 1) * pageSize,
+          newPage * pageSize
+        )
       );
     }
-  }, [page, records, pageSize]);
+  }, [
+    page,
+    records,
+    pageSize,
+    sortBy,
+    sortStatus.columnAccessor,
+    sortStatus.direction,
+  ]);
 
   return (
     <Flex direction="column" sx={{ gap: 6 }}>
@@ -45,6 +101,8 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
         page={page}
         onPageChange={(p) => setPage(p)}
         onRowClick={onRowClick}
+        sortStatus={sortStatus}
+        onSortStatusChange={setSortStatus}
       />
     </Flex>
   );
