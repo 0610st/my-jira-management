@@ -10,7 +10,7 @@ export const TaskListTable: FC = () => {
 
   return (
     <CustomDataTable
-      data={tasks}
+      records={tasks}
       columns={[
         { accessor: "key", width: 120 },
         {

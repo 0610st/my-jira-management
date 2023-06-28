@@ -1,29 +1,25 @@
 import { Flex, Select } from "@mantine/core";
-import { DataTable, DataTableColumn } from "mantine-datatable";
+import { DataTable, DataTableProps } from "mantine-datatable";
 import { useEffect, useState } from "react";
 
-interface DataTableProps<T> {
-  data: T[] | undefined;
-  columns: DataTableColumn<T>[];
-  onRowClick?: (row: T) => void;
-}
-
 export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
-  const { data, columns, onRowClick } = props;
-  const [records, setRecords] = useState<T[]>();
+  const { records, columns, onRowClick } = props;
+  const [showRecords, setShowRecords] = useState<T[]>();
   const [pageSize, setPageSize] = useState(20);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    if (data) {
+    if (records) {
       const newPage =
-        (page - 1) * pageSize > data.length
-          ? Math.ceil(data.length / pageSize)
+        (page - 1) * pageSize > records.length
+          ? Math.ceil(records.length / pageSize)
           : page;
       setPage(newPage);
-      setRecords(data.slice((newPage - 1) * pageSize, newPage * pageSize));
+      setShowRecords(
+        records.slice((newPage - 1) * pageSize, newPage * pageSize)
+      );
     }
-  }, [page, data, pageSize]);
+  }, [page, records, pageSize]);
 
   return (
     <Flex direction="column" sx={{ gap: 6 }}>
@@ -42,9 +38,9 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
         />
       </Flex>
       <DataTable
-        records={records}
+        records={showRecords}
         columns={columns}
-        totalRecords={data ? data.length : 0}
+        totalRecords={records ? records.length : 0}
         recordsPerPage={pageSize}
         page={page}
         onPageChange={(p) => setPage(p)}
