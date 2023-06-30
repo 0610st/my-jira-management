@@ -1,7 +1,6 @@
 import { Box, Flex } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CountGraph } from "./CountGraph";
 import { EstimatedTimeGraph } from "./EstimatedTimeGraph";
 import { SprintSelect } from "./SprintSelect";
 import { StoryPointResult } from "./StoryPointResult";
@@ -29,7 +28,7 @@ export const SprintDetail = () => {
 
   return (
     <Flex>
-      <Flex direction="column" gap={16}>
+      <Flex direction="column" gap={8}>
         <Box>
           <MenuTabs />
         </Box>
@@ -41,20 +40,19 @@ export const SprintDetail = () => {
             />
           </Box>
         </Flex>
-        <Flex display="row" justify="flex-start" wrap="wrap" gap={16}>
-          <Flex display="row" justify="flex-start" wrap="wrap" gap={16}>
-            <StoryPointResult sprintId={sprintId} width={400} height={300} />
+        <Flex display="row" justify="flex-start" wrap="wrap" gap={32}>
+          <Flex direction="column" align="center">
+            <Box>
+              <StoryPointResult sprintId={sprintId} />
+            </Box>
             <StoryPointsGraph
               key={count}
               sprintId={sprintId}
-              width={400}
-              height={300}
+              width={600}
+              height={250}
             />
           </Flex>
-          <Flex display="row" justify="flex-start" wrap="wrap" gap={16}>
-            <EstimatedTimeGraph sprintId={sprintId} width={400} height={300} />
-            <CountGraph sprintId={sprintId} width={400} height={300} />
-          </Flex>
+          <EstimatedTimeGraph sprintId={sprintId} width={300} height={300} />
         </Flex>
         <Flex>
           <SprintTasks sprintId={sprintId} />
