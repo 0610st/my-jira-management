@@ -13,4 +13,10 @@ export default [
     link: "/task/top",
     Icon: BsFillAwardFill,
   },
+  {
+    label: "ストーリー",
+    path: "/story",
+    link: "/story/top",
+    Icon: BsFillAwardFill,
+  },
 ];

@@ -7,7 +7,7 @@ import {
   SprintSummary,
 } from "../types/sprint";
 import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
-import { StorySummary } from "../types/story";
+import { Story, StorySummary } from "../types/story";
 import {
   JiraEpicUpdate,
   JiraSearch,
@@ -130,6 +130,16 @@ export const updateJiraEpic = async (key: string, body: JiraEpicUpdate) => {
 
 export const getAppEnvs = async () => {
   const res = await axios.get<AppEnvironment>(`${apiUrl}/environments`);
+
+  return res.data;
+};
+
+export const getStories = async (sprintId?: number) => {
+  const res = await axios.get<Story[]>(`${apiUrl}/stories`, {
+    params: {
+      sprintId,
+    },
+  });
 
   return res.data;
 };

@@ -10,6 +10,8 @@ import { SprintList } from "../pages/sprint/list/SprintList";
 import { SprintDetail } from "../pages/sprint/detail/SprintDetail";
 import { Task } from "../pages/task";
 import { TaskList } from "../pages/task/list/TaskList";
+import { Story } from "../pages/story";
+import { StoryList } from "../pages/story/list/StoryList";
 
 export const Route = createBrowserRouter([
   {
@@ -53,6 +55,20 @@ export const Route = createBrowserRouter([
           {
             path: "*",
             element: <TaskList />,
+          },
+        ],
+      },
+      {
+        path: "story",
+        element: <Story />,
+        children: [
+          {
+            path: "top",
+            element: <StoryList />,
+          },
+          {
+            path: "*",
+            element: <StoryList />,
           },
         ],
       },

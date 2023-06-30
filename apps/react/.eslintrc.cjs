@@ -73,6 +73,7 @@ module.exports = {
     "react/jsx-props-no-spreading": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/no-array-index-key": "off",
+    "arrow-body-style": "off",
   },
   settings: {
     "import/resolver": {

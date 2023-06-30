@@ -12,7 +12,7 @@ import {
   SprintsJiraResponse,
   SprintSummary,
 } from "../types/sprint";
-import { StorySummary } from "../types/story";
+import { Story, StorySummary } from "../types/story";
 import { Task, TasksJiraResponse, TaskSummary } from "../types/task";
 import {
   createJiraTask,
@@ -23,6 +23,7 @@ import {
   getJiraSprints,
   getSprints,
   getSprintSummary,
+  getStories,
   getStorySummaries,
   getTasks,
   getTaskSummaries,
@@ -144,4 +145,10 @@ export const useUpdateJiraEpic = (
 export const useAppEnvs = () =>
   useQuery<AppEnvironment, Error>(["environments"], () => getAppEnvs(), {
     staleTime: Infinity,
+  });
+
+export const useStories = (sprintId: number | undefined, enabled: boolean) =>
+  useQuery<Story[], Error>(["stories", sprintId], () => getStories(sprintId), {
+    staleTime: Infinity,
+    enabled,
   });
