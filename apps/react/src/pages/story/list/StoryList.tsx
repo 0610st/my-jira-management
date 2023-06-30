@@ -8,7 +8,7 @@ export const StoryList: FC = () => (
     <Box>
       <MenuTabs />
     </Box>
-    <Box mt={18}>
+    <Box>
       <StoryListTable />
     </Box>
   </>

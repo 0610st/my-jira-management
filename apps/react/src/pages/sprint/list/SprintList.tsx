@@ -8,7 +8,7 @@ export const SprintList: FC = () => (
     <Box>
       <MenuTabs />
     </Box>
-    <Box mt={18}>
+    <Box>
       <SprintListTable />
     </Box>
   </>

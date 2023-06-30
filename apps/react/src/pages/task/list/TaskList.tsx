@@ -8,7 +8,7 @@ export const TaskList: FC = () => (
     <Box>
       <MenuTabs />
     </Box>
-    <Box mt={18}>
+    <Box>
       <TaskListTable />
     </Box>
   </>
