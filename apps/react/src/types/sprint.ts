@@ -1,16 +1,10 @@
 import { z } from "zod";
 import {
-  SprintSchema,
-  SprintSummarySchema,
   GetJiraSprintsSchema,
   SprintsJiraResponseSchema,
   SprintValueSchema,
   ImportJiraSprintResultSchema,
-} from "common-schema";
-
-export type Sprint = z.infer<typeof SprintSchema>;
-
-export type SprintSummary = z.infer<typeof SprintSummarySchema>;
+} from "contracts";
 
 export type GetJiraSprints = z.infer<typeof GetJiraSprintsSchema>;
 

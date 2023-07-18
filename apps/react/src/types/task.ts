@@ -4,7 +4,7 @@ import {
   TaskSchema,
   TasksJiraResponseSchema,
   TaskSummarySchema,
-} from "common-schema";
+} from "contracts";
 
 export type Task = z.infer<typeof TaskSchema>;
 

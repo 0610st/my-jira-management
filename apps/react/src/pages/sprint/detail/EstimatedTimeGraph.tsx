@@ -25,12 +25,12 @@ interface Props {
 export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
   const { data: sprintSummary } = useSprintSummary(
     Number(sprintId),
-    sprintId !== null
+    sprintId !== null,
   );
 
   const graphData = useMemo(
     (): { name: string; value: number }[] | undefined =>
-      sprintSummary?.taskSummaries
+      sprintSummary?.body.taskSummaries
         .map((taskSummary) => ({
           name: taskSummary.assignee ?? UNASSIGNED,
           value:
@@ -38,7 +38,7 @@ export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
             10,
         }))
         .sort((a, b) => b.value - a.value),
-    [sprintSummary]
+    [sprintSummary],
   );
 
   if (!sprintSummary) {

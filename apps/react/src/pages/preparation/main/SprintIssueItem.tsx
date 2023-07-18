@@ -10,7 +10,7 @@ import {
 import { FC, useEffect, useMemo, useState } from "react";
 import { GiProgression } from "react-icons/gi";
 import { IoIosTimer } from "react-icons/io";
-import { UpdateJiraEpicProps, useUpdateJiraEpic } from "../../../api/hooks";
+import { useUpdateJiraEpic } from "../../../api/hooks";
 import { EpicIssue } from "../../../types/epic";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
@@ -57,10 +57,10 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
 }) => {
   const storyLabels = useStoryLabels((state) => state.storyLabels);
   const [labels, setLabels] = useState(
-    Array.from(new Set([...epic.fields.labels, ...storyLabels]))
+    Array.from(new Set([...epic.fields.labels, ...storyLabels])),
   );
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label, value: label }))
+    labels.map((label) => ({ label, value: label })),
   );
   const [status, setStatus] = useState<
     "idle" | "executing" | "success" | "error"
@@ -81,19 +81,13 @@ export const SprintIssueItem: FC<SprintIssueItemProps> = ({
       times
         .filter((time) => time.parent === epic.key)
         .reduce((sum, time) => sum + time.time, 0),
-    [epic.key, times]
+    [epic.key, times],
   );
 
   useEffect(() => {
     if (execute && status === "idle" && !excludeEpics.includes(epic.key)) {
       setStatus("executing");
-      const params: UpdateJiraEpicProps = {
-        key: epic.key,
-        body: {
-          labels,
-        },
-      };
-      updateEpic(params);
+      updateEpic({ params: { key: epic.key }, body: { labels } });
     }
   }, [epic.key, excludeEpics, execute, labels, status, updateEpic]);
 

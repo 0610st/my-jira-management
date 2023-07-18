@@ -10,7 +10,7 @@ export const StoryListTable: FC = () => {
 
   return (
     <CustomDataTable
-      records={stories}
+      records={stories?.body}
       columns={[
         { accessor: "key", width: 120, sortable: true },
         {

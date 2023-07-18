@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { EnvironmentsService } from './environments.service';
+import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { api } from 'contracts';
 
-@Controller('environments')
+@Controller()
 export class EnvironmentsController {
   constructor(private readonly environmentsService: EnvironmentsService) {}
 
-  @Get()
-  getEnvs() {
-    return this.environmentsService.getEnvs();
+  @TsRestHandler(api.environments.getEnvironment)
+  async getEnvs() {
+    return tsRestHandler(api.environments.getEnvironment, async () => {
+      const env = this.environmentsService.getEnvs();
+      return { status: 200, body: env };
+    });
   }
 }

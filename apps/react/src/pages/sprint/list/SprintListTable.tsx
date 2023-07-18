@@ -9,7 +9,7 @@ export const SprintListTable: FC = () => {
 
   return (
     <CustomDataTable
-      records={sprints}
+      records={sprints?.body}
       columns={[
         { accessor: "id", width: 100, sortable: true },
         { accessor: "name", sortable: true },

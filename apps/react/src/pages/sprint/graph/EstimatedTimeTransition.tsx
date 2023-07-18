@@ -34,12 +34,14 @@ export const EstimatedTimeTransition = () => {
 
   const assignees = useMemo(() => {
     if (!taskSummaries) return [];
-    return [...new Set(taskSummaries.map((task) => task.assignee || "null"))];
+    return [
+      ...new Set(taskSummaries.body.map((task) => task.assignee || "null")),
+    ];
   }, [taskSummaries]);
 
   const sprintIds = useMemo(() => {
     if (!taskSummaries) return [];
-    return [...new Set(taskSummaries.map((task) => task.sprintId))];
+    return [...new Set(taskSummaries.body.map((task) => task.sprintId))];
   }, [taskSummaries]);
 
   const graphData = useMemo(() => {
@@ -52,7 +54,7 @@ export const EstimatedTimeTransition = () => {
         [assignee: string]: number;
       } = {};
       assignees.forEach((assignee) => {
-        const estimatedTime = taskSummaries
+        const estimatedTime = taskSummaries.body
           .filter((task) => {
             // return false if sprintId is null and task.sprintId is not null
             if (sprintId === null && task.sprintId !== null) {
@@ -74,7 +76,7 @@ export const EstimatedTimeTransition = () => {
           })
           .reduce(
             (prev, current) => prev + (current.sum.estimatedTime || 0),
-            0
+            0,
           );
         sprintResult = {
           ...sprintResult,

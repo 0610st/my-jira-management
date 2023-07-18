@@ -1,4 +1,4 @@
-import { EpicIssueSchema, EpicsJiraResponseSchema } from "common-schema";
+import { EpicIssueSchema, EpicsJiraResponseSchema } from "contracts";
 import { z } from "zod";
 
 export type EpicsJiraResponse = z.infer<typeof EpicsJiraResponseSchema>;

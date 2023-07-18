@@ -8,7 +8,7 @@ import { ItemProps } from "../../../store/useTempTaskItems";
 const nameSchema = z.string().min(1);
 const estimatedHourSchema = z.preprocess(
   (v) => Number(v),
-  z.number({ invalid_type_error: "invalid format" }).min(0).max(50)
+  z.number({ invalid_type_error: "invalid format" }).min(0).max(50),
 );
 
 export type NewItem = Omit<ItemProps, "deleted"> & { labels: string[] };
@@ -29,7 +29,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   const [{ value: name, valid: validName }, setName] = useValidatedState(
     initialItem.name,
     (value) => nameSchema.safeParse(value).success,
-    true
+    true,
   );
   const [
     { value: estimatedHour, valid: validEstimatedHour },
@@ -37,11 +37,11 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   ] = useValidatedState(
     `${initialItem.estimatedHour}`,
     (value) => estimatedHourSchema.safeParse(value).success,
-    true
+    true,
   );
   const [labels, setLabels] = useState([...initialItem.labels]);
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label, value: label }))
+    labels.map((label) => ({ label, value: label })),
   );
 
   const handleSubmit = useCallback(() => {
@@ -64,7 +64,7 @@ export const SprintIssueNewTaskForm: FC<Props> = ({
   return (
     <tr>
       <td>追加</td>
-      <td />
+      <td> </td>
       <td>
         <Box>
           <TextInput

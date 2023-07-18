@@ -22,10 +22,12 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return <div>error raise</div>;
   }
 
-  if (futureSprint.values.length !== 1) {
+  if (futureSprint.body.values.length !== 1) {
     return (
       <div>{`このデータは取り込めません。${JSON.stringify(futureSprint)}`}</div>
     );
@@ -34,16 +36,21 @@ export const SprintContent: FC<Props> = ({ enabled, execute }) => {
   return (
     <Flex sx={{ gap: 16 }} wrap="wrap">
       <Box w={300}>
-        <Text fz="lg">{futureSprint.values[0].name}</Text>
+        <Text fz="lg">{futureSprint.body.values[0].name}</Text>
         <Box mt={8}>
           <SprintContentSummary />
         </Box>
         <Box mt={8}>
-          <SprintEpicSelectContainer sprintId={futureSprint.values[0].id} />
+          <SprintEpicSelectContainer
+            sprintId={futureSprint.body.values[0].id}
+          />
         </Box>
       </Box>
       <Box sx={{ flex: 1 }} miw={700}>
-        <SprintIssues sprintId={futureSprint.values[0].id} execute={execute} />
+        <SprintIssues
+          sprintId={futureSprint.body.values[0].id}
+          execute={execute}
+        />
       </Box>
     </Flex>
   );

@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod';
-import { CreateStorySchema } from 'common-schema';
+import { CreateStorySchema } from 'contracts';
 import { StoriesJiraResponseDto } from 'src/jira/dto/stories-jira-response.dto';
 
 export class CreateStoryDto extends createZodDto(CreateStorySchema) {

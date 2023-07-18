@@ -14,8 +14,9 @@ export const StoryPointResult: FC<Props> = ({ sprintId }) => {
       return null;
     }
     return (
-      storySummaries.find((storySummary) => storySummary.sprintId === sprintId)
-        ?.sum.storyPoint ?? null
+      storySummaries.body.find(
+        (storySummary) => storySummary.sprintId === sprintId,
+      )?.sum.storyPoint ?? null
     );
   }, [sprintId, storySummaries]);
 

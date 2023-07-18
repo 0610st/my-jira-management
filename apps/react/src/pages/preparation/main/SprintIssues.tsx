@@ -16,8 +16,8 @@ export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
 
   useEffect(() => {
     if (data) {
-      data.issues.forEach((epic) =>
-        setPoint({ key: epic.key, point: epic.fields.customfield_10016 || 0 })
+      data.body.issues.forEach((epic) =>
+        setPoint({ key: epic.key, point: epic.fields.customfield_10016 || 0 }),
       );
     }
   }, [setPoint, data]);
@@ -27,12 +27,14 @@ export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return <div>error raise</div>;
   }
 
   return (
     <>
-      {data.issues.map((epic) => (
+      {data.body.issues.map((epic) => (
         <SprintIssueItem
           key={epic.key}
           epic={epic}

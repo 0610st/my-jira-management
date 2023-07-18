@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod';
-import { CreateSprintSchema } from 'common-schema';
+import { CreateSprintSchema } from 'contracts';
 import { SprintsJiraResponseDto } from './sprints-jira-response.dto';
 import { SprintResponseDto } from 'src/jira/dto/sprint-response.dto';
 

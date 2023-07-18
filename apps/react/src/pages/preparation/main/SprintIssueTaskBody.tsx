@@ -27,7 +27,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
 
   useEffect(() => {
     if (data) {
-      data.issues.forEach((task) => {
+      data.body.issues.forEach((task) => {
         const time = task.fields.timetracking.remainingEstimateSeconds
           ? task.fields.timetracking.remainingEstimateSeconds / 60 / 60
           : 0;
@@ -51,16 +51,18 @@ export const SprintIssueTaskBody: FC<Props> = ({
   }
 
   if (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
     return (
       <tr>
-        <td colSpan={100}>{error.message}</td>
+        <td colSpan={100}>error raise</td>
       </tr>
     );
   }
 
   return (
     <>
-      {data.issues.map((task) => (
+      {data.body.issues.map((task) => (
         <SprintIssueTaskItem
           key={task.key}
           task={task}

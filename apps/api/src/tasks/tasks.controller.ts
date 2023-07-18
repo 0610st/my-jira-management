@@ -1,32 +1,34 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { CreataTasksFromJiraDto } from './dto/create-tasks-from-jira.dto';
+import { Controller } from '@nestjs/common';
 import { TasksQueryDto } from './dto/tasks-query.dto';
 import { TasksService } from './tasks.service';
+import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { api } from 'contracts';
 
-@Controller('tasks')
+@Controller()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
-  @Get()
-  getTasks(@Query('sprintId') sprintId?: string) {
-    const dto = new TasksQueryDto();
-    if (!isNaN(Number(sprintId))) {
-      dto.sprintId = Number(sprintId);
-    }
-    return this.tasksService.getTasks(dto);
+  @TsRestHandler(api.tasks.getTasks)
+  async getTasks() {
+    return tsRestHandler(api.tasks.getTasks, async ({ query }) => {
+      const dto = new TasksQueryDto();
+      if (!isNaN(Number(query.sprintId))) {
+        dto.sprintId = Number(query.sprintId);
+      }
+      const tasks = await this.tasksService.getTasks(dto);
+      return { status: 200, body: tasks };
+    });
   }
 
-  @Post()
-  createTaskFromJira(@Body() dto: CreataTasksFromJiraDto) {
-    return this.tasksService.createTasksFromJira(dto);
-  }
-
-  @Get('summaries')
-  getTaskSummaries(@Query('sprintId') sprintId?: string) {
-    const dto = new TasksQueryDto();
-    if (!isNaN(Number(sprintId))) {
-      dto.sprintId = Number(sprintId);
-    }
-    return this.tasksService.getTaskSummaries(dto);
+  @TsRestHandler(api.tasks.getTaskSummaries)
+  async getTaskSummaries() {
+    return tsRestHandler(api.tasks.getTaskSummaries, async ({ query }) => {
+      const dto = new TasksQueryDto();
+      if (!isNaN(Number(query.sprintId))) {
+        dto.sprintId = Number(query.sprintId);
+      }
+      const taskSummaries = await this.tasksService.getTaskSummaries(dto);
+      return { status: 200, body: taskSummaries };
+    });
   }
 }

@@ -14,7 +14,7 @@ export const SprintLabel: FC<Props> = ({ sprintId }) => {
     if (!sprints) {
       return sprintId;
     }
-    const name = sprints.find((sprint) => sprint.id === sprintId)?.name;
+    const name = sprints.body.find((sprint) => sprint.id === sprintId)?.name;
 
     if (!name) return sprintId;
 

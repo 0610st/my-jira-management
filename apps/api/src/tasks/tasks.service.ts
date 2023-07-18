@@ -4,7 +4,6 @@ import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { CreataTasksFromJiraDto } from './dto/create-tasks-from-jira.dto';
-import { TaskSummaryDto } from './dto/task-summay.dto';
 import { TasksQueryDto } from './dto/tasks-query.dto';
 
 @Injectable()
@@ -85,13 +84,11 @@ export class TasksService {
       ],
     });
 
-    return result.map((item) => {
-      const dto = new TaskSummaryDto();
-      dto.assignee = item.assignee;
-      dto.sprintId = item.sprintId;
-      dto.sum = item._sum;
-      dto.count = item._count.key;
-      return dto;
-    });
+    return result.map((item) => ({
+      assignee: item.assignee,
+      sprintId: item.sprintId,
+      sum: item._sum,
+      count: item._count.key,
+    }));
   }
 }

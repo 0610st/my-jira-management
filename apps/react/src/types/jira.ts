@@ -4,7 +4,7 @@ import {
   JiraSearchSchema,
   JiraTaskCreateSchema,
   JiraTaskUpdateSchema,
-} from "common-schema";
+} from "contracts";
 
 export type JiraSearch = z.infer<typeof JiraSearchSchema>;
 

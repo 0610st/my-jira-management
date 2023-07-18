@@ -1,7 +1,7 @@
 import { ActionIcon, Flex, Loader, MultiSelect, Text } from "@mantine/core";
 import { FC, useCallback, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
-import { UpdateJiraTaskProps, useUpdateJiraTask } from "../../../api/hooks";
+import { useUpdateJiraTask } from "../../../api/hooks";
 import { TaskIssue } from "../../../types/task";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
@@ -65,10 +65,10 @@ export const SprintIssueTaskItem: FC<SprintIssueTaskItemProps> = ({
   const [exclude, setExclude] = useState(false);
   const taskLabels = useTaskLabels((state) => state.taskLabels);
   const [labels, setLabels] = useState(
-    Array.from(new Set([...task.fields.labels, ...taskLabels]))
+    Array.from(new Set([...task.fields.labels, ...taskLabels])),
   );
   const [labelData, setLabelData] = useState(
-    labels.map((label) => ({ label, value: label }))
+    labels.map((label) => ({ label, value: label })),
   );
   const [status, setStatus] = useState<
     "idle" | "executing" | "success" | "error"
@@ -120,14 +120,11 @@ export const SprintIssueTaskItem: FC<SprintIssueTaskItemProps> = ({
   useEffect(() => {
     if (execute && status === "idle" && !exclude) {
       setStatus("executing");
-      const params: UpdateJiraTaskProps = {
-        key: task.key,
-        body: {
-          sprintId,
-          labels,
-        },
+      const body = {
+        sprintId,
+        labels,
       };
-      updateTask(params);
+      updateTask({ params: { key: task.key }, body });
     }
   }, [exclude, execute, labels, sprintId, status, task.key, updateTask]);
 

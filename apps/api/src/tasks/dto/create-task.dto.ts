@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod';
-import { CreateTaskSchema } from 'common-schema';
+import { CreateTaskSchema } from 'contracts';
 import { TasksJiraResponseDto } from 'src/jira/dto/tasks-jira-response.dto';
 
 export class CreateTaskDto extends createZodDto(CreateTaskSchema) {

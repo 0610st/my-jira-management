@@ -22,17 +22,19 @@ export const StoryPointStack = () => {
   const accumulatedPoint = useMemo(() => {
     if (!storySummaries) return [];
     return getAccumulatedSum(
-      storySummaries.map((storySummary) => storySummary.sum.storyPoint || 0)
+      storySummaries.body.map(
+        (storySummary) => storySummary.sum.storyPoint || 0,
+      ),
     );
   }, [storySummaries]);
 
   const graphData = useMemo(
     () =>
-      storySummaries?.map((storySummary, index) => ({
+      storySummaries?.body.map((storySummary, index) => ({
         sprintId: storySummary.sprintId,
         point: accumulatedPoint[index],
       })),
-    [storySummaries, accumulatedPoint]
+    [storySummaries, accumulatedPoint],
   );
 
   const handleClick = (e: CategoricalChartState) => {
@@ -47,8 +49,8 @@ export const StoryPointStack = () => {
     <AreaChart
       height={400}
       width={Math.max(
-        (storySummaries ? storySummaries.length : 0) * 50 + 100,
-        600
+        (storySummaries ? storySummaries.body.length : 0) * 50 + 100,
+        600,
       )}
       data={graphData}
       onClick={handleClick}

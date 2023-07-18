@@ -12,7 +12,7 @@ export const IssueLink: FC<Props> = ({ issueId, children, ...anchorProps }) => {
 
   return (
     <Anchor
-      href={appEnvs ? `${appEnvs.jiraUrlPrefix}/${issueId}` : undefined}
+      href={appEnvs ? `${appEnvs.body.jiraUrlPrefix}/${issueId}` : undefined}
       target="_blank"
       rel="noopener noreferrer"
       sx={{ width: "fit-content" }}

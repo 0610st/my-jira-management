@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { GetJiraSprintsDto } from 'src/jira/dto/get-sprints.dto';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStoryDto } from 'src/stories/dto/create-story.dto';
@@ -10,7 +9,6 @@ import { TasksQueryDto } from 'src/tasks/dto/tasks-query.dto';
 import { TasksService } from 'src/tasks/tasks.service';
 import { CreateSprintWithIssuesFromJiraDto } from './dto/create-sprint-with-issues-from-jira.dto';
 import { CreateSprintDto } from './dto/create-sprint.dto';
-import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
 import { SprintSummaryDto } from './dto/sprint-summary.dto';
 
 const JIRA_FINISH_STATUS = 'Done';
@@ -27,23 +25,6 @@ export class SprintsService {
   getSprints() {
     return this.prismaService.sprint.findMany({
       orderBy: { startDate: 'desc' },
-    });
-  }
-
-  async createSprintsFromJira(dto: CreataSprintsFromJiraDto) {
-    const response = await this.jiraService.getJiraSprints(
-      GetJiraSprintsDto.fromCreataSprintsFromJiraDto(dto),
-    );
-
-    const createDtos = CreateSprintDto.fromResponseDto(response);
-
-    return this.prismaService.sprint.createMany({
-      data: createDtos.map((dto) => ({
-        id: dto.id,
-        name: dto.name,
-        startDate: dto.startDate,
-        endDate: dto.endDate,
-      })),
     });
   }
 

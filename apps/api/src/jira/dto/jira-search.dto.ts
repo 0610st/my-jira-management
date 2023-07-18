@@ -1,4 +1,4 @@
-import { JiraSearchSchema } from 'common-schema';
+import { JiraSearchSchema } from 'contracts';
 import { createZodDto } from 'nestjs-zod';
 
 export class JiraSearchDto extends createZodDto(JiraSearchSchema) {

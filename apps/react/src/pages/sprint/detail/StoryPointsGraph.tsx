@@ -33,28 +33,28 @@ export const StoryPointsGraph: FC<Props> = ({ sprintId, width, height }) => {
 
   const maxPoint = useMemo(() => {
     if (!storySummaries) return 0;
-    const max = storySummaries.reduce(
+    const max = storySummaries.body.reduce(
       (prev, current) => (compPoint(prev, current) ? prev : current),
-      { sprintId: null, sum: { storyPoint: null } }
+      { sprintId: null, sum: { storyPoint: null } },
     ).sum.storyPoint;
     return max !== null ? max : 0;
   }, [compPoint, storySummaries]);
 
   const scopedStorySummaries: StorySummary[] = useMemo(() => {
     if (!storySummaries) return [];
-    if (storySummaries.length < 5) return storySummaries;
-    const targetIndex = storySummaries.findIndex(
-      (storySummary) => storySummary.sprintId === sprintId
+    if (storySummaries.body.length < 5) return storySummaries.body;
+    const targetIndex = storySummaries.body.findIndex(
+      (storySummary) => storySummary.sprintId === sprintId,
     );
     if (targetIndex < 0) return [];
     if (targetIndex < 3) {
-      return storySummaries.slice(0, 5);
+      return storySummaries.body.slice(0, 5);
     }
-    if (targetIndex > storySummaries.length - 3) {
-      return storySummaries.slice(-5);
+    if (targetIndex > storySummaries.body.length - 3) {
+      return storySummaries.body.slice(-5);
     }
 
-    return storySummaries.slice(targetIndex - 2, targetIndex + 3);
+    return storySummaries.body.slice(targetIndex - 2, targetIndex + 3);
   }, [storySummaries, sprintId]);
 
   const handleClick = (data: StorySummary) => {

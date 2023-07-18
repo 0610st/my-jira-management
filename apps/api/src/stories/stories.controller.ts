@@ -1,32 +1,34 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { StoriesQueryDto } from './dto/stories-query.dto';
 import { StoriesService } from './stories.service';
-import { CreateStoriesFromJiraDto } from './dto/create-stories-from-jira.dto';
+import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { api } from 'contracts';
 
-@Controller('stories')
+@Controller()
 export class StoriesController {
   constructor(private readonly storiesService: StoriesService) {}
 
-  @Get()
-  getStories(@Query('sprintId') sprintId?: string) {
-    const dto = new StoriesQueryDto();
-    if (!isNaN(Number(sprintId))) {
-      dto.sprintId = Number(sprintId);
-    }
-    return this.storiesService.getStories(dto);
+  @TsRestHandler(api.stories.getStories)
+  async getStories() {
+    return tsRestHandler(api.stories.getStories, async ({ query }) => {
+      const dto = new StoriesQueryDto();
+      if (!isNaN(Number(query.sprintId))) {
+        dto.sprintId = Number(query.sprintId);
+      }
+      const stories = await this.storiesService.getStories(dto);
+      return { status: 200, body: stories };
+    });
   }
 
-  @Post()
-  createStoryFromJira(@Body() dto: CreateStoriesFromJiraDto) {
-    return this.storiesService.createStoriesFromJira(dto);
-  }
-
-  @Get('summaries')
-  getStorySummaries(@Query('sprintId') sprintId?: string) {
-    const dto = new StoriesQueryDto();
-    if (!isNaN(Number(sprintId))) {
-      dto.sprintId = Number(sprintId);
-    }
-    return this.storiesService.getStorySummaries(dto);
+  @TsRestHandler(api.stories.getStorySummaries)
+  async getStorySummaries() {
+    return tsRestHandler(api.stories.getStorySummaries, async ({ query }) => {
+      const dto = new StoriesQueryDto();
+      if (!isNaN(Number(query.sprintId))) {
+        dto.sprintId = Number(query.sprintId);
+      }
+      const storySummaries = await this.storiesService.getStorySummaries(dto);
+      return { status: 200, body: storySummaries };
+    });
   }
 }

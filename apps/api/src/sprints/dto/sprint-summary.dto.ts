@@ -1,4 +1,4 @@
 import { createZodDto } from 'nestjs-zod';
-import { SprintSummarySchema } from 'common-schema';
+import { SprintSummarySchema } from 'contracts';
 
 export class SprintSummaryDto extends createZodDto(SprintSummarySchema) {}
