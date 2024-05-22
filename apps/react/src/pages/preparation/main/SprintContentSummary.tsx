@@ -4,19 +4,24 @@ import { FC, useMemo } from "react";
 import { IoIosTimer } from "react-icons/io";
 import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
+import { useExcludeEpics } from "../../../store/useExcludeEpics";
 
 export const SprintContentSummary: FC = () => {
   const points = useNestSprintPoint((state) => state.points);
   const times = useNextSprintTime((state) => state.times);
+  const excludeEpics = useExcludeEpics((state) => state.excludeEpics);
 
   const pointSum = useMemo(
-    () => points.reduce((acc, cur) => acc + cur.point, 0),
-    [points]
+    () =>
+      points
+        .filter((point) => !excludeEpics.includes(point.key))
+        .reduce((acc, cur) => acc + cur.point, 0),
+    [excludeEpics, points],
   );
 
   const timeSum = useMemo(
     () => times.reduce((acc, cur) => acc + cur.time, 0),
-    [times]
+    [times],
   );
 
   const timeSumAdd = useMemo(
@@ -24,7 +29,7 @@ export const SprintContentSummary: FC = () => {
       times
         .filter((time) => time.key.startsWith("ADD-"))
         .reduce((acc, cur) => acc + cur.time, 0),
-    [times]
+    [times],
   );
 
   return (
