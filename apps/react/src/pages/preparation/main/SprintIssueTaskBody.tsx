@@ -20,7 +20,7 @@ export const SprintIssueTaskBody: FC<Props> = ({
   sprintId,
 }) => {
   const open = useNestSprintFetchOption((state) => state.open);
-  const { data, isLoading, error } = useJiraEpicTasks(epicKey, open);
+  const { data, isLoading, error } = useJiraEpicTasks(epicKey, open, 0);
   const tempItems = useTempTaskItems((state) => state.items);
   const setTime = useNextSprintTime((state) => state.setTime);
   const tempTaskEpics = useTempTaskEpics((state) => state.tempTaskEpics);

@@ -63,7 +63,11 @@ export const useJiraFutureSprints = (enabled: boolean) =>
 export const useCreateSprintWithIssuesFromJira =
   client.sprints.createSprintWithIssuesFromJira.useMutation;
 
-export const useJiraSprintEpics = (sprintId: number, open?: boolean) => {
+export const useJiraSprintEpics = (
+  sprintId: number,
+  open?: boolean,
+  staleTime?: number,
+) => {
   const conditions = open
     ? [
         { key: "sprint", value: `${sprintId}` },
@@ -77,11 +81,15 @@ export const useJiraSprintEpics = (sprintId: number, open?: boolean) => {
   return client.jira.getEpics.useQuery(
     ["jira/epics", sprintId, open],
     { query: { conditions } },
-    { staleTime: Infinity },
+    { staleTime: staleTime ?? Infinity },
   );
 };
 
-export const useJiraEpicTasks = (epicKey: string, open?: boolean) => {
+export const useJiraEpicTasks = (
+  epicKey: string,
+  open?: boolean,
+  staleTime?: number,
+) => {
   const conditions = open
     ? [
         { key: "parent", value: epicKey },
@@ -95,7 +103,7 @@ export const useJiraEpicTasks = (epicKey: string, open?: boolean) => {
   return client.jira.getTasks.useQuery(
     ["jira/tasks/search", epicKey, open],
     { query: { conditions } },
-    { staleTime: Infinity },
+    { staleTime: staleTime ?? Infinity },
   );
 };
 

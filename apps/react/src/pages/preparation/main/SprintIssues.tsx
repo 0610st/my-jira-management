@@ -11,7 +11,7 @@ interface Props {
 
 export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
   const open = useNestSprintFetchOption((state) => state.open);
-  const { data, isLoading, error } = useJiraSprintEpics(sprintId, open);
+  const { data, isLoading, error } = useJiraSprintEpics(sprintId, open, 0);
   const setPoint = useNestSprintPoint((state) => state.setPoint);
 
   useEffect(() => {
