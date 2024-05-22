@@ -1,4 +1,4 @@
-import { StorySchema, StorySummarySchema } from "common-schema";
+import { StorySchema, StorySummarySchema } from "contracts";
 import { z } from "zod";
 
 export type Story = z.infer<typeof StorySchema>;

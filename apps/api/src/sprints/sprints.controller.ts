@@ -1,38 +1,38 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-} from '@nestjs/common';
-import { CreateSprintWithIssuesFromJiraDto } from './dto/create-sprint-with-issues-from-jira.dto';
-import { CreataSprintsFromJiraDto } from './dto/create-sprints-from-jira.dto';
+import { Controller } from '@nestjs/common';
 import { SprintsService } from './sprints.service';
+import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { api } from 'contracts';
 
-@Controller('sprints')
+@Controller()
 export class SprintsController {
   constructor(private readonly sprintsService: SprintsService) {}
 
-  @Get()
-  getSprints() {
-    return this.sprintsService.getSprints();
+  @TsRestHandler(api.sprints.getSprints)
+  async getSprints() {
+    return tsRestHandler(api.sprints.getSprints, async () => {
+      const sprints = await this.sprintsService.getSprints();
+      return { status: 200, body: sprints };
+    });
   }
 
-  @Post()
-  createSprintsFromJira(@Body() dto: CreataSprintsFromJiraDto) {
-    return this.sprintsService.createSprintsFromJira(dto);
+  @TsRestHandler(api.sprints.createSprintWithIssuesFromJira)
+  async createSprintWithIssuesFromJira() {
+    return tsRestHandler(
+      api.sprints.createSprintWithIssuesFromJira,
+      async ({ body }) => {
+        await this.sprintsService.createSprintWithIssuesFromJira(body);
+        return { status: 201, body: null };
+      },
+    );
   }
 
-  @Post('import')
-  createSprintWithIssuesFromJira(
-    @Body() dto: CreateSprintWithIssuesFromJiraDto,
-  ) {
-    return this.sprintsService.createSprintWithIssuesFromJira(dto);
-  }
-
-  @Get(':id/summary')
-  getSprintSummary(@Param('id', ParseIntPipe) id: number) {
-    return this.sprintsService.getSprintSummary(id);
+  @TsRestHandler(api.sprints.getSprintSummary)
+  async getSprintSummary() {
+    return tsRestHandler(api.sprints.getSprintSummary, async ({ params }) => {
+      const sprintSummary = await this.sprintsService.getSprintSummary(
+        params.id,
+      );
+      return { status: 200, body: sprintSummary };
+    });
   }
 }

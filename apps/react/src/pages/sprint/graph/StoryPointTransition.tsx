@@ -27,9 +27,9 @@ export const StoryPointTransition = () => {
 
   const maxPoint = useMemo(() => {
     if (!storySummaries) return 0;
-    const max = storySummaries.reduce(
+    const max = storySummaries.body.reduce(
       (prev, current) => (comp(prev, current) ? prev : current),
-      { sprintId: null, sum: { storyPoint: null } }
+      { sprintId: null, sum: { storyPoint: null } },
     ).sum.storyPoint;
     return max !== null ? max : 0;
   }, [comp, storySummaries]);
@@ -46,10 +46,10 @@ export const StoryPointTransition = () => {
     <LineChart
       height={400}
       width={Math.max(
-        (storySummaries ? storySummaries.length : 0) * 50 + 100,
-        600
+        (storySummaries ? storySummaries.body.length : 0) * 50 + 100,
+        600,
       )}
-      data={storySummaries}
+      data={storySummaries.body}
       onClick={handleClick}
     >
       <CartesianGrid strokeDasharray="3 3" />

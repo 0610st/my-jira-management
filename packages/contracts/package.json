@@ -1,25 +1,21 @@
 {
-  "name": "common-schema",
+  "name": "contracts",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "zod": "^3.14.3",
+    "@ts-rest/core": "^3.26.3",
     "database": "*",
-    "eslint-config-custom": "*"
+    "eslint-config-custom": "*",
+    "zod": "^3.14.3"
   },
   "devDependencies": {
     "tsconfig": "*",
-    "tsup": "^6.7.0",
-    "tsx": "^3.12.6"
+    "tsup": "^7.1.0"
   }
 }

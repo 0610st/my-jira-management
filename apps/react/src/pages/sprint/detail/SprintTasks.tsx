@@ -13,14 +13,16 @@ interface Props {
 export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
   const { data: taskData, isLoading } = useTasks(
     sprintId === null ? undefined : sprintId,
-    sprintId !== null
+    sprintId !== null,
   );
   const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
   const assignees = useMemo(() => {
     if (!taskData) {
       return [];
     }
-    return [...new Set(taskData.map((task) => task.assignee ?? UNASSIGNED))];
+    return [
+      ...new Set(taskData.body.map((task) => task.assignee ?? UNASSIGNED)),
+    ];
   }, [taskData]);
 
   const filter = useCallback(
@@ -38,11 +40,11 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
         return selectedAssignees.includes(record.assignee);
       });
     },
-    [selectedAssignees]
+    [selectedAssignees],
   );
 
   const records = useMemo(() => {
-    const data = taskData?.map((task) => ({
+    const data = taskData?.body.map((task) => ({
       ...task,
       diffTime:
         task.estimatedTime !== null && task.spentTime !== null

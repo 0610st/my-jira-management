@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
 import { useCreateJiraTask } from "../../../api/hooks";
-import { JiraTaskCreate } from "../../../types/jira";
 import { useNextSprintTime } from "../../../store/useNestSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 import { ItemProps } from "../../../store/useTempTaskItems";
@@ -151,14 +150,14 @@ export const SprintIssueNewTaskItem: FC<SprintIssueNewTaskItemProps> = ({
       }
 
       setStatus("executing");
-      const params: JiraTaskCreate = {
+      const body = {
         estimatedTime: item.estimatedHour,
         name: item.name,
         sprintId,
         labels: item.labels,
         parentKey: epicKey,
       };
-      createTask(params);
+      createTask({ body });
     }
   }, [
     execute,
@@ -188,7 +187,7 @@ export const SprintIssueNewTaskItem: FC<SprintIssueNewTaskItemProps> = ({
       <td>
         <Text strikethrough={deleted}>追加</Text>
       </td>
-      <td />
+      <td> </td>
       <td>
         <Text strikethrough={deleted}>{item.name}</Text>
       </td>

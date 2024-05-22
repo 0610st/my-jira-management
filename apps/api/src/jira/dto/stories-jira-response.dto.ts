@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod';
-import { StoriesJiraResponseSchema } from 'common-schema';
+import { StoriesJiraResponseSchema } from 'contracts';
 
 export class StoriesJiraResponseDto extends createZodDto(
   StoriesJiraResponseSchema,

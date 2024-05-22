@@ -1,4 +1,4 @@
-import { JiraTaskUpdateSchema } from 'common-schema';
+import { JiraTaskUpdateSchema } from 'contracts';
 import { createZodDto } from 'nestjs-zod';
 
 export class JiraTaskUpdateDto extends createZodDto(JiraTaskUpdateSchema) {

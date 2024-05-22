@@ -1,4 +1,4 @@
 import { createZodDto } from 'nestjs-zod';
-import { GetJiraEpicsSchema } from 'common-schema';
+import { GetJiraEpicsSchema } from 'contracts';
 
 export class GetJiraEpicsDto extends createZodDto(GetJiraEpicsSchema) {}

@@ -20,7 +20,7 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
     (
       data: T[] | undefined,
       columnAccessor: string,
-      direction: "asc" | "desc"
+      direction: "asc" | "desc",
     ) => {
       if (!data) {
         return undefined;
@@ -51,12 +51,12 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
 
       return sorted;
     },
-    []
+    [],
   );
 
   const sortedRecords = useMemo(
     () => sortBy(records, sortStatus.columnAccessor, sortStatus.direction),
-    [records, sortBy, sortStatus.columnAccessor, sortStatus.direction]
+    [records, sortBy, sortStatus.columnAccessor, sortStatus.direction],
   );
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
           : page;
       setPage(newPage);
       setShowRecords(
-        sortedRecords.slice((newPage - 1) * pageSize, newPage * pageSize)
+        sortedRecords.slice((newPage - 1) * pageSize, newPage * pageSize),
       );
     }
   }, [page, pageSize, sortedRecords]);
@@ -90,7 +90,7 @@ export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
       </Flex>
       <DataTable
         records={showRecords}
-        columns={columns}
+        columns={columns || []}
         totalRecords={records ? records.length : 0}
         recordsPerPage={pageSize}
         page={page}

@@ -1,0 +1,1059 @@
+{
+  "openapi": "3.0.2",
+  "paths": {
+    "/environments": {
+      "get": {
+        "summary": "Get the environment variables",
+        "tags": [
+          "environments"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jiraUrlPrefix": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "jiraUrlPrefix"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "summary": "Get tasks",
+        "tags": [
+          "tasks"
+        ],
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "sprintId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "summary": {
+                        "type": "string"
+                      },
+                      "assignee": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "estimatedTime": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "spentTime": {
+                        "type": "number",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "sprintId",
+                      "summary",
+                      "assignee",
+                      "estimatedTime",
+                      "spentTime"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/summaries": {
+      "get": {
+        "summary": "Get sprint task summaries",
+        "tags": [
+          "tasks"
+        ],
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "assignee": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "sprintId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "sum": {
+                        "type": "object",
+                        "properties": {
+                          "spentTime": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "estimatedTime": {
+                            "type": "number",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "spentTime",
+                          "estimatedTime"
+                        ]
+                      },
+                      "count": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "assignee",
+                      "sprintId",
+                      "sum",
+                      "count"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stories": {
+      "get": {
+        "summary": "Get stories",
+        "tags": [
+          "stories"
+        ],
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "sprintId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "summary": {
+                        "type": "string"
+                      },
+                      "storyPoint": {
+                        "type": "number",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "sprintId",
+                      "summary",
+                      "storyPoint"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stories/summaries": {
+      "get": {
+        "summary": "Get sprint story summaries",
+        "tags": [
+          "stories"
+        ],
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sprintId": {
+                        "type": "number",
+                        "nullable": true
+                      },
+                      "sum": {
+                        "type": "object",
+                        "properties": {
+                          "storyPoint": {
+                            "type": "number",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "storyPoint"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sprintId",
+                      "sum"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprints": {
+      "get": {
+        "summary": "Get sprints",
+        "tags": [
+          "sprints"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "startDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "startDate",
+                      "endDate"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprints/import": {
+      "post": {
+        "summary": "Create sprint with issues from Jira",
+        "tags": [
+          "sprints"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sprintId": {
+                    "type": "number"
+                  },
+                  "withTasks": {
+                    "type": "boolean"
+                  },
+                  "withStories": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "sprintId",
+                  "withTasks",
+                  "withStories"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201"
+          }
+        }
+      }
+    },
+    "/sprints/{id}/summary": {
+      "get": {
+        "summary": "Get sprint summary",
+        "tags": [
+          "sprints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "taskSummaries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "assignee": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "sprintId": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "sum": {
+                            "type": "object",
+                            "properties": {
+                              "spentTime": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "estimatedTime": {
+                                "type": "number",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "spentTime",
+                              "estimatedTime"
+                            ]
+                          },
+                          "count": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "assignee",
+                          "sprintId",
+                          "sum",
+                          "count"
+                        ]
+                      }
+                    },
+                    "storySummaries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sprintId": {
+                            "type": "number",
+                            "nullable": true
+                          },
+                          "sum": {
+                            "type": "object",
+                            "properties": {
+                              "storyPoint": {
+                                "type": "number",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "storyPoint"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "sprintId",
+                          "sum"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "taskSummaries",
+                    "storySummaries"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jira/sprints": {
+      "get": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [
+          {
+            "name": "startAt",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "closed",
+                "future"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "maxResults": {
+                      "type": "number"
+                    },
+                    "startAt": {
+                      "type": "number"
+                    },
+                    "isLast": {
+                      "type": "boolean"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "startDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "endDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "state": {
+                            "type": "string",
+                            "enum": [
+                              "active",
+                              "closed",
+                              "future"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "startDate",
+                          "endDate",
+                          "state"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "maxResults",
+                    "startAt",
+                    "isLast",
+                    "values"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jira/tasks/search": {
+      "get": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [
+          {
+            "name": "conditions",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "operator": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "value"
+                ]
+              }
+            }
+          },
+          {
+            "name": "startAt",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "expand": {
+                      "type": "string"
+                    },
+                    "startAt": {
+                      "type": "number"
+                    },
+                    "maxResults": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "fields": {
+                            "type": "object",
+                            "properties": {
+                              "assignee": {
+                                "type": "object",
+                                "properties": {
+                                  "displayName": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "displayName"
+                                ],
+                                "nullable": true
+                              },
+                              "summary": {
+                                "type": "string"
+                              },
+                              "parent": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "key"
+                                ],
+                                "nullable": true
+                              },
+                              "sprint": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id"
+                                ],
+                                "nullable": true
+                              },
+                              "timespent": {
+                                "type": "number",
+                                "nullable": true
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "timetracking": {
+                                "type": "object",
+                                "properties": {
+                                  "originalEstimate": {
+                                    "type": "string"
+                                  },
+                                  "remainingEstimate": {
+                                    "type": "string"
+                                  },
+                                  "timeSpent": {
+                                    "type": "string"
+                                  },
+                                  "originalEstimateSeconds": {
+                                    "type": "number"
+                                  },
+                                  "remainingEstimateSeconds": {
+                                    "type": "number"
+                                  },
+                                  "timeSpentSeconds": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              "status": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "assignee",
+                              "summary",
+                              "parent",
+                              "sprint",
+                              "timespent",
+                              "labels",
+                              "timetracking",
+                              "status"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "key",
+                          "fields"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "expand",
+                    "startAt",
+                    "maxResults",
+                    "total",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jira/tasks/{key}": {
+      "put": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sprintId": {
+                    "type": "number"
+                  },
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "sprintId",
+                  "labels"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200"
+          }
+        }
+      }
+    },
+    "/jira/tasks": {
+      "post": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "parentKey": {
+                    "type": "string"
+                  },
+                  "sprintId": {
+                    "type": "number"
+                  },
+                  "estimatedTime": {
+                    "type": "number"
+                  },
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "parentKey",
+                  "sprintId",
+                  "labels"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201"
+          }
+        }
+      }
+    },
+    "/jira/epics": {
+      "get": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [
+          {
+            "name": "conditions",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "operator": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "value"
+                ]
+              }
+            }
+          },
+          {
+            "name": "startAt",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "expand": {
+                      "type": "string"
+                    },
+                    "startAt": {
+                      "type": "number"
+                    },
+                    "maxResults": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "fields": {
+                            "type": "object",
+                            "properties": {
+                              "summary": {
+                                "type": "string"
+                              },
+                              "sprint": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id"
+                                ],
+                                "nullable": true
+                              },
+                              "customfield_10016": {
+                                "type": "number",
+                                "description": "story point estimate",
+                                "nullable": true
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "status": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "summary",
+                              "sprint",
+                              "customfield_10016",
+                              "labels",
+                              "status"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "key",
+                          "fields"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "expand",
+                    "startAt",
+                    "maxResults",
+                    "total",
+                    "issues"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jira/epics/{key}": {
+      "put": {
+        "tags": [
+          "jira"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "labels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "labels"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "My Turborepo Sample API",
+    "version": "1.0.0"
+  }
+}

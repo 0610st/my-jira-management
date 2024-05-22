@@ -11,13 +11,13 @@ export const Import = () => {
   const [enabled, setEnabled] = useState(false);
   const [key, setKey] = useState(0);
   const params: GetJiraSprints = useMemo(() => {
-    if (!currentSprints || currentSprints.length === 0) {
+    if (!currentSprints || currentSprints.body.length === 0) {
       return {
         state: "closed",
       };
     }
     return {
-      startAt: currentSprints.length,
+      startAt: currentSprints.body.length,
       state: "closed",
     };
   }, [currentSprints]);
@@ -36,12 +36,12 @@ export const Import = () => {
     () => () => {
       resetStep();
     },
-    [resetStep]
+    [resetStep],
   );
 
   useEffect(() => {
     if (data) {
-      setSprintIds(data.values.map((d) => d.id));
+      setSprintIds(data.body.values.map((d) => d.id));
     }
   }, [data, setSprintIds]);
 
@@ -64,7 +64,11 @@ export const Import = () => {
           </Box>
         )}
       </Flex>
-      <UnimportTable key={key} data={data} isLoading={isLoading && enabled} />
+      <UnimportTable
+        key={key}
+        data={data?.body}
+        isLoading={isLoading && enabled}
+      />
     </Flex>
   );
 };

@@ -1,4 +1,4 @@
 import { createZodDto } from 'nestjs-zod';
-import { CreateUserInputSchema } from 'common-schema';
+import { CreateUserInputSchema } from 'contracts';
 
 export class CreateUserInputDto extends createZodDto(CreateUserInputSchema) {}

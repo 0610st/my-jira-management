@@ -1,4 +1,4 @@
-import { JiraEpicUpdateSchema } from 'common-schema';
+import { JiraEpicUpdateSchema } from 'contracts';
 import { createZodDto } from 'nestjs-zod';
 
 export class JiraEpicUpdateDto extends createZodDto(JiraEpicUpdateSchema) {

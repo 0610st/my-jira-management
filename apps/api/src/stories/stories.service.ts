@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { JiraSearchDto } from 'src/jira/dto/jira-search.dto';
 import { JiraService } from 'src/jira/jira.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStoriesFromJiraDto } from './dto/create-stories-from-jira.dto';
 import { CreateStoryDto } from './dto/create-story.dto';
 import { StoriesQueryDto } from './dto/stories-query.dto';
-import { StorySummaryDto } from './dto/story-summay.dto';
 
 @Injectable()
 export class StoriesService {
@@ -19,31 +16,6 @@ export class StoriesService {
       where: {
         ...query,
       },
-    });
-  }
-
-  async createStoriesFromJira(dto: CreateStoriesFromJiraDto) {
-    const createDtos: CreateStoryDto[] = [];
-    for (const sprintId of dto.sprintIds) {
-      const dto = new JiraSearchDto();
-      dto.conditions.push({ key: 'sprint', value: sprintId + '' });
-      const response = await this.jiraService.getJiraStories(dto);
-      createDtos.push(...CreateStoryDto.fromResponseDto(response));
-    }
-
-    if (createDtos.length === 0) {
-      return {
-        count: 0,
-      };
-    }
-
-    return this.prismaService.story.createMany({
-      data: createDtos.map((dto) => ({
-        key: dto.key,
-        summary: dto.summary,
-        sprintId: dto.sprintId,
-        storyPoint: dto.storyPoint,
-      })),
     });
   }
 
@@ -72,11 +44,9 @@ export class StoriesService {
       },
     });
 
-    return result.map((item) => {
-      const dto = new StorySummaryDto();
-      dto.sprintId = item.sprintId;
-      dto.sum = item._sum;
-      return dto;
-    });
+    return result.map((item) => ({
+      sprintId: item.sprintId,
+      sum: item._sum,
+    }));
   }
 }

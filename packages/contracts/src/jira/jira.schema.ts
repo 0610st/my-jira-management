@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { SprintStateSchema } from "../sprints/sprints.schema";
+import { SprintStateSchema } from "../sprint/sprint.schema";
 
 export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
-  issueSchema: IssueFieldType
+  issueSchema: IssueFieldType,
 ) =>
   z.object({
     expand: z.string(),
@@ -10,7 +10,7 @@ export const JiraIssueResponseSchema = <IssueFieldType extends z.ZodTypeAny>(
     maxResults: z.number(),
     total: z.number(),
     issues: z.array(
-      z.object({ id: z.string(), key: z.string(), fields: issueSchema })
+      z.object({ id: z.string(), key: z.string(), fields: issueSchema }),
     ),
   });
 

@@ -15,7 +15,7 @@ export const SprintEpicSelectContainer: FC<Props> = ({ sprintId }) => {
 
   return (
     <Box>
-      {data.issues.map((epic) => (
+      {data.body.issues.map((epic) => (
         <SprintEpicSelect key={epic.key} epic={epic} />
       ))}
     </Box>

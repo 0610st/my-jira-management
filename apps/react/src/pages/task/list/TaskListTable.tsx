@@ -10,14 +10,14 @@ export const TaskListTable: FC = () => {
 
   const records = useMemo(
     () =>
-      tasks?.map((task) => ({
+      tasks?.body.map((task) => ({
         ...task,
         diffTime:
           task.estimatedTime !== null && task.spentTime !== null
             ? task.estimatedTime - task.spentTime
             : null,
       })),
-    [tasks]
+    [tasks],
   );
 
   return (
