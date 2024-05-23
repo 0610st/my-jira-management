@@ -66,7 +66,7 @@ export const useCreateSprintWithIssuesFromJira =
 export const useJiraSprintEpics = (
   sprintId: number,
   open?: boolean,
-  staleTime?: number,
+  options?: Record<string, unknown>,
 ) => {
   const conditions = open
     ? [
@@ -81,14 +81,14 @@ export const useJiraSprintEpics = (
   return client.jira.getEpics.useQuery(
     ["jira/epics", sprintId, open],
     { query: { conditions } },
-    { staleTime: staleTime ?? Infinity },
+    options,
   );
 };
 
 export const useJiraEpicTasks = (
   epicKey: string,
   open?: boolean,
-  staleTime?: number,
+  options?: Record<string, unknown>,
 ) => {
   const conditions = open
     ? [
@@ -103,7 +103,7 @@ export const useJiraEpicTasks = (
   return client.jira.getTasks.useQuery(
     ["jira/tasks/search", epicKey, open],
     { query: { conditions } },
-    { staleTime: staleTime ?? Infinity },
+    options,
   );
 };
 

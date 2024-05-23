@@ -1,18 +1,18 @@
 import { create } from "zustand";
 
-interface NestSprintTimeProps {
+interface NextSprintTimeProps {
   times: { key: string; parent: string; time: number }[];
   setTime: (record: { key: string; parent: string; time: number }) => void;
   removeTime: (key: string) => void;
   reset: () => void;
 }
 
-export const useNextSprintTime = create<NestSprintTimeProps>((set) => ({
+export const useNextSprintTime = create<NextSprintTimeProps>((set) => ({
   times: [],
   setTime: (record: { key: string; parent: string; time: number }) =>
     set((state) => {
       const filteredItems = state.times.filter(
-        (item) => item.key !== record.key
+        (item) => item.key !== record.key,
       );
       return { times: [...filteredItems, record] };
     }),

@@ -1,8 +1,8 @@
 import { Loader } from "@mantine/core";
 import { FC, useEffect } from "react";
 import { useJiraEpicTasks } from "../../../api/hooks";
-import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
-import { useNextSprintTime } from "../../../store/useNestSprintTime";
+import { useNextSprintFetchOption } from "../../../store/useNextSprintFetchOption";
+import { useNextSprintTime } from "../../../store/useNextSprintTime";
 import { useTempTaskEpics } from "../../../store/useTempTaskEpics";
 import { useTempTaskItems } from "../../../store/useTempTaskItems";
 import { SprintIssueNewTaskItem } from "./SprintIssueNewTaskItem";
@@ -19,8 +19,10 @@ export const SprintIssueTaskBody: FC<Props> = ({
   execute,
   sprintId,
 }) => {
-  const open = useNestSprintFetchOption((state) => state.open);
-  const { data, isLoading, error } = useJiraEpicTasks(epicKey, open, 0);
+  const open = useNextSprintFetchOption((state) => state.open);
+  const { data, isLoading, error } = useJiraEpicTasks(epicKey, open, {
+    staleTime: 0,
+  });
   const tempItems = useTempTaskItems((state) => state.items);
   const setTime = useNextSprintTime((state) => state.setTime);
   const tempTaskEpics = useTempTaskEpics((state) => state.tempTaskEpics);

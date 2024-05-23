@@ -12,7 +12,7 @@ import { GiProgression } from "react-icons/gi";
 import { IoIosTimer } from "react-icons/io";
 import { useUpdateJiraEpic } from "../../../api/hooks";
 import { EpicIssue } from "../../../types/epic";
-import { useNextSprintTime } from "../../../store/useNestSprintTime";
+import { useNextSprintTime } from "../../../store/useNextSprintTime";
 import { useStoryLabels } from "../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
 import { IssueLink } from "../../../components/link/IssueLink";

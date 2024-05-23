@@ -5,7 +5,7 @@ interface Props {
   toggleOpen: () => void;
 }
 
-export const useNestSprintFetchOption = create<Props>((set) => ({
+export const useNextSprintFetchOption = create<Props>((set) => ({
   open: true,
   toggleOpen: () => set((state) => ({ open: !state.open })),
 }));

@@ -3,7 +3,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
 import { useUpdateJiraTask } from "../../../api/hooks";
 import { TaskIssue } from "../../../types/task";
-import { useNextSprintTime } from "../../../store/useNestSprintTime";
+import { useNextSprintTime } from "../../../store/useNextSprintTime";
 import { useTaskLabels } from "../../../store/useTaskLabels";
 import { IssueLink } from "../../../components/link/IssueLink";
 

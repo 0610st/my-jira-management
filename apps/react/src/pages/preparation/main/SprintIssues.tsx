@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useJiraSprintEpics } from "../../../api/hooks";
-import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
-import { useNestSprintPoint } from "../../../store/useNestSprintPoint";
+import { useNextSprintFetchOption } from "../../../store/useNextSprintFetchOption";
+import { useNextSprintPoint } from "../../../store/useNextSprintPoint";
 import { SprintIssueItem } from "./SprintIssueItem";
 
 interface Props {
@@ -10,9 +10,11 @@ interface Props {
 }
 
 export const SprintIssues: FC<Props> = ({ sprintId, execute }) => {
-  const open = useNestSprintFetchOption((state) => state.open);
-  const { data, isLoading, error } = useJiraSprintEpics(sprintId, open, 0);
-  const setPoint = useNestSprintPoint((state) => state.setPoint);
+  const open = useNextSprintFetchOption((state) => state.open);
+  const { data, isLoading, error } = useJiraSprintEpics(sprintId, open, {
+    staleTime: 0,
+  });
+  const setPoint = useNextSprintPoint((state) => state.setPoint);
 
   useEffect(() => {
     if (data) {

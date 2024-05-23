@@ -1,13 +1,13 @@
 import { Box, Button, Checkbox, Flex } from "@mantine/core";
 import { useState } from "react";
-import { useNestSprintFetchOption } from "../../../store/useNestSprintFetchOption";
+import { useNextSprintFetchOption } from "../../../store/useNextSprintFetchOption";
 import { SprintContent } from "./SprintContent";
 
 export const Main = () => {
   const [enabled, setEnabled] = useState(false);
   const [execute, setExecute] = useState(false);
-  const open = useNestSprintFetchOption((state) => state.open);
-  const toggleOpen = useNestSprintFetchOption((state) => state.toggleOpen);
+  const open = useNextSprintFetchOption((state) => state.open);
+  const toggleOpen = useNextSprintFetchOption((state) => state.toggleOpen);
 
   return (
     <Flex direction="column" sx={{ gap: 18 }}>

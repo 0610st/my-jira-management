@@ -1,18 +1,18 @@
 import { create } from "zustand";
 
-interface NestSprintPointProps {
+interface NextSprintPointProps {
   points: { key: string; point: number }[];
   setPoint: (record: { key: string; point: number }) => void;
   removePoint: (key: string) => void;
   reset: () => void;
 }
 
-export const useNestSprintPoint = create<NestSprintPointProps>((set) => ({
+export const useNextSprintPoint = create<NextSprintPointProps>((set) => ({
   points: [],
   setPoint: (record: { key: string; point: number }) =>
     set((state) => {
       const filteredItems = state.points.filter(
-        (item) => item.key !== record.key
+        (item) => item.key !== record.key,
       );
       return { points: [...filteredItems, record] };
     }),
