@@ -1,9 +1,9 @@
 import { Flex, Loader, Switch, Text } from "@mantine/core";
 import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCreateSprintWithIssuesFromJira } from "../../../api/hooks";
-import { SprintValue } from "../../../types/sprint";
-import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
+import { useCreateSprintWithIssuesFromJira } from "../../../../api/hooks";
+import { SprintValue } from "../../../../types/sprint";
+import { useSprintImportPipe } from "../../../../store/useSprintImportPipe";
 
 type Status = "idle" | "executing" | "success" | "error" | "skip";
 

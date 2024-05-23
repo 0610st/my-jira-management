@@ -6,7 +6,6 @@ import { SprintSelect } from "./SprintSelect";
 import { StoryPointResult } from "./StoryPointResult";
 import { StoryPointsGraph } from "./StoryPointsGraph";
 import { SprintTasks } from "./SprintTasks";
-import { MenuTabs } from "../MenuTabs";
 
 export const SprintDetail = () => {
   const navigate = useNavigate();
@@ -29,9 +28,6 @@ export const SprintDetail = () => {
   return (
     <Flex>
       <Flex direction="column" gap={8}>
-        <Box>
-          <MenuTabs />
-        </Box>
         <Flex justify="flex-start">
           <Box sx={{ width: 300 }}>
             <SprintSelect

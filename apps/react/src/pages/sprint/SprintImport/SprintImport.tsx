@@ -3,8 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useJiraSprints, useSprints } from "../../../api/hooks";
 import { GetJiraSprints } from "../../../types/sprint";
 import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
-import { UnimportTable } from "./UnimportTable";
-import { MenuTabs } from "../MenuTabs";
+import { UnimportTable } from "./UnimportTable/UnimportTable";
 
 export const SprintImport = () => {
   const { data: currentSprints, isLoading: currentLoading } = useSprints();
@@ -47,9 +46,6 @@ export const SprintImport = () => {
 
   return (
     <Flex direction="column">
-      <Box>
-        <MenuTabs />
-      </Box>
       <Flex justify="space-between" mt={16}>
         <Box>
           <Button onClick={handleSubmit} disabled={currentLoading}>
