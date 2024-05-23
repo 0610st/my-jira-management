@@ -1,4 +1,4 @@
 import { Story } from "./Story";
-import { StoryList } from "./StoryList/StoryList";
+import { StoryList } from "./StoryList";
 
 export { Story, StoryList };
