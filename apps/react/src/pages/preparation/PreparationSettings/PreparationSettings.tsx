@@ -3,7 +3,7 @@ import { StoryLabelMultiSelect } from "./StoryLabelMultiSelect";
 import { TaskLabelMultiSelect } from "./TaskLabelMultiSelect";
 import { TempTaskTable } from "./TempTaskTable";
 
-export const Settings = () => (
+export const PreparationSettings = () => (
   <Flex direction="column" sx={{ gap: 12 }}>
     <Flex sx={{ flex: 1, gap: 12 }}>
       <Box sx={{ flex: 1 }}>

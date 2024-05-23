@@ -19,7 +19,7 @@ export const SprintDetail = () => {
     (value: string | null) => {
       navigate(`/sprint/${value ?? ""}`);
     },
-    [navigate]
+    [navigate],
   );
 
   useEffect(() => {

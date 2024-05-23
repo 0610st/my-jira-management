@@ -9,7 +9,7 @@ export const StoryLabelMultiSelect = () => {
     storyLabels.map((label) => ({
       label,
       value: label,
-    }))
+    })),
   );
 
   return (

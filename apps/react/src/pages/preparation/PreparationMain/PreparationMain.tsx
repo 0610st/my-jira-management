@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNextSprintFetchOption } from "../../../store/useNextSprintFetchOption";
 import { SprintContent } from "./SprintContent";
 
-export const Main = () => {
+export const PreparationMain = () => {
   const [enabled, setEnabled] = useState(false);
   const [execute, setExecute] = useState(false);
   const open = useNextSprintFetchOption((state) => state.open);

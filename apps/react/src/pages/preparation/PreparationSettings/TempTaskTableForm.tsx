@@ -8,7 +8,7 @@ import { ItemProps } from "../../../store/useTempTaskItems";
 const nameSchema = z.string().min(1);
 const estimatedHourSchema = z.preprocess(
   (v) => Number(v),
-  z.number({ invalid_type_error: "invalid format" }).min(0).max(50)
+  z.number({ invalid_type_error: "invalid format" }).min(0).max(50),
 );
 
 interface Props {
@@ -29,7 +29,7 @@ export const TempTaskTableForm: FC<Props> = ({
   const [{ value: name, valid: validName }, setName] = useValidatedState(
     initialName,
     (value) => nameSchema.safeParse(value).success,
-    true
+    true,
   );
   const [
     { value: estimatedHour, valid: validEstimatedHour },
@@ -37,7 +37,7 @@ export const TempTaskTableForm: FC<Props> = ({
   ] = useValidatedState(
     `${initialEstimatedHour}`,
     (value) => estimatedHourSchema.safeParse(value).success,
-    true
+    true,
   );
   const [isNameTouched, setIsNameTouched] = useState(false);
   const [isEstimatedHourTouched, setIsEstimatedHourTouched] = useState(false);

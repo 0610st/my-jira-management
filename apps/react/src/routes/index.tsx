@@ -1,17 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Root } from "../components/root/Root";
-import { Sprint } from "../pages/sprint";
-import { Import } from "../pages/sprint/import/Import";
-import { SprintSummaryGraph } from "../pages/sprint/graph/SprintSummaryGraph";
-import { Preparation } from "../pages/preparation";
-import { Main } from "../pages/preparation/main/Main";
-import { Settings } from "../pages/preparation/settings/Settings";
-import { SprintList } from "../pages/sprint/list/SprintList";
-import { SprintDetail } from "../pages/sprint/detail/SprintDetail";
-import { Task } from "../pages/task";
-import { TaskList } from "../pages/task/list/TaskList";
-import { Story } from "../pages/story";
-import { StoryList } from "../pages/story/list/StoryList";
+import {
+  Sprint,
+  SprintDetail,
+  SprintImport,
+  SprintList,
+  SprintSummaryGraph,
+} from "../pages/sprint";
+import {
+  Preparation,
+  PreparationMain,
+  PreparationSettings,
+} from "../pages/preparation";
+import { Task, TaskList } from "../pages/task";
+import { Story, StoryList } from "../pages/story";
 
 export const Route = createBrowserRouter([
   {
@@ -32,7 +34,7 @@ export const Route = createBrowserRouter([
           },
           {
             path: "import",
-            element: <Import />,
+            element: <SprintImport />,
           },
           {
             path: ":id",
@@ -78,15 +80,15 @@ export const Route = createBrowserRouter([
         children: [
           {
             path: "settings",
-            element: <Settings />,
+            element: <PreparationSettings />,
           },
           {
             path: "main",
-            element: <Main />,
+            element: <PreparationMain />,
           },
           {
             path: "*",
-            element: <Main />,
+            element: <PreparationMain />,
           },
         ],
       },

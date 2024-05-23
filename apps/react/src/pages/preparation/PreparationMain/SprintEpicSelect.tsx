@@ -16,7 +16,7 @@ export const SprintEpicSelect: FC<Props> = ({ epic }) => {
   const toggleExcludeEpic = useExcludeEpics((state) => state.toggleExcludeEpic);
   const tempTaskEpics = useTempTaskEpics((state) => state.tempTaskEpics);
   const toggleTempTaskEpic = useTempTaskEpics(
-    (state) => state.toggleTempTaskEpic
+    (state) => state.toggleTempTaskEpic,
   );
 
   return (

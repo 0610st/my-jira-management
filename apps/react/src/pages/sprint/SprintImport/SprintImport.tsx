@@ -6,7 +6,7 @@ import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
 import { UnimportTable } from "./UnimportTable";
 import { MenuTabs } from "../MenuTabs";
 
-export const Import = () => {
+export const SprintImport = () => {
   const { data: currentSprints, isLoading: currentLoading } = useSprints();
   const [enabled, setEnabled] = useState(false);
   const [key, setKey] = useState(0);
