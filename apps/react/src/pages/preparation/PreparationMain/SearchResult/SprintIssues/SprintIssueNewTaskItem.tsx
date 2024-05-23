@@ -2,10 +2,10 @@ import { Flex, ActionIcon, Text, Chip, Loader } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
 import { BsFillCloudSlashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
-import { useCreateJiraTask } from "../../../api/hooks";
-import { useNextSprintTime } from "../../../store/useNextSprintTime";
-import { useTaskLabels } from "../../../store/useTaskLabels";
-import { ItemProps } from "../../../store/useTempTaskItems";
+import { useCreateJiraTask } from "../../../../../api/hooks";
+import { useNextSprintTime } from "../../../../../store/useNextSprintTime";
+import { useTaskLabels } from "../../../../../store/useTaskLabels";
+import { ItemProps } from "../../../../../store/useTempTaskItems";
 import { NewItem, SprintIssueNewTaskForm } from "./SprintIssueNewTaskForm";
 
 interface ActionBodyProps {

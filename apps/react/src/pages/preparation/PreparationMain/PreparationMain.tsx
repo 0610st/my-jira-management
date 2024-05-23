@@ -1,6 +1,6 @@
 import { Box, Flex } from "@mantine/core";
 import { useState } from "react";
-import { SprintContent } from "./SprintContent";
+import { SearchResult } from "./SearchResult";
 import { Header } from "./Header";
 
 export const PreparationMain = () => {
@@ -16,7 +16,7 @@ export const PreparationMain = () => {
         onExecuteClick={() => setExecute(true)}
       />
       <Box>
-        <SprintContent enabled={enabled} execute={execute} />
+        <SearchResult enabled={enabled} execute={execute} />
       </Box>
     </Flex>
   );

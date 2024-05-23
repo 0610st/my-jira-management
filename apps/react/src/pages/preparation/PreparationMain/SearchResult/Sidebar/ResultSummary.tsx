@@ -2,11 +2,11 @@ import { Flex, Text } from "@mantine/core";
 import { GiProgression } from "react-icons/gi";
 import { FC, useMemo } from "react";
 import { IoIosTimer } from "react-icons/io";
-import { useNextSprintPoint } from "../../../store/useNextSprintPoint";
-import { useNextSprintTime } from "../../../store/useNextSprintTime";
-import { useExcludeEpics } from "../../../store/useExcludeEpics";
+import { useNextSprintPoint } from "../../../../../store/useNextSprintPoint";
+import { useNextSprintTime } from "../../../../../store/useNextSprintTime";
+import { useExcludeEpics } from "../../../../../store/useExcludeEpics";
 
-export const SprintContentSummary: FC = () => {
+export const ResultSummary: FC = () => {
   const points = useNextSprintPoint((state) => state.points);
   const times = useNextSprintTime((state) => state.times);
   const excludeEpics = useExcludeEpics((state) => state.excludeEpics);

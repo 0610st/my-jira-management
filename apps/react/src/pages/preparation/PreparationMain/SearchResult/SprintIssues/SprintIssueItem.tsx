@@ -10,13 +10,13 @@ import {
 import { FC, useEffect, useMemo, useState } from "react";
 import { GiProgression } from "react-icons/gi";
 import { IoIosTimer } from "react-icons/io";
-import { useUpdateJiraEpic } from "../../../api/hooks";
-import { EpicIssue } from "../../../types/epic";
-import { useNextSprintTime } from "../../../store/useNextSprintTime";
-import { useStoryLabels } from "../../../store/useStoryLabels";
+import { useUpdateJiraEpic } from "../../../../../api/hooks";
+import { EpicIssue } from "../../../../../types/epic";
+import { useNextSprintTime } from "../../../../../store/useNextSprintTime";
+import { useStoryLabels } from "../../../../../store/useStoryLabels";
 import { SprintIssueTaskBody } from "./SprintIssueTaskBody";
-import { IssueLink } from "../../../components/link/IssueLink";
-import { useExcludeEpics } from "../../../store/useExcludeEpics";
+import { IssueLink } from "../../../../../components/link/IssueLink";
+import { useExcludeEpics } from "../../../../../store/useExcludeEpics";
 
 interface StatusBodyProps {
   status: "idle" | "executing" | "success" | "error";
