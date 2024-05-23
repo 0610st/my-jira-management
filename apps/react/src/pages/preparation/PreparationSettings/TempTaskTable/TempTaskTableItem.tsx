@@ -2,7 +2,10 @@ import { Flex, ActionIcon, Text } from "@mantine/core";
 import { FC, useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { MdEdit } from "react-icons/md";
-import { ItemProps, useTempTaskItems } from "../../../store/useTempTaskItems";
+import {
+  ItemProps,
+  useTempTaskItems,
+} from "../../../../store/useTempTaskItems";
 import { TempTaskTableForm } from "./TempTaskTableForm";
 
 interface Props {

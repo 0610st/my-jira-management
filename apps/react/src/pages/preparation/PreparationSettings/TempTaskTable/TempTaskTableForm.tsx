@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
 import { z } from "zod";
 import { useValidatedState } from "@mantine/hooks";
-import { ItemProps } from "../../../store/useTempTaskItems";
+import { ItemProps } from "../../../../store/useTempTaskItems";
 
 const nameSchema = z.string().min(1);
 const estimatedHourSchema = z.preprocess(
