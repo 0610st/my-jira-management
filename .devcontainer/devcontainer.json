@@ -1,0 +1,36 @@
+{
+  "name": "my-app",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:debian",
+  "init": true,
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers-contrib/features/aws-cdk:2": {},
+    "ghcr.io/customink/codespaces-features/sam-cli": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "rangav.vscode-thunder-client",
+        "usernamehw.errorlens",
+        "donjayamanne.githistory",
+        "esbenp.prettier-vscode",
+        "dsznajder.es7-react-js-snippets",
+        "njpwerner.autodocstring",
+        "ms-playwright.playwright",
+        "yzhang.markdown-all-in-one",
+        "mutantdino.resourcemonitor",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag"
+      ]
+    }
+  },
+  "forwardPorts": [9999]
+}
