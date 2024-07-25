@@ -9,9 +9,8 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { BsSun, BsMoon } from "react-icons/bs";
-import menuItems from "./menuItems";
+import { menuItems, secondMenuItems } from "./menu";
 import { NavbarLinkItem } from "./NavbarLinkItem";
-import secondMenuItems from "./secondMenuItems";
 import { useAppEnvs } from "@/api/hooks";
 
 export const Navbar: FC = () => {
