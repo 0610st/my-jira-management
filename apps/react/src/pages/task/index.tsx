@@ -1,4 +1,4 @@
-import { Task } from "./Task";
 import { TaskList } from "./TaskList";
+import { taskMenus } from "./taskMenus";
 
-export { Task, TaskList };
+export { taskMenus, TaskList };
