@@ -1,4 +1,4 @@
-import { Story } from "./Story";
 import { StoryList } from "./StoryList";
+import { storyMenus } from "./storyMenus";
 
-export { Story, StoryList };
+export { storyMenus, StoryList };

@@ -1,28 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "@/components/Layout";
+import { BaseLayout } from "@/components/BaseLayout";
 import {
-  Sprint,
   SprintDetail,
   SprintImport,
   SprintList,
+  sprintMenu,
   SprintSummaryGraph,
 } from "@/pages/sprint";
 import {
-  Preparation,
   PreparationMain,
+  preparationMenu,
   PreparationSettings,
 } from "@/pages/preparation";
-import { Task, TaskList } from "@/pages/task";
-import { Story, StoryList } from "@/pages/story";
+import { TaskList, taskMenus } from "@/pages/task";
+import { StoryList, storyMenus } from "@/pages/story";
+import { MainLayout } from "@/components/MainLayout";
 
 export const Route = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <BaseLayout />,
     children: [
       {
         path: "sprint",
-        element: <Sprint />,
+        element: <MainLayout menus={sprintMenu} />,
         children: [
           {
             path: "top",
@@ -48,7 +49,7 @@ export const Route = createBrowserRouter([
       },
       {
         path: "task",
-        element: <Task />,
+        element: <MainLayout menus={taskMenus} />,
         children: [
           {
             path: "top",
@@ -62,7 +63,7 @@ export const Route = createBrowserRouter([
       },
       {
         path: "story",
-        element: <Story />,
+        element: <MainLayout menus={storyMenus} />,
         children: [
           {
             path: "top",
@@ -76,7 +77,7 @@ export const Route = createBrowserRouter([
       },
       {
         path: "preparation",
-        element: <Preparation />,
+        element: <MainLayout menus={preparationMenu} />,
         children: [
           {
             path: "settings",

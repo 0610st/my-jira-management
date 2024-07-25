@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
 
-export const Layout: FC = () => (
+export const BaseLayout: FC = () => (
   <AppShell
     padding="md"
     navbar={<Navbar />}
