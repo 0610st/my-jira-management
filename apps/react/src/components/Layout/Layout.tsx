@@ -1,9 +1,9 @@
 import { AppShell } from "@mantine/core";
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import { Navbar } from "../Navbar";
+import { Navbar } from "./Navbar";
 
-export const Root: FC = () => (
+export const Layout: FC = () => (
   <AppShell
     padding="md"
     navbar={<Navbar />}

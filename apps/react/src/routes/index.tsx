@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Root } from "@/components/Root";
+import { Layout } from "@/components/Layout";
 import {
   Sprint,
   SprintDetail,
@@ -18,7 +18,7 @@ import { Story, StoryList } from "@/pages/story";
 export const Route = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <Layout />,
     children: [
       {
         path: "sprint",

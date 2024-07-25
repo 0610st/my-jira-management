@@ -1,6 +1,6 @@
-import { BsFillAwardFill } from "react-icons/bs";
+import { BsFillAwardFill, BsLightningFill } from "react-icons/bs";
 
-export default [
+export const menuItems = [
   {
     label: "スプリント",
     path: "/sprint",
@@ -18,5 +18,14 @@ export default [
     path: "/story",
     link: "/story/top",
     Icon: BsFillAwardFill,
+  },
+];
+
+export const secondMenuItems = [
+  {
+    label: "スプリント準備",
+    path: "/preparation",
+    link: "/preparation/main",
+    Icon: BsLightningFill,
   },
 ];
