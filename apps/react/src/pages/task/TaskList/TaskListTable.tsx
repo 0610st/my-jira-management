@@ -1,8 +1,8 @@
 import { FC, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTasks } from "../../../api/hooks";
-import { SprintLabel } from "../../../components/label/SprintLabel";
-import { CustomDataTable } from "../../../components/table/CustomDataTable";
+import { useTasks } from "@/api/hooks";
+import { CustomDataTable } from "@/components/CustomDataTable";
+import { SprintLabel } from "@/components/SprintLabel";
 
 export const TaskListTable: FC = () => {
   const { data: tasks } = useTasks(undefined, true);

@@ -1,6 +1,6 @@
 import { MultiSelect } from "@mantine/core";
 import { useState } from "react";
-import { useStoryLabels } from "../../../store/useStoryLabels";
+import { useStoryLabels } from "@/store/useStoryLabels";
 
 export const StoryLabelMultiSelect = () => {
   const storyLabels = useStoryLabels((state) => state.storyLabels);

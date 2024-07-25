@@ -1,8 +1,8 @@
 import { Box } from "@mantine/core";
 import { FC } from "react";
-import { useJiraSprintEpics } from "../../../../../api/hooks";
-import { useNextSprintFetchOption } from "../../../../../store/useNextSprintFetchOption";
 import { SprintEpicSelect } from "./SprintEpicSelect";
+import { useNextSprintFetchOption } from "@/store/useNextSprintFetchOption";
+import { useJiraSprintEpics } from "@/api/hooks";
 
 interface Props {
   sprintId: number;

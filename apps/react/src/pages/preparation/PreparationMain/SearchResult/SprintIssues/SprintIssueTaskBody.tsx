@@ -1,10 +1,10 @@
 import { Loader } from "@mantine/core";
 import { FC, useEffect } from "react";
-import { useJiraEpicTasks } from "../../../../../api/hooks";
-import { useNextSprintFetchOption } from "../../../../../store/useNextSprintFetchOption";
-import { useNextSprintTime } from "../../../../../store/useNextSprintTime";
-import { useTempTaskEpics } from "../../../../../store/useTempTaskEpics";
-import { useTempTaskItems } from "../../../../../store/useTempTaskItems";
+import { useJiraEpicTasks } from "@/api/hooks";
+import { useNextSprintFetchOption } from "@/store/useNextSprintFetchOption";
+import { useNextSprintTime } from "@/store/useNextSprintTime";
+import { useTempTaskEpics } from "@/store/useTempTaskEpics";
+import { useTempTaskItems } from "@/store/useTempTaskItems";
 import { SprintIssueNewTaskItem } from "./SprintIssueNewTaskItem";
 import { SprintIssueTaskItem } from "./SprintIssueTaskItem";
 

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { SprintLabel } from "./SprintLabel";
+import { SprintLabel } from "../SprintLabel";
 
 export const SprintLabelForGraph: FC<unknown> = (props) => {
   const { x, y, payload } = props as {

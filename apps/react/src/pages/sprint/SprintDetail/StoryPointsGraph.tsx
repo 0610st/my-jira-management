@@ -11,9 +11,9 @@ import {
   Tooltip,
   Cell,
 } from "recharts";
-import { useStorySummaries } from "../../../api/hooks";
-import { StorySummary } from "../../../types/story";
-import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
+import { useStorySummaries } from "@/api/hooks";
+import { StorySummary } from "@/types/story";
+import { SprintLabelForGraph } from "@/components/SprintLabelForGraph";
 
 interface Props {
   sprintId: number | null;

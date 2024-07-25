@@ -1,8 +1,8 @@
 import { Box, Flex } from "@mantine/core";
 import { FC } from "react";
-import { useJiraFutureSprints } from "../../../../api/hooks";
 import { SprintIssues } from "./SprintIssues";
 import { Sidebar } from "./Sidebar";
+import { useJiraFutureSprints } from "@/api/hooks";
 
 interface Props {
   enabled: boolean;

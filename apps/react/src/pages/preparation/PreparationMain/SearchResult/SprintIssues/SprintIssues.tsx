@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
-import { useJiraSprintEpics } from "../../../../../api/hooks";
-import { useNextSprintFetchOption } from "../../../../../store/useNextSprintFetchOption";
-import { useNextSprintPoint } from "../../../../../store/useNextSprintPoint";
+import { useJiraSprintEpics } from "@/api/hooks";
+import { useNextSprintFetchOption } from "@/store/useNextSprintFetchOption";
+import { useNextSprintPoint } from "@/store/useNextSprintPoint";
 import { SprintIssueItem } from "./SprintIssueItem";
 
 interface Props {

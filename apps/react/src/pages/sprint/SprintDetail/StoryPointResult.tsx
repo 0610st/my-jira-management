@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 import { FC, useMemo } from "react";
-import { useStorySummaries } from "../../../api/hooks";
+import { useStorySummaries } from "@/api/hooks";
 
 interface Props {
   sprintId: number | null;

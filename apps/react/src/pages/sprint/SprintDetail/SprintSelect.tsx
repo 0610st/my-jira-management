@@ -1,6 +1,6 @@
 import { Select } from "@mantine/core";
 import { FC, memo, useMemo } from "react";
-import { useSprints } from "../../../api/hooks";
+import { useSprints } from "@/api/hooks";
 
 interface Props {
   value: string | null;

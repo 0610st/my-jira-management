@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, Flex } from "@mantine/core";
 import { FC } from "react";
-import { useNextSprintFetchOption } from "../../../../store/useNextSprintFetchOption";
+import { useNextSprintFetchOption } from "@/store/useNextSprintFetchOption";
 
 interface HeaderProps {
   fetched: boolean;

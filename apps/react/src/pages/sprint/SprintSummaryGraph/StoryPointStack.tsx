@@ -11,9 +11,9 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
-import { useStorySummaries } from "../../../api/hooks";
-import { getAccumulatedSum } from "../../../utils/util";
-import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
+import { useStorySummaries } from "@/api/hooks";
+import { getAccumulatedSum } from "@/utils/util";
+import { SprintLabelForGraph } from "@/components/SprintLabelForGraph";
 
 export const StoryPointStack = () => {
   const { data: storySummaries } = useStorySummaries();

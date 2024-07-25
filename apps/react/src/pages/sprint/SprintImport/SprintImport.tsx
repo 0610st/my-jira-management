@@ -1,8 +1,8 @@
 import { Box, Button, Flex } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useJiraSprints, useSprints } from "../../../api/hooks";
-import { GetJiraSprints } from "../../../types/sprint";
-import { useSprintImportPipe } from "../../../store/useSprintImportPipe";
+import { useJiraSprints, useSprints } from "@/api/hooks";
+import { GetJiraSprints } from "@/types/sprint";
+import { useSprintImportPipe } from "@/store/useSprintImportPipe";
 import { UnimportTable } from "./UnimportTable";
 
 export const SprintImport = () => {

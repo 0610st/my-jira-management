@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
 import { MultiSelect } from "@mantine/core";
-import { useTasks } from "../../../api/hooks";
-import { Task } from "../../../types/task";
-import { IssueLink } from "../../../components/link/IssueLink";
 import { UNASSIGNED } from "./consts";
-import { CustomDataTable } from "../../../components/table/CustomDataTable";
+import { CustomDataTable } from "@/components/CustomDataTable";
+import { useTasks } from "@/api/hooks";
+import { Task } from "@/types/task";
+import { IssueLink } from "@/components/IssueLink";
 
 interface Props {
   sprintId: number | null;

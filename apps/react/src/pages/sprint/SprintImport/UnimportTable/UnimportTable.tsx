@@ -1,6 +1,6 @@
 import { Loader, Table } from "@mantine/core";
 import { FC } from "react";
-import { SprintsJiraResponse } from "../../../../types/sprint";
+import { SprintsJiraResponse } from "@/types/sprint";
 import { UnimportTableRow } from "./UnimportTableRow";
 import { UnimportTableHead } from "./UnimportTableHead";
 

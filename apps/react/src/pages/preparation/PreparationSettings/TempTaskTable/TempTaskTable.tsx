@@ -1,10 +1,7 @@
 import { ActionIcon, Flex, Table, Text } from "@mantine/core";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
-import {
-  ItemProps,
-  useTempTaskItems,
-} from "../../../../store/useTempTaskItems";
+import { ItemProps, useTempTaskItems } from "@/store/useTempTaskItems";
 import { TempTaskTableItem } from "./TempTaskTableItem";
 import { TempTaskTableForm } from "./TempTaskTableForm";
 

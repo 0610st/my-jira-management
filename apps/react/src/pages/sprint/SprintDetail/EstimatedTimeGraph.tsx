@@ -1,7 +1,7 @@
 import { Box, Skeleton, Text } from "@mantine/core";
 import { FC, useMemo } from "react";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
-import { useSprintSummary } from "../../../api/hooks";
+import { useSprintSummary } from "@/api/hooks";
 import { UNASSIGNED } from "./consts";
 
 const barColors = [

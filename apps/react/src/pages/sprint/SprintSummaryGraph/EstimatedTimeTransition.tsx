@@ -12,8 +12,8 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
-import { useTaskSummaries } from "../../../api/hooks";
-import { SprintLabelForGraph } from "../../../components/label/SprintLabelForGraph";
+import { useTaskSummaries } from "@/api/hooks";
+import { SprintLabelForGraph } from "@/components/SprintLabelForGraph";
 
 const barColors = [
   "#4263EB",

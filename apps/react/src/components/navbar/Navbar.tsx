@@ -10,9 +10,9 @@ import {
 } from "@mantine/core";
 import { BsSun, BsMoon } from "react-icons/bs";
 import menuItems from "./menuItems";
-import secondMenuItems from "./secondMenuItems";
 import { NavbarLinkItem } from "./NavbarLinkItem";
-import { useAppEnvs } from "../../api/hooks";
+import secondMenuItems from "./secondMenuItems";
+import { useAppEnvs } from "@/api/hooks";
 
 export const Navbar: FC = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method

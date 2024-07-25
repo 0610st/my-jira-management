@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useStories } from "../../../api/hooks";
-import { SprintLabel } from "../../../components/label/SprintLabel";
-import { CustomDataTable } from "../../../components/table/CustomDataTable";
+import { useStories } from "@/api/hooks";
+import { CustomDataTable } from "@/components/CustomDataTable";
+import { SprintLabel } from "@/components/SprintLabel";
 
 export const StoryListTable: FC = () => {
   const { data: stories } = useStories(undefined, true);

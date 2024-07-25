@@ -1,8 +1,8 @@
-import { Anchor, Box, Flex, Switch } from "@mantine/core";
 import { FC } from "react";
-import { EpicIssue } from "../../../../../types/epic";
-import { useExcludeEpics } from "../../../../../store/useExcludeEpics";
-import { useTempTaskEpics } from "../../../../../store/useTempTaskEpics";
+import { Anchor, Box, Flex, Switch } from "@mantine/core";
+import { useExcludeEpics } from "@/store/useExcludeEpics";
+import { useTempTaskEpics } from "@/store/useTempTaskEpics";
+import { EpicIssue } from "@/types/epic";
 
 interface Props {
   epic: {

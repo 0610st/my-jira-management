@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSprints } from "../../../api/hooks";
-import { CustomDataTable } from "../../../components/table/CustomDataTable";
+import { useSprints } from "@/api/hooks";
+import { CustomDataTable } from "@/components/CustomDataTable";
 
 export const SprintListTable: FC = () => {
   const { data: sprints } = useSprints();

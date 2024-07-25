@@ -1,19 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Root } from "../components/root/Root";
+import { Root } from "@/components/Root";
 import {
   Sprint,
   SprintDetail,
   SprintImport,
   SprintList,
   SprintSummaryGraph,
-} from "../pages/sprint";
+} from "@/pages/sprint";
 import {
   Preparation,
   PreparationMain,
   PreparationSettings,
-} from "../pages/preparation";
-import { Task, TaskList } from "../pages/task";
-import { Story, StoryList } from "../pages/story";
+} from "@/pages/preparation";
+import { Task, TaskList } from "@/pages/task";
+import { Story, StoryList } from "@/pages/story";
 
 export const Route = createBrowserRouter([
   {

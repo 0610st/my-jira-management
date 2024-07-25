@@ -1,5 +1,5 @@
-import { GetJiraSprints } from "../types/sprint";
-import { client } from "../client/client";
+import { client } from "@/client/client";
+import { GetJiraSprints } from "@/types/sprint";
 
 export const useSprints = () =>
   client.sprints.getSprints.useQuery(["sprints"], {}, { staleTime: Infinity });
