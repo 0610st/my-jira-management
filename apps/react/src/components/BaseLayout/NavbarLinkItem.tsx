@@ -69,8 +69,7 @@ const NavbarLinkItemMain: React.FC<Props> = ({ Icon, label, path, link }) => {
   const location = useLocation();
 
   const active = useMemo(() => {
-    if (!path) return false;
-    return location.pathname.indexOf(path) >= 0;
+    return path ? location.pathname.includes(path) : false;
   }, [location.pathname, path]);
 
   return (

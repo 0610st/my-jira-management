@@ -20,7 +20,7 @@ export const MenuTabs: FC<MenuTabsProps> = ({ menus }) => {
   return (
     <Tabs
       value={tabValue}
-      onTabChange={(value) => value && navigate(value)}
+      onTabChange={(value) => (value ? navigate(value) : null)}
       maw={600}
     >
       <Tabs.List>
