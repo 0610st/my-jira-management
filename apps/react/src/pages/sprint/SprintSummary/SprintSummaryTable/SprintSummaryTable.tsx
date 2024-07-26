@@ -46,10 +46,14 @@ export const SprintSummaryTable: FC = () => {
           taskSummary.sum.spentTime !== null
             ? secondToHour(taskSummary.sum.spentTime ?? 0)
             : null,
-        diffTime: secondToHour(
-          (taskSummary.sum.estimatedTime ?? 0) -
-            (taskSummary.sum.spentTime ?? 0),
-        ),
+        diffTime:
+          taskSummary.sum.estimatedTime !== null &&
+          taskSummary.sum.spentTime !== null
+            ? secondToHour(
+                (taskSummary.sum.estimatedTime ?? 0) -
+                  (taskSummary.sum.spentTime ?? 0),
+              )
+            : null,
       }));
   }, [selectedAssignees, sprints, storySummaries, taskSummaries]);
 
