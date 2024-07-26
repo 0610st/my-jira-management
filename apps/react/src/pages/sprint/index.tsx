@@ -2,12 +2,6 @@ import { SprintDetail } from "./SprintDetail";
 import { SprintImport } from "./SprintImport";
 import { SprintList } from "./SprintList";
 import { sprintMenu } from "./sprintMenu";
-import { SprintSummaryGraph } from "./SprintSummaryGraph";
+import { SprintSummary } from "./SprintSummary";
 
-export {
-  sprintMenu,
-  SprintList,
-  SprintImport,
-  SprintDetail,
-  SprintSummaryGraph,
-};
+export { sprintMenu, SprintList, SprintImport, SprintDetail, SprintSummary };
