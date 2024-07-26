@@ -11,7 +11,7 @@ export const useSprintSummary = (sprintId: number, enabled: boolean) =>
     { staleTime: Infinity, enabled },
   );
 
-export const useTasks = (sprintId: number | undefined, enabled: boolean) =>
+export const useTasks = (sprintId?: number | undefined, enabled?: boolean) =>
   client.tasks.getTasks.useQuery(
     ["tasks", sprintId],
     {
