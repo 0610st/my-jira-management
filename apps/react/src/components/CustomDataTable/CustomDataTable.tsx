@@ -6,15 +6,24 @@ import {
 } from "mantine-datatable";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-export const CustomDataTable = <T,>(props: DataTableProps<T>) => {
-  const { records, columns, onRowClick } = props;
+export type CustomDataTableProps<T> = DataTableProps<T> & {
+  initialSortStatus?: {
+    columnAccessor: string;
+    direction: "asc" | "desc";
+  };
+};
+
+export const CustomDataTable = <T,>(props: CustomDataTableProps<T>) => {
+  const { records, columns, onRowClick, initialSortStatus } = props;
   const [showRecords, setShowRecords] = useState<T[]>();
   const [pageSize, setPageSize] = useState(20);
   const [page, setPage] = useState(1);
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-    columnAccessor: "",
-    direction: "asc",
-  });
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>(
+    initialSortStatus ?? {
+      columnAccessor: "",
+      direction: "asc",
+    },
+  );
 
   const sortBy = useCallback(
     (

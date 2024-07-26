@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTasks } from "@/api/hooks";
 import { CustomDataTable } from "@/components/CustomDataTable";
 import { SprintLabel } from "@/components/SprintLabel";
+import { secondToHour } from "@/utils/util";
 
 export const TaskListTable: FC = () => {
   const { data: tasks } = useTasks(undefined, true);
@@ -41,9 +42,7 @@ export const TaskListTable: FC = () => {
           textAlignment: "right",
           sortable: true,
           render: ({ estimatedTime }) =>
-            estimatedTime !== null
-              ? Math.round((estimatedTime / 3600) * 100) / 100
-              : null,
+            estimatedTime !== null ? secondToHour(estimatedTime) : null,
         },
         {
           accessor: "spentTime",
@@ -51,9 +50,7 @@ export const TaskListTable: FC = () => {
           textAlignment: "right",
           sortable: true,
           render: ({ spentTime }) =>
-            spentTime !== null
-              ? Math.round((spentTime / 3600) * 100) / 100
-              : null,
+            spentTime !== null ? secondToHour(spentTime) : null,
         },
         {
           accessor: "diffTime",
@@ -63,9 +60,7 @@ export const TaskListTable: FC = () => {
             diffTime !== null && diffTime < 0 ? { color: "red" } : undefined,
           sortable: true,
           render: ({ diffTime }) =>
-            diffTime !== null
-              ? Math.round((diffTime / 3600) * 100) / 100
-              : null,
+            diffTime !== null ? secondToHour(diffTime) : null,
         },
       ]}
       onRowClick={({ key }) => navigate(`/task/${key}`)}

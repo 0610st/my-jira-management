@@ -5,7 +5,7 @@ import {
   SprintImport,
   SprintList,
   sprintMenu,
-  SprintSummaryGraph,
+  SprintSummary,
 } from "@/pages/sprint";
 import {
   PreparationMain,
@@ -30,8 +30,8 @@ export const Route = createBrowserRouter([
             element: <SprintList />,
           },
           {
-            path: "summaryGraph",
-            element: <SprintSummaryGraph />,
+            path: "summary",
+            element: <SprintSummary />,
           },
           {
             path: "import",

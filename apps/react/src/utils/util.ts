@@ -7,3 +7,8 @@ export const getAccumulatedSum = (arr: number[]) =>
     }
     return acc;
   }, []);
+
+export const secondToHour = (second: number, digit = 2) => {
+  const power = 10 ** digit;
+  return Math.round((second / 3600) * power) / power;
+};
