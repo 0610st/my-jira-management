@@ -5,6 +5,7 @@ import { CustomDataTable } from "@/components/CustomDataTable";
 import { useTasks } from "@/api/hooks";
 import { Task } from "@/types/task";
 import { IssueLink } from "@/components/IssueLink";
+import { secondToHour } from "@/utils/util";
 
 interface Props {
   sprintId: number | null;
@@ -99,9 +100,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           textAlignment: "right",
           width: 100,
           render: ({ estimatedTime }) =>
-            estimatedTime !== null
-              ? Math.round((estimatedTime / 3600) * 100) / 100
-              : null,
+            estimatedTime !== null ? secondToHour(estimatedTime) : null,
         },
         {
           accessor: "spentTime",
@@ -110,9 +109,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
           textAlignment: "right",
           width: 100,
           render: ({ spentTime }) =>
-            spentTime !== null
-              ? Math.round((spentTime / 3600) * 100) / 100
-              : null,
+            spentTime !== null ? secondToHour(spentTime) : null,
         },
         {
           accessor: "diffTime",
@@ -123,9 +120,7 @@ export const SprintTasks: React.FC<Props> = ({ sprintId }) => {
             diffTime !== null && diffTime < 0 ? { color: "red" } : undefined,
           width: 100,
           render: ({ diffTime }) =>
-            diffTime !== null
-              ? Math.round((diffTime / 3600) * 100) / 100
-              : null,
+            diffTime !== null ? secondToHour(diffTime) : null,
         },
       ]}
     />

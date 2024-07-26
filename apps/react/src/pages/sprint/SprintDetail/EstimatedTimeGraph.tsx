@@ -3,6 +3,7 @@ import { FC, useMemo } from "react";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import { useSprintSummary } from "@/api/hooks";
 import { UNASSIGNED } from "./consts";
+import { secondToHour } from "@/utils/util";
 
 const barColors = [
   "#4263EB",
@@ -33,9 +34,7 @@ export const EstimatedTimeGraph: FC<Props> = ({ sprintId, width, height }) => {
       sprintSummary?.body.taskSummaries
         .map((taskSummary) => ({
           name: taskSummary.assignee ?? UNASSIGNED,
-          value:
-            Math.round(((taskSummary?.sum.estimatedTime ?? 0) / 3600) * 10) /
-            10,
+          value: secondToHour(taskSummary?.sum.estimatedTime ?? 0, 1),
         }))
         .sort((a, b) => b.value - a.value),
     [sprintSummary],

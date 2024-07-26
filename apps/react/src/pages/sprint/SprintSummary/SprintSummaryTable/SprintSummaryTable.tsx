@@ -38,8 +38,14 @@ export const SprintSummaryTable: FC = () => {
           (storySummary) => storySummary.sprintId === taskSummary.sprintId,
         )?.sum.storyPoint,
         assignee: taskSummary.assignee,
-        estimatedTime: secondToHour(taskSummary.sum.estimatedTime ?? 0),
-        spentTime: secondToHour(taskSummary.sum.spentTime ?? 0),
+        estimatedTime:
+          taskSummary.sum.estimatedTime !== null
+            ? secondToHour(taskSummary.sum.estimatedTime)
+            : null,
+        spentTime:
+          taskSummary.sum.spentTime !== null
+            ? secondToHour(taskSummary.sum.spentTime ?? 0)
+            : null,
         diffTime: secondToHour(
           (taskSummary.sum.estimatedTime ?? 0) -
             (taskSummary.sum.spentTime ?? 0),

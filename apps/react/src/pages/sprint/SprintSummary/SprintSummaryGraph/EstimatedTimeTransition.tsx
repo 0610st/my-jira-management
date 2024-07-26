@@ -14,6 +14,7 @@ import { CategoricalChartState } from "recharts/types/chart/generateCategoricalC
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { useTaskSummaries } from "@/api/hooks";
 import { SprintLabelForGraph } from "@/components/SprintLabelForGraph";
+import { secondToHour } from "@/utils/util";
 
 const barColors = [
   "#4263EB",
@@ -80,7 +81,7 @@ export const EstimatedTimeTransition = () => {
           );
         sprintResult = {
           ...sprintResult,
-          [assignee]: Math.round((estimatedTime / 3600) * 100) / 100,
+          [assignee]: secondToHour(estimatedTime),
         };
       });
       result.push({
